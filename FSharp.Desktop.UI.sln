@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI", "src\FSharp.Desktop.UI.fsproj", "{0A504360-FE2A-48F7-B785-469D5DE44F8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
