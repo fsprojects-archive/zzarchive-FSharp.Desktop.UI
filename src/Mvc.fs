@@ -27,9 +27,10 @@ type IController<'Events, 'Model> =
     abstract InitModel : 'Model -> unit
     abstract Dispatcher : ('Events -> EventHandler<'Model>)
 
-type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Events, 'Model>, controller : IController<'Events, 'Model>, ?onError: 'Events -> exn -> unit) =
+[<Sealed>]
+type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Events, 'Model>, controller : IController<'Events, 'Model>, onError: 'Events -> exn -> unit) =
 
-    let onError = defaultArg onError (fun _ exn -> ExceptionDispatchInfo.Capture(exn).Throw())
+    new(model, view, controller) = Mvc(model, view, controller, onError = fun _ exn -> ExceptionDispatchInfo.Capture(exn).Throw())
     
     member this.Start() =
         controller.InitModel model
@@ -89,9 +90,6 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
         }
 
         Mvc(model, compositeView, compositeController)
-
-    static member (<+>) (mvc : Mvc<_, _>,  (childController, childView, childModelSelector)) = 
-        mvc.Compose(childController, childView, childModelSelector)
 
     member this.Compose(childController : IController<_, _>, events : IObservable<_>) = 
         let childView = {
