@@ -24,25 +24,6 @@ module internal MethodInfo =
 
 open MethodInfo
 
-type internal PropertyInterceptor() =
-    let data = Dictionary()
-
-    interface IInterceptor with
-        member this.Intercept invocation = 
-            match invocation.Method with 
-                | Abstract & PropertySetter propertyName -> 
-                    data.[propertyName] <- invocation.Arguments.[0]
-
-                | Abstract & PropertyGetter propertyName ->
-                    match data.TryGetValue propertyName with 
-                    | true, value -> invocation.ReturnValue <- value 
-                    | false, _ -> 
-                        let returnType = invocation.Method.ReturnType
-                        if returnType.IsValueType then 
-                            invocation.ReturnValue <- Activator.CreateInstance returnType
-
-                | _ -> invocation.Proceed()
-
 [<AbstractClass>]
 type Model() = 
 
@@ -52,20 +33,19 @@ type Model() =
     let errorsChanged = Event<_,_>()
 
     static let proxyFactory = ProxyGenerator()
+    static let proxyOptions = ProxyGenerationOptions(hook = {
+        new IProxyGenerationHook with
+            member __.ShouldInterceptMethod(_, methodInfo) = 
+                match methodInfo with 
+                | Abstract & PropertySetter _ | Abstract & PropertyGetter _ -> true 
+                | _ -> false 
+            member __.NonProxyableMemberNotification(_, _) = ()          
+            member __.MethodsInspected() = ()          
+    })
 
-    static let notifyPropertyChanged = {
-        new StandardInterceptor() with
-            member this.PostProceed invocation = 
-                match invocation.Method, invocation.InvocationTarget with 
-                    | PropertySetter propertyName, (:? Model as model) -> 
-                        model.NotifyPropertyChanged propertyName
-                        model.SetErrors(propertyName, Array.empty)
-                    | _ -> ()
-    }
-
-    static member Create<'T when 'T :> Model and 'T : not struct>()  : 'T = 
-        let interceptors : IInterceptor[] = [| notifyPropertyChanged; PropertyInterceptor() |]
-        proxyFactory.CreateClassProxy interceptors    
+    static member Create<'T when 'T :> Model and 'T : not struct>([<ParamArray>] constructorArguments)  = 
+        let interceptors : IInterceptor[] = [| AbstractProperties() |]
+        proxyFactory.CreateClassProxy(typeof<'T>, proxyOptions, constructorArguments, interceptors) |> unbox<'T>    
 
     interface INotifyPropertyChanged with
         [<CLIEvent>]
@@ -74,8 +54,8 @@ type Model() =
     member this.NotifyPropertyChanged propertyName = 
         propertyChangedEvent.Trigger(this, PropertyChangedEventArgs propertyName)
 
-    member this.NotifyPropertyChanged(PropertySelector p: Expr<_>) = 
-        this.NotifyPropertyChanged p.Name
+    member this.NotifyPropertyChanged(PropertySelector property: Expr<'Model -> 'Property>) = 
+        this.NotifyPropertyChanged property.Name
 
     interface INotifyDataErrorInfo with
         member this.HasErrors = 
@@ -90,6 +70,30 @@ type Model() =
     member this.SetErrors(propertyName, [<ParamArray>] messages: string[]) = 
         errors.[propertyName] <- messages
         errorsChanged.Trigger(this, DataErrorsChangedEventArgs propertyName)
+
+and internal AbstractProperties() =
+    let data = Dictionary()
+
+    interface IInterceptor with
+        member this.Intercept invocation = 
+            match invocation.Method, invocation.InvocationTarget with 
+                | Abstract & PropertySetter propertyName, (:? Model as model) -> 
+                    let _, value = data.TryGetValue propertyName
+                    data.[propertyName] <- invocation.Arguments.[0]
+                    if invocation.Arguments.[0] <> value
+                    then 
+                        model.NotifyPropertyChanged propertyName
+                        model.SetErrors(propertyName, Array.empty)
+
+                | Abstract & PropertyGetter propertyName, _ ->
+                    match data.TryGetValue propertyName with 
+                    | true, value -> invocation.ReturnValue <- value 
+                    | false, _ -> 
+                        let returnType = invocation.Method.ReturnType
+                        if returnType.IsValueType then 
+                            invocation.ReturnValue <- Activator.CreateInstance returnType
+
+                | _ -> invocation.Proceed()
 
 [<RequireQualifiedAccess>]
 module Mvc = 
