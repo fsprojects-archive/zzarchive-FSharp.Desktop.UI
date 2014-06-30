@@ -68,7 +68,8 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
     member this.Compose(childController : IController<'EX, 'MX>, childView : IPartialView<'EX, 'MX>, childModelSelector : _ -> 'MX) = 
         let compositeView = {
                 new IView<_, _> with
-                    member __.Events = Observable.unify view.Events childView.Events
+                    member __.Events = 
+                        Observable.merge (Observable.map Choice1Of2  view.Events) (Observable.map Choice2Of2 childView.Events)
                     member __.SetBindings model =
                         view.SetBindings model  
                         model |> childModelSelector |> childView.SetBindings
