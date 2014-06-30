@@ -8,20 +8,13 @@ open System.Windows.Controls
 type PartialView<'Events, 'Model, 'Control when 'Control :> FrameworkElement>(control : 'Control) =
 
     member this.Control = control
-    static member (?) (view : PartialView<'Events, 'Model, 'Control>, name) = 
-        match view.Control.FindName name with
-        | null -> 
-            match view.Control.TryFindResource name with
-            | null -> None
-            | resource -> resource |> unbox |> Some
-        | control -> control |> unbox
     
     interface IPartialView<'Events, 'Model> with
         member this.Events = 
             this.EventStreams |> List.reduce Observable.merge 
         member this.SetBindings model = 
-            control.DataContext <- model
             this.SetBindings model
+            control.DataContext <- model
 
     abstract EventStreams : IObservable<'Events> list
     abstract SetBindings : 'Model -> unit
@@ -53,3 +46,11 @@ type View<'Events, 'Model, 'Window when 'Window :> Window and 'Window : (new : u
             value.IsDefault <- true
             value.Click.Add(ignore >> this.OK)
     
+[<AbstractClass>]
+type XamlView<'Events, 'Model>(resourceLocator) = 
+    inherit View<'Events, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
+
+    static member (?) (view : PartialView<'Events, 'Model, 'Control>, name) = 
+        match view.Control.FindName name with
+        | null -> None 
+        | control -> control |> unbox |> Some
