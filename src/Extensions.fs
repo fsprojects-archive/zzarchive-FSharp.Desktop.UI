@@ -1,15 +1,15 @@
 ﻿namespace FSharp.Desktop.UI
  
 [<AutoOpen>]
-module Extensions = 
+module internal Extensions = 
 
     open System
     open Microsoft.FSharp.Quotations
     open Microsoft.FSharp.Quotations.Patterns
 
-    let inline internal undefined<'T> = raise<'T> <| NotImplementedException()
+    let inline undefined<'T> = raise<'T> <| NotImplementedException()
 
-    let (|PropertySelector|) (expr : Expr<('T -> 'a)>) = 
+    let inline (|PropertySelector|) (expr : Expr<('T -> 'a)>) = 
         match expr with 
         | Lambda(arg, PropertyGet( Some (Var selectOn), property, [])) -> 
             assert(arg.Name = selectOn.Name)
@@ -21,5 +21,4 @@ module Extensions =
 [<RequireQualifiedAccess>]
 module Observable =
     let mapTo value = Observable.map(fun _ -> value)
-    let unify first second = Observable.merge (Observable.map Choice1Of2 first) (Observable.map Choice2Of2 second)
 
