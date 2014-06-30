@@ -21,7 +21,6 @@ module internal MethodInfo =
         | _ -> None
 
     let (|Abstract|_|) (m : MethodInfo) = if m.IsAbstract then Some() else None
-    let (|Virtual|_|) (m : MethodInfo) = if m.IsVirtual then Some() else None
 
 open MethodInfo
 
@@ -38,15 +37,14 @@ type Model() =
         new IProxyGenerationHook with
             member __.ShouldInterceptMethod(type', method') = 
                 match method' with 
-                | Virtual & PropertySetter propertyName when type'.GetProperty(propertyName).GetGetMethod() <> null -> true
-                | Virtual & PropertyGetter propertyName when type'.GetProperty(propertyName).GetSetMethod() <> null -> true 
+                | Abstract & PropertySetter _ | Abstract & PropertyGetter _ -> true 
                 | _ -> false 
             member __.NonProxyableMemberNotification(_, _) = ()          
             member __.MethodsInspected() = ()          
     }
 
     static member Create<'T when 'T :> Model and 'T : not struct>([<ParamArray>] constructorArguments)  = 
-        let interceptors : IInterceptor[] = [| PropertyInterceptor() |]
+        let interceptors : IInterceptor[] = [| AbstractProperties() |]
         proxyFactory.CreateClassProxy(typeof<'T>, proxyOptions, constructorArguments, interceptors) |> unbox<'T>    
 
     interface INotifyPropertyChanged with
@@ -75,7 +73,7 @@ type Model() =
         errors.[propertyName] <- messages
         errorsChanged.Trigger(this, DataErrorsChangedEventArgs propertyName)
 
-and internal PropertyInterceptor() =
+and internal AbstractProperties() =
     let data = Dictionary()
 
     interface IInterceptor with
@@ -97,14 +95,6 @@ and internal PropertyInterceptor() =
                         let returnType = invocation.Method.ReturnType
                         if returnType.IsValueType then 
                             invocation.ReturnValue <- Activator.CreateInstance returnType
-                | Virtual & PropertySetter propertyName -> 
-                    let prevValue = invocation.TargetType.GetProperty(propertyName).GetValue(invocation.InvocationTarget)
-                    invocation.Proceed()
-                    if invocation.Arguments.[0] <> prevValue
-                    then 
-                        let model: Model = invocation.InvocationTarget |> unbox
-                        model.NotifyPropertyChanged propertyName
-                        model.SetErrors(propertyName, Array.empty)
                 | _ -> 
                     invocation.Proceed()
 
