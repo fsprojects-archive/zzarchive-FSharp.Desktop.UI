@@ -6,6 +6,7 @@ open System.Runtime.ExceptionServices
 open System.Threading
 open System.Reactive
 open System.Reactive.Concurrency
+open System.Reactive.Linq
 
 type IPartialView<'Events, 'Model> = 
 
@@ -28,9 +29,9 @@ type IController<'Events, 'Model> =
     abstract Dispatcher : ('Events -> EventHandler<'Model>)
 
 [<Sealed>]
-type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Events, 'Model>, controller : IController<'Events, 'Model>, onError: 'Events -> exn -> unit) =
+type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Events, 'Model>, controller : IController<'Events, 'Model>) =
 
-    new(model, view, controller) = Mvc(model, view, controller, onError = fun _ exn -> ExceptionDispatchInfo.Capture(exn).Throw())
+    let mutable onError = fun _ exn -> ExceptionDispatchInfo.Capture(exn).Throw()
     
     member this.Start() =
         controller.InitModel model
@@ -50,10 +51,9 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
 #if DEBUG
         let observer = observer.Checked()
 #endif
-        let observer = Observer.Synchronize(observer, preventReentrancy = true)
         assert(SynchronizationContext.Current <> null)
-        let observer = Observer.NotifyOn(observer, SynchronizationContextScheduler(SynchronizationContext.Current, alwaysPost = false))
-        view.Events.Subscribe observer
+        let scheduler = SynchronizationContextScheduler(SynchronizationContext.Current, alwaysPost = false)
+        view.Events.ObserveOn(scheduler).Subscribe <| Observer.Synchronize(observer, preventReentrancy = true)
 
     member this.StartDialog() =
         use subscription = this.Start()
@@ -64,6 +64,8 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
             use subscription = this.Start()
             return! view.Show()
         }
+
+    member this.OnError with get() = onError and set value = onError <- value
 
     member this.Compose(childController : IController<'EX, 'MX>, childView : IPartialView<'EX, 'MX>, childModelSelector : _ -> 'MX) = 
         let compositeView = {

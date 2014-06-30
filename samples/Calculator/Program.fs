@@ -9,7 +9,7 @@ open FSharp.Desktop.UI
 [<AbstractClass>]
 type CalculatorModel() = 
     inherit Model()
-
+    
     abstract X : int with get, set
     abstract Y : int with get, set
     abstract Result : int with get, set
