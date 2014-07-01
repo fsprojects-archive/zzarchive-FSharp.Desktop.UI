@@ -14,41 +14,64 @@ type CalculatorModel() =
     abstract Y : int with get, set
     abstract Result : int with get, set
 
+    [<DerivedProperty>]
+    member this.NonZeroArgs = this.X <> 0 && this.Y <> 0
+
 type CalculatorEvents = 
     | Add
     | Subtract
     | Multiply
     | Divide
     | Clear
+    | ArgChanging of text: string * cancel: (unit -> unit)
 
 type CalculatorView() as this =
     inherit XamlView<CalculatorEvents, CalculatorModel>(resourceLocator = Uri("/Window.xaml", UriKind.Relative))
 
-    let add : Button = this ? Add |> Option.get
-    let subtract : Button = this ? Subtract |> Option.get
-    let multiply : Button = this ? Multiply |> Option.get
-    let divide : Button = this ? Divide |> Option.get
-    let clear : Button = this ? Clear |> Option.get
-    let x : TextBox = this ? X |> Option.get
-    let y : TextBox = this ? Y |> Option.get
-    let result : TextBlock = this ? Result |> Option.get
+    let add : Button = this ? Add
+    let subtract : Button = this ? Subtract 
+    let multiply : Button = this ? Multiply
+    let divide : Button = this ? Divide 
+    let clear : Button = this ? Clear
+    let x : TextBox = this ? X 
+    let y : TextBox = this ? Y
+    let result : TextBlock = this ? Result 
 
     override this.EventStreams = 
         [
-            add.Click |> Observable.mapTo Add
-            subtract.Click |> Observable.mapTo Subtract
-            multiply.Click |> Observable.mapTo Multiply
-            divide.Click |> Observable.mapTo Divide
-            clear.Click |> Observable.mapTo Clear
+            let buttonClicks = 
+                [
+                    add, Add
+                    subtract, Subtract
+                    multiply, Multiply
+                    divide, Divide
+                    clear, Clear
+                ] 
+                |> List.map (fun (button, event) -> button.Click |> Observable.mapTo event)
+
+            yield! buttonClicks
+
+            yield (x.PreviewTextInput, y.PreviewTextInput) 
+                ||> Observable.merge
+                |> Observable.map(fun eventArgs -> ArgChanging(eventArgs.Text, fun() -> eventArgs.Handled <- true))
         ]
 
     override this.SetBindings model = 
         Binding.FromExpression 
             <@ 
                 x.Text <- coerce model.X
-                y.Text <- coerce model.Y 
                 result.Text <- coerce model.Result 
+
+                add.IsEnabled <- model.NonZeroArgs
+                subtract.IsEnabled <- model.NonZeroArgs
+                divide.IsEnabled <- model.Y <> 0
             @>
+
+        Binding.FromExpression(
+            <@ 
+                y.Text <- coerce model.Y 
+            @>, 
+            updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
 
 type CalculatorController() = 
 
@@ -62,25 +85,43 @@ type CalculatorController() =
             | Multiply -> Sync this.Multiply
             | Divide -> Sync this.Divide
             | Clear -> Sync this.Clear
+            | ArgChanging(text, cancel) -> Sync(this.DiscardInvalidInput text cancel)
 
-    member this.Add(model: CalculatorModel) = model.Result <- model.X + model.Y
+    member this.Add(model: CalculatorModel) = 
+        if model.Y < 0 
+        then model |> Validation.setError <@ fun  m -> m.Y @> "Must be positive number."
+        else model.Result <- model.X + model.Y
 
-    member this.Subtract(model: CalculatorModel) = model.Result <- model.X - model.Y
+    member this.Subtract(model: CalculatorModel) = 
+        if model.Y < 0 
+        then model |> Validation.setError <@ fun  m -> m.Y @> "Must be positive number."
+        else model.Result <- model.X - model.Y
 
-    member this.Multiply(model: CalculatorModel) = model.Result <- model.X * model.Y
+    member this.Multiply(model: CalculatorModel) = 
+        model.Result <- model.X * model.Y
 
-    member this.Divide(model: CalculatorModel) = model.Result <- model.X / model.Y
+    member this.Divide(model: CalculatorModel) = 
+        model.Result <- model.X / model.Y
 
     member this.Clear(model: CalculatorModel) = 
         model.X <- 0
         model.Y <- 0
         model.Result <- 0
 
+    member this.DiscardInvalidInput newValue cancel (model: CalculatorModel) = 
+        match Int32.TryParse newValue with 
+        | false, _  ->  cancel()
+        | _ -> ()
+        
+        
+
 [<EntryPoint; STAThread>]
 let main _ = 
     let model, view, controller = CalculatorModel.Create(), CalculatorView(), CalculatorController()
     let mvc = Mvc(model, view, controller)
     Application().Run(mvc, view.Control)
+
+
 
 //Other controller implementation options 
 //let controllerAsFunction = Controller.Create(fun event (model: CalculatorModel) ->

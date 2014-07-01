@@ -51,6 +51,4 @@ type XamlView<'Events, 'Model>(resourceLocator) =
     inherit View<'Events, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
 
     static member (?) (view : PartialView<'Events, 'Model, 'Control>, name) = 
-        match view.Control.FindName name with
-        | null -> None 
-        | control -> control |> unbox |> Some
+        view.Control.FindName( name) |> unbox

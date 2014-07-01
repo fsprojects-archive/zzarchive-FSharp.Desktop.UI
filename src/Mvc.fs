@@ -37,7 +37,7 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
         controller.InitModel model
         view.SetBindings model
 
-        let observer = Observer.Create(fun event -> 
+        Observer.create <| fun event -> 
             match controller.Dispatcher event with
             | Sync eventHandler ->
                 try eventHandler model 
@@ -47,13 +47,13 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
                     computation = eventHandler model, 
                     continuation = ignore, 
                     exceptionContinuation = onError event,
-                    cancellationContinuation = ignore))        
+                    cancellationContinuation = ignore)        
 #if DEBUG
-        let observer = observer.Checked()
+        |> Observer.Checked
 #endif
-        assert(SynchronizationContext.Current <> null)
-        let scheduler = SynchronizationContextScheduler(SynchronizationContext.Current, alwaysPost = false)
-        view.Events.ObserveOn(scheduler).Subscribe <| Observer.Synchronize(observer, preventReentrancy = true)
+        |> Observer.preventReentrancy
+        |> Observer.notifyOnDispatcher
+        |> view.Events.Subscribe
 
     member this.StartDialog() =
         use subscription = this.Start()

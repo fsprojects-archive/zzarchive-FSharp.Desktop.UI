@@ -1,9 +1,10 @@
 ﻿namespace FSharp.Desktop.UI
+
+open System
  
 [<AutoOpen>]
 module internal Extensions = 
 
-    open System
     open Microsoft.FSharp.Quotations
     open Microsoft.FSharp.Quotations.Patterns
 
@@ -17,6 +18,26 @@ module internal Extensions =
         | _ -> 
             invalidArg "Expecting property getter expression" (string expr)
 
+[<RequireQualifiedAccess>]
+module Observer =
+
+    open System.Reactive
+    open System.Reactive.Concurrency
+    open System.Windows.Threading
+
+    let create onNext = Observer.Create(Action<_>(onNext))
+
+    let notifyOnDispatcher(observer : IObserver<_>) = 
+        let dispatcher = Dispatcher.CurrentDispatcher 
+        let invokeOnDispatcher f = if dispatcher.CheckAccess() then f() else dispatcher.BeginInvoke(Action f) |> ignore 
+        { 
+            new IObserver<_> with 
+                member __.OnNext value = invokeOnDispatcher(fun() -> observer.OnNext value)
+                member __.OnError error = invokeOnDispatcher(fun() -> observer.OnError error)
+                member __.OnCompleted() = invokeOnDispatcher observer.OnCompleted
+        }    
+
+    let preventReentrancy observer = Observer.Synchronize(observer, preventReentrancy = true)
 
 [<RequireQualifiedAccess>]
 module Observable =
