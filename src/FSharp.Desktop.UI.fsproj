@@ -57,7 +57,6 @@
     <Compile Include="DerivedProperties.fs" />
     <Compile Include="Binding.fs" />
     <Compile Include="Validation.fs" />
-    <Compile Include="Application.fs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

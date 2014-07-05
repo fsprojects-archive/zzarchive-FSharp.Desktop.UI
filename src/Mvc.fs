@@ -37,7 +37,7 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
         controller.InitModel model
         view.SetBindings model
 
-        Observer.create <| fun event -> 
+        Observer.Create(fun event -> 
             match controller.Dispatcher event with
             | Sync eventHandler ->
                 try eventHandler model 
@@ -47,7 +47,7 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
                     computation = eventHandler model, 
                     continuation = ignore, 
                     exceptionContinuation = onError event,
-                    cancellationContinuation = ignore)        
+                    cancellationContinuation = ignore))        
 #if DEBUG
         |> Observer.Checked
 #endif

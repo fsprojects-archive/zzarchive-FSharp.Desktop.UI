@@ -3,19 +3,33 @@ open System
 open System.Windows
 open System.Windows.Controls
 open System.Windows.Data
+open System.Net.Http
+open System.Threading
+open System.Configuration
 
 open FSharp.Desktop.UI
+
+type WolframalphaResponse = 
+    | Success of string
+    | Failure of string
+    | Empty
+    | Running
+    | Cancelled
 
 [<AbstractClass>]
 type CalculatorModel() = 
     inherit Model()
     
-    abstract X : int with get, set
-    abstract Y : int with get, set
-    abstract Result : int with get, set
+    abstract X : float with get, set
+    abstract Y : float with get, set
+    abstract Result : float with get, set
 
     [<DerivedProperty>]
-    member this.NonZeroArgs = this.X <> 0 && this.Y <> 0
+    member this.OneNonEmptyArg = this.X <> 0.0 || this.Y <> 0. || this.Result <> 0.0
+    
+    abstract WolframalphaQuery : string with get, set
+    abstract WolframalphaAppKey : string with get, set
+    abstract WolframalphaResponse : WolframalphaResponse with get, set
 
 type CalculatorEvents = 
     | Add
@@ -24,19 +38,46 @@ type CalculatorEvents =
     | Divide
     | Clear
     | ArgChanging of text: string * cancel: (unit -> unit)
+    | AskWolframalpha of appKey: string
+    | CancelAskWolframalphaRequest 
+
+[<AutoOpenAttribute>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module CalculatorModel =
+
+    let wolframalphaResponseConverter = function
+        | Success result -> result
+        | Failure why -> why
+        | Empty -> ""
+        | Running -> "running..."
+        | Cancelled -> "cancelled."
+
+    type CalculatorModel with
+        [<DerivedProperty>]
+        member this.AskWolframalphaEnabled = 
+            string this.WolframalphaQuery <> "" && string this.WolframalphaAppKey <> "" && this.WolframalphaResponse <> Running
 
 type CalculatorView() as this =
     inherit XamlView<CalculatorEvents, CalculatorModel>(resourceLocator = Uri("/Window.xaml", UriKind.Relative))
 
-    let add : Button = this ? Add
-    let subtract : Button = this ? Subtract 
-    let multiply : Button = this ? Multiply
-    let divide : Button = this ? Divide 
-    let clear : Button = this ? Clear
-    let x : TextBox = this ? X 
-    let y : TextBox = this ? Y
-    let result : TextBlock = this ? Result 
+    let add: Button = this ? Add
+    let subtract: Button = this ? Subtract 
+    let multiply: Button = this ? Multiply
+    let divide: Button = this ? Divide 
+    let clear: Button = this ? Clear
+    let x: TextBox = this ? X 
+    let y: TextBox = this ? Y
+    let result: TextBlock = this ? Result 
 
+    let wolframalphaQuery: TextBox = this ? WolframalphaQuery
+    let wolframalphaAppKey: PasswordBox = this ? AppKey
+    let askWolframalpha: Button = this ? AskWolframalpha 
+    let cancelWolframalphaRequest: Button = this ? CancelWolframalphaRequest 
+    let wolframalphaResponse: TextBox = this ? WolframalphaResponse
+
+    do
+        wolframalphaResponse.IsReadOnly <- true
+        
     override this.EventStreams = 
         [
             let buttonClicks = 
@@ -46,30 +87,42 @@ type CalculatorView() as this =
                     multiply, Multiply
                     divide, Divide
                     clear, Clear
+                    cancelWolframalphaRequest, CancelAskWolframalphaRequest
                 ] 
                 |> List.map (fun (button, event) -> button.Click |> Observable.mapTo event)
 
             yield! buttonClicks
 
-            yield (x.PreviewTextInput, y.PreviewTextInput) 
-                ||> Observable.merge
-                |> Observable.map(fun eventArgs -> ArgChanging(eventArgs.Text, fun() -> eventArgs.Handled <- true))
+            let xChanging  = x.PreviewTextInput |> Observable.map(fun eventArgs -> ArgChanging(x.Text + eventArgs.Text, fun() -> eventArgs.Handled <- true))
+            let yChanging  = y.PreviewTextInput |> Observable.map(fun eventArgs -> ArgChanging(y.Text + eventArgs.Text, fun() -> eventArgs.Handled <- true))
+
+            yield Observable.merge xChanging yChanging
+
+            yield askWolframalpha.Click |> Observable.map (fun _ -> AskWolframalpha wolframalphaAppKey.Password)
         ]
 
     override this.SetBindings model = 
+        
+        wolframalphaAppKey.Password <- model.WolframalphaAppKey
+
         Binding.FromExpression 
             <@ 
-                x.Text <- coerce model.X
-                result.Text <- coerce model.Result 
+                result.Text <- String.Format("Result : {0}", model.Result) 
 
-                add.IsEnabled <- model.NonZeroArgs
-                subtract.IsEnabled <- model.NonZeroArgs
-                divide.IsEnabled <- model.Y <> 0
+                divide.IsEnabled <- model.Y <> 0.
+                clear.IsEnabled <- model.OneNonEmptyArg
+
+                wolframalphaResponse.Text <- wolframalphaResponseConverter model.WolframalphaResponse
+                askWolframalpha.IsEnabled <- model.AskWolframalphaEnabled
+                cancelWolframalphaRequest.IsEnabled <- model.WolframalphaResponse = Running
             @>
 
         Binding.FromExpression(
             <@ 
+                x.Text <- coerce model.X
                 y.Text <- coerce model.Y 
+
+                wolframalphaQuery.Text <- model.WolframalphaQuery
             @>, 
             updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
 
@@ -77,7 +130,11 @@ type CalculatorController() =
 
     interface IController<CalculatorEvents, CalculatorModel> with
 
-        member this.InitModel _ = () 
+        member this.InitModel model = 
+            model.WolframalphaResponse <- Empty
+            let appKey = ConfigurationManager.AppSettings.["WolframalphaAppKey"]
+            if appKey <> null 
+            then model.WolframalphaAppKey <- appKey
 
         member this.Dispatcher = function
             | Add -> Sync this.Add
@@ -86,14 +143,16 @@ type CalculatorController() =
             | Divide -> Sync this.Divide
             | Clear -> Sync this.Clear
             | ArgChanging(text, cancel) -> Sync(this.DiscardInvalidInput text cancel)
+            | AskWolframalpha appKey -> Async(this.AskWolframalpha appKey)
+            | CancelAskWolframalphaRequest -> Sync <| fun _ -> Async.CancelDefaultToken()
 
     member this.Add(model: CalculatorModel) = 
-        if model.Y < 0 
-        then model |> Validation.setError <@ fun  m -> m.Y @> "Must be positive number."
+        if model.Y < 0. 
+        then model |> Validation.setError <@ fun m -> m.Y @> "Must be positive number."
         else model.Result <- model.X + model.Y
 
     member this.Subtract(model: CalculatorModel) = 
-        if model.Y < 0 
+        if model.Y < 0. 
         then model |> Validation.setError <@ fun  m -> m.Y @> "Must be positive number."
         else model.Result <- model.X - model.Y
 
@@ -104,55 +163,43 @@ type CalculatorController() =
         model.Result <- model.X / model.Y
 
     member this.Clear(model: CalculatorModel) = 
-        model.X <- 0
-        model.Y <- 0
-        model.Result <- 0
+        model.X <- 0.
+        model.Y <- 0.
+        model.Result <- 0.
 
-    member this.DiscardInvalidInput newValue cancel (model: CalculatorModel) = 
-        match Int32.TryParse newValue with 
+    member this.DiscardInvalidInput (newValue: string) cancel (model: CalculatorModel) = 
+        let textToCheck = if newValue.EndsWith(".") then newValue + "0" else newValue
+        match Double.TryParse textToCheck with 
         | false, _  ->  cancel()
         | _ -> ()
         
-        
+    member this.AskWolframalpha appKey (model: CalculatorModel) = 
+        let uiCtx = SynchronizationContext.Current
+        async {
+            use! cancelHandler = Async.OnCancel(fun() -> 
+                uiCtx.Post((fun _ -> model.WolframalphaResponse <- Cancelled), null)) 
+
+            model.WolframalphaResponse <- Running
+            use http = new HttpClient()
+            let url = sprintf "http://api.wolframalpha.com/v2/query?appid=%s&input=%s&format=plaintext" appKey model.WolframalphaQuery
+            let! response = http.GetStringAsync(url) |> Async.AwaitTask
+            do! Async.SwitchToContext uiCtx
+            let parsed = WolframAlpha.Response.Parse(response)
+            if parsed.Error
+            then
+                model.WolframalphaResponse <- Failure (parsed.Error2.Value.Msg)                    
+            else
+                match parsed.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
+                | Some x -> 
+                    model.WolframalphaResponse <- Success x.Subpod.Plaintext.Value
+                | None -> 
+                    model.WolframalphaResponse <- Empty
+        }  
 
 [<EntryPoint; STAThread>]
 let main _ = 
     let model, view, controller = CalculatorModel.Create(), CalculatorView(), CalculatorController()
     let mvc = Mvc(model, view, controller)
-    Application().Run(mvc, view.Control)
+    use eventLoop = mvc.Start()
+    Application().Run(view.Control)
 
-
-
-//Other controller implementation options 
-//let controllerAsFunction = Controller.Create(fun event (model: CalculatorModel) ->
-//    match event with
-//    | Add -> model.Result <- model.X + model.Y
-//    | Subtract -> model.Result <- model.X - model.Y
-//    | Multiply -> model.Result <- model.X * model.Y
-//    | Divide -> model.Result <- model.X / model.Y
-//    | Clear -> 
-//        model.X <- 0
-//        model.Y <- 0
-//        model.Result <- 0
-//)
-//
-//type CalculatorController2() =
-//    inherit Controller<CalculatorEvents, CalculatorModel>()  
-//
-//    override this.InitModel _ = () 
-//
-//    override this.Dispatcher = Sync << function
-//        | Add -> this.Add
-//        | Subtract -> this.Subtract
-//        | Multiply -> this.Multiply
-//        | Divide -> this.Divide
-//        | Clear -> this.Clear
-//
-//    member this.Add model = model.Result <- model.X + model.Y
-//    member this.Subtract model = model.Result <- model.X - model.Y
-//    member this.Multiply model = model.Result <- model.X * model.Y
-//    member this.Divide model = model.Result <- model.X / model.Y
-//    member this.Clear model = 
-//        model.X <- 0
-//        model.Y <- 0
-//        model.Result <- 0

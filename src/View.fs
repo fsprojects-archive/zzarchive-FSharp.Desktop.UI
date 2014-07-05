@@ -51,4 +51,6 @@ type XamlView<'Events, 'Model>(resourceLocator) =
     inherit View<'Events, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
 
     static member (?) (view : PartialView<'Events, 'Model, 'Control>, name) = 
-        view.Control.FindName( name) |> unbox
+        match view.Control.FindName name with
+        | null -> invalidArg "Name" ("Cannot find child control or resource named: " + name)
+        | control -> control |> unbox

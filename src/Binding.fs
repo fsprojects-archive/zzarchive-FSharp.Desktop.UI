@@ -166,11 +166,13 @@ module Patterns =
             Some binding
         | _ -> None
 
-    let rec (|BindingExpression|) = function
+    //let rec (|BindingExpression|) = function
+    let rec (|BindingExpression|) expr = 
+        match expr with
         | DerivedProperty binding 
         | ExtensionDerivedProperty binding -> binding
         | PropertyPath path -> 
-            upcast Binding(path)
+            Binding(path) :> BindingBase
         | Coerce( BindingExpression binding, _) 
         | SpecificCall <@ coerce @> (None, _, [ BindingExpression binding ]) 
         | Nullable( BindingExpression binding) -> 
@@ -178,7 +180,6 @@ module Patterns =
         | StringFormat(format, BindingExpression binding) -> 
             binding.StringFormat <- format
             binding
-
         //??? hard to say if can be generally useful. For erased types.
 //        | Call((Some (Value (:? System.ComponentModel.ICustomTypeDescriptor as model, _))), get_Item, [ Value(:? string as propertyName, _)]) 
 //            when get_Item.Name = "get_Item" && model.GetProperties().Find(propertyName, ignoreCase = false) <> null -> Some propertyName
@@ -192,6 +193,7 @@ module Patterns =
             binding.Converter <- IValueConverter.OneWay convert
             upcast binding
         | SinglePropertyExpression binding -> upcast binding
+
         | expr -> invalidArg "binding property path quotation" (string expr)
 
     let inline configureBinding(binding : #BindingBase, mode, updateSourceTrigger, fallbackValue, targetNullValue, validatesOnExceptions, validatesOnDataErrors) = 

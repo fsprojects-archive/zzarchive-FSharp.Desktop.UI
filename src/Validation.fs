@@ -30,9 +30,4 @@ module Validation =
 
     let inline valueRequired expr = assertThat expr (fun(x : Nullable<_>) -> x.HasValue) 
 
-[<AutoOpen>]
-module NotifyDataErrorInfo = 
-
-    type INotifyDataErrorInfo with
-        member this.IsValid = not this.HasErrors
 

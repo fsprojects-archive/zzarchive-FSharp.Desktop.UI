@@ -25,8 +25,6 @@ module Observer =
     open System.Reactive.Concurrency
     open System.Windows.Threading
 
-    let create onNext = Observer.Create(Action<_>(onNext))
-
     let notifyOnDispatcher(observer : IObserver<_>) = 
         let dispatcher = Dispatcher.CurrentDispatcher 
         let invokeOnDispatcher f = if dispatcher.CheckAccess() then f() else dispatcher.BeginInvoke(Action f) |> ignore 
