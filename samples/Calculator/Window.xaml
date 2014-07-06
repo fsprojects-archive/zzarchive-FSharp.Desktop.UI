@@ -9,6 +9,13 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,8 +49,8 @@
         <Rectangle VerticalAlignment="Stretch" Width="1" Margin="5, 5" Stroke="Black" Grid.Column="2" Grid.RowSpan="5" />
         <Label Content="Ask Wolframalpha:" Grid.Column="3" VerticalAlignment="Center"/>
         <TextBox Grid.Column="4" Name="WolframalphaQuery" Margin="5" Height="25" VerticalContentAlignment="Center"/>
-        <Label Content="App key:" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
-        <PasswordBox Grid.Column="4" Grid.Row="1" Name="AppKey" Margin="5" Height="25" VerticalContentAlignment="Center" />
+        <Label Content="AppId:" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
+        <PasswordBox Grid.Column="4" Grid.Row="1" Name="AppId" Margin="5" Height="25" VerticalContentAlignment="Center" />
         <DockPanel Grid.Column="4" Grid.Row="2" >
             <Button Content="Run" Name="AskWolframalpha" Width="100" Height="25" Margin="5" DockPanel.Dock="Right"/>
             <Button Grid.Row="2" Content="Cancel" Name="CancelWolframalphaRequest" Width="100" Height="25" Margin="5" DockPanel.Dock="Right"/>

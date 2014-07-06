@@ -28,7 +28,7 @@ type CalculatorModel() =
     member this.OneNonEmptyArg = this.X <> 0.0 || this.Y <> 0. || this.Result <> 0.0
     
     abstract WolframalphaQuery : string with get, set
-    abstract WolframalphaAppKey : string with get, set
+    abstract WolframalphaAppId : string with get, set
     abstract WolframalphaResponse : WolframalphaResponse with get, set
 
 type CalculatorEvents = 
@@ -55,10 +55,19 @@ module CalculatorModel =
     type CalculatorModel with
         [<DerivedProperty>]
         member this.AskWolframalphaEnabled = 
-            string this.WolframalphaQuery <> "" && string this.WolframalphaAppKey <> "" && this.WolframalphaResponse <> Running
+            string this.WolframalphaQuery <> "" && this.WolframalphaResponse <> Running
 
 type CalculatorView() as this =
     inherit XamlView<CalculatorEvents, CalculatorModel>(resourceLocator = Uri("/Window.xaml", UriKind.Relative))
+
+    static let passwordProperty = 
+        let metadata = 
+            FrameworkPropertyMetadata(propertyChangedCallback = fun sender args -> 
+                let x: PasswordBox = unbox sender
+                x.Password <- unbox args.NewValue
+            )
+        DependencyProperty.RegisterAttached("PasswordProperty", typeof<string>, typeof<PasswordBox>, metadata);
+
 
     let add: Button = this ? Add
     let subtract: Button = this ? Subtract 
@@ -70,7 +79,7 @@ type CalculatorView() as this =
     let result: TextBlock = this ? Result 
 
     let wolframalphaQuery: TextBox = this ? WolframalphaQuery
-    let wolframalphaAppKey: PasswordBox = this ? AppKey
+    let wolframalphaAppId: PasswordBox = this ? AppId
     let askWolframalpha: Button = this ? AskWolframalpha 
     let cancelWolframalphaRequest: Button = this ? CancelWolframalphaRequest 
     let wolframalphaResponse: TextBox = this ? WolframalphaResponse
@@ -78,6 +87,9 @@ type CalculatorView() as this =
     do
         wolframalphaResponse.IsReadOnly <- true
         
+        wolframalphaAppId.PasswordChanged.Add <| fun _ -> 
+            wolframalphaAppId.SetValue(passwordProperty, wolframalphaAppId.Password)
+
     override this.EventStreams = 
         [
             let buttonClicks = 
@@ -93,17 +105,20 @@ type CalculatorView() as this =
 
             yield! buttonClicks
 
-            let xChanging  = x.PreviewTextInput |> Observable.map(fun eventArgs -> ArgChanging(x.Text + eventArgs.Text, fun() -> eventArgs.Handled <- true))
-            let yChanging  = y.PreviewTextInput |> Observable.map(fun eventArgs -> ArgChanging(y.Text + eventArgs.Text, fun() -> eventArgs.Handled <- true))
-
-            yield Observable.merge xChanging yChanging
-
-            yield askWolframalpha.Click |> Observable.map (fun _ -> AskWolframalpha wolframalphaAppKey.Password)
+            yield 
+                (x.PreviewTextInput, y.PreviewTextInput)
+                ||> Observable.merge 
+                |> Observable.map(fun args -> 
+                    let tb: TextBox = unbox args.Source
+                    let finalText = if tb.CaretIndex = 0 then args.Text + tb.Text else tb.Text + args.Text
+                    ArgChanging(finalText, fun() -> args.Handled <- true))
+            
+            yield askWolframalpha.Click |> Observable.map (fun _ -> AskWolframalpha wolframalphaAppId.Password)
         ]
 
     override this.SetBindings model = 
         
-        wolframalphaAppKey.Password <- model.WolframalphaAppKey
+        wolframalphaAppId.SetBinding(passwordProperty, Binding("WolframalphaAppId", Mode = BindingMode.TwoWay)) |> ignore
 
         Binding.FromExpression 
             <@ 
@@ -132,9 +147,9 @@ type CalculatorController() =
 
         member this.InitModel model = 
             model.WolframalphaResponse <- Empty
-            let appKey = ConfigurationManager.AppSettings.["WolframalphaAppKey"]
+            let appKey = ConfigurationManager.AppSettings.["WolframalphaAppId"]
             if appKey <> null 
-            then model.WolframalphaAppKey <- appKey
+            then model.WolframalphaAppId <- appKey
 
         member this.Dispatcher = function
             | Add -> Sync this.Add
@@ -176,24 +191,29 @@ type CalculatorController() =
     member this.AskWolframalpha appKey (model: CalculatorModel) = 
         let uiCtx = SynchronizationContext.Current
         async {
-            use! cancelHandler = Async.OnCancel(fun() -> 
-                uiCtx.Post((fun _ -> model.WolframalphaResponse <- Cancelled), null)) 
-
-            model.WolframalphaResponse <- Running
-            use http = new HttpClient()
-            let url = sprintf "http://api.wolframalpha.com/v2/query?appid=%s&input=%s&format=plaintext" appKey model.WolframalphaQuery
-            let! response = http.GetStringAsync(url) |> Async.AwaitTask
-            do! Async.SwitchToContext uiCtx
-            let parsed = WolframAlpha.Response.Parse(response)
-            if parsed.Error
-            then
-                model.WolframalphaResponse <- Failure (parsed.Error2.Value.Msg)                    
+            
+            if String.IsNullOrEmpty model.WolframalphaAppId
+            then 
+                model |> Validation.setError <@ fun m -> m.WolframalphaAppId @> "AppId is missing"  
             else
-                match parsed.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
-                | Some x -> 
-                    model.WolframalphaResponse <- Success x.Subpod.Plaintext.Value
-                | None -> 
-                    model.WolframalphaResponse <- Empty
+                use! cancelHandler = Async.OnCancel(fun() -> 
+                    uiCtx.Post((fun _ -> model.WolframalphaResponse <- Cancelled), null)) 
+
+                model.WolframalphaResponse <- Running
+                use http = new HttpClient()
+                let url = sprintf "http://api.wolframalpha.com/v2/query?appid=%s&input=%s&format=plaintext" appKey model.WolframalphaQuery
+                let! response = http.GetStringAsync(url) |> Async.AwaitTask
+                do! Async.SwitchToContext uiCtx
+                let parsed = WolframAlpha.Response.Parse(response)
+                if parsed.Error
+                then
+                    model.WolframalphaResponse <- Failure (parsed.Error2.Value.Msg)                    
+                else
+                    match parsed.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
+                    | Some x -> 
+                        model.WolframalphaResponse <- Success x.Subpod.Plaintext.Value
+                    | None -> 
+                        model.WolframalphaResponse <- Empty
         }  
 
 [<EntryPoint; STAThread>]
