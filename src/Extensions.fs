@@ -19,7 +19,7 @@ module internal Extensions =
             invalidArg "Expecting property getter expression" (string expr)
 
 [<RequireQualifiedAccess>]
-module Observer =
+module internal Observer =
 
     open System.Reactive
     open System.Reactive.Concurrency
