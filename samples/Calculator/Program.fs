@@ -3,7 +3,6 @@ open System
 open System.Windows
 open System.Windows.Controls
 open System.Windows.Data
-open System.Net.Http
 open System.Threading
 open System.Configuration
 
@@ -38,7 +37,7 @@ type CalculatorEvents =
     | Divide
     | Clear
     | ArgChanging of text: string * cancel: (unit -> unit)
-    | AskWolframalpha of appKey: string
+    | AskWolframalpha
     | CancelAskWolframalphaRequest 
 
 [<AutoOpenAttribute>]
@@ -100,6 +99,7 @@ type CalculatorView() as this =
                     divide, Divide
                     clear, Clear
                     cancelWolframalphaRequest, CancelAskWolframalphaRequest
+                    askWolframalpha, AskWolframalpha
                 ] 
                 |> List.map (fun (button, event) -> button.Click |> Observable.mapTo event)
 
@@ -112,8 +112,6 @@ type CalculatorView() as this =
                     let tb: TextBox = unbox args.Source
                     let finalText = if tb.CaretIndex = 0 then args.Text + tb.Text else tb.Text + args.Text
                     ArgChanging(finalText, fun() -> args.Handled <- true))
-            
-            yield askWolframalpha.Click |> Observable.map (fun _ -> AskWolframalpha wolframalphaAppId.Password)
         ]
 
     override this.SetBindings model = 
@@ -141,7 +139,9 @@ type CalculatorView() as this =
             @>, 
             updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
 
-type CalculatorController() = 
+type CalculatorController(?wolframAlphaService: string -> string -> Async<WolframAlpha.Response>) = 
+
+    let wolframAlphaService = defaultArg wolframAlphaService WolframAlpha.instance
 
     interface IController<CalculatorEvents, CalculatorModel> with
 
@@ -158,7 +158,7 @@ type CalculatorController() =
             | Divide -> Sync this.Divide
             | Clear -> Sync this.Clear
             | ArgChanging(text, cancel) -> Sync(this.DiscardInvalidInput text cancel)
-            | AskWolframalpha appKey -> Async(this.AskWolframalpha appKey)
+            | AskWolframalpha -> Async this.AskWolframalpha 
             | CancelAskWolframalphaRequest -> Sync <| fun _ -> Async.CancelDefaultToken()
 
     member this.Add(model: CalculatorModel) = 
@@ -188,7 +188,7 @@ type CalculatorController() =
         | false, _  ->  cancel()
         | _ -> ()
         
-    member this.AskWolframalpha appKey (model: CalculatorModel) = 
+    member this.AskWolframalpha (model: CalculatorModel) = 
         let uiCtx = SynchronizationContext.Current
         async {
             
@@ -200,16 +200,13 @@ type CalculatorController() =
                     uiCtx.Post((fun _ -> model.WolframalphaResponse <- Cancelled), null)) 
 
                 model.WolframalphaResponse <- Running
-                use http = new HttpClient()
-                let url = sprintf "http://api.wolframalpha.com/v2/query?appid=%s&input=%s&format=plaintext" appKey model.WolframalphaQuery
-                let! response = http.GetStringAsync(url) |> Async.AwaitTask
+                let! response = wolframAlphaService model.WolframalphaQuery model.WolframalphaAppId
                 do! Async.SwitchToContext uiCtx
-                let parsed = WolframAlpha.Response.Parse(response)
-                if parsed.Error
+                if response.Error
                 then
-                    model.WolframalphaResponse <- Failure (parsed.Error2.Value.Msg)                    
+                    model.WolframalphaResponse <- Failure (response.Error2.Value.Msg)                    
                 else
-                    match parsed.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
+                    match response.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
                     | Some x -> 
                         model.WolframalphaResponse <- Success x.Subpod.Plaintext.Value
                     | None -> 
@@ -217,9 +214,13 @@ type CalculatorController() =
         }  
 
 [<EntryPoint; STAThread>]
-let main _ = 
-    let model, view, controller = CalculatorModel.Create(), CalculatorView(), CalculatorController()
+let main args =
+    let wolframAlphaService = args |> Array.tryFind (fun x -> x = "/airplaneMode") |> Option.map (fun _ -> WolframAlpha.airplaneMode) 
+    let model, view, controller = CalculatorModel.Create(), CalculatorView(), CalculatorController(?wolframAlphaService = wolframAlphaService)
     let mvc = Mvc(model, view, controller)
     use eventLoop = mvc.Start()
-    Application().Run(view.Control)
-
+    let app = Application()
+    app.DispatcherUnhandledException.Add <| fun args ->
+        if MessageBox.Show(args.Exception.ToString(), "Error! Ignore?", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes) = MessageBoxResult.Yes
+        then args.Handled <- true
+    app.Run(view.Control)

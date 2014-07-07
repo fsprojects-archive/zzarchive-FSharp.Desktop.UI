@@ -3,7 +3,7 @@
 open FSharp.Data
 
 [<LiteralAttribute>]
-let ResponseSample = """
+let PiResponseSample = """
 <queryresult success='true'
     error='false'
     numpods='5'
@@ -106,6 +106,10 @@ let ResponseSample = """
   </assumption>
  </assumptions>
 </queryresult>
+"""
+
+[<LiteralAttribute>]
+let ResponseSample = PiResponseSample + """
 <queryresult success='false'
     error='true'
     numpods='0'
@@ -127,5 +131,21 @@ let ResponseSample = """
  </error>
 </queryresult>
 """
-type Response = XmlProvider<ResponseSample, true>
+type Parser = XmlProvider<ResponseSample, true>
+type Response = Parser.Queryresult
 
+open System.Net.Http
+
+let instance query appId = 
+    async {
+        use http = new HttpClient()
+        let url = sprintf "http://api.wolframalpha.com/v2/query?appid=%s&input=%s&format=plaintext" appId query
+        let! response = http.GetStringAsync(url) |> Async.AwaitTask
+        return Parser.Parse(response)
+    }
+    
+let airplaneMode query _ = 
+    match query with
+    | "pi" -> Parser.Parse(PiResponseSample)
+    | unsupported -> failwithf "Unsupported test query: %s" unsupported
+    |> async.Return
