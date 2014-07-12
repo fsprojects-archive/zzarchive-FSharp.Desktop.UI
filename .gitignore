@@ -1,3 +1,8 @@
+nuget/*.nupkg
+packages
+docs/output
+temp
+
 #################
 ## Eclipse
 #################
