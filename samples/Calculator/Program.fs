@@ -67,7 +67,6 @@ type CalculatorView() as this =
             )
         DependencyProperty.RegisterAttached("PasswordProperty", typeof<string>, typeof<PasswordBox>, metadata);
 
-
     let add: Button = this ? Add
     let subtract: Button = this ? Subtract 
     let multiply: Button = this ? Multiply

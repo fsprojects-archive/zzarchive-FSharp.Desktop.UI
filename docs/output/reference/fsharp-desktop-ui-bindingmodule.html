@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Binding - FSharp.Desktop.UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Dmitry Morozov"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.ProjectScaffold/content/style.css" />
+    <script type="text/javascript" src="/FSharp.ProjectScaffold/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.ProjectScaffold/index.html">FSharp.Desktop.UI</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>Binding</h1>
+<div class="xmldoc">
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-desktop-ui-bindingmodule-derivedpropertyattribute.html">DerivedPropertyAttribute</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-desktop-ui-bindingmodule-patterns.html">Patterns</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
+            coerce arg1
+          </code>
+          <div class="tip" id="10">
+            <strong>Signature:</strong> &#39;?15712 -&gt; &#39;?15713<br />
+                          <strong>Type parameters:</strong> '?15712, '?15713          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L32-32" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Type extensions</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Type extension</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
+            Create(convert, convertBack)
+          </code>
+          <div class="tip" id="14">
+            <strong>Signature:</strong> (convert:(&#39;a -&gt; &#39;b) * convertBack:(&#39;b -&gt; &#39;a)) -&gt; IValueConverter<br />
+                          <strong>Type parameters:</strong> 'a, 'b          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L23-23" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '15', 15)" onmouseover="showTip(event, '15', 15)">
+            CurrentItem
+          </code>
+          <div class="tip" id="15">
+            <strong>Signature:</strong> &#39;T<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L20-20" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '16', 16)" onmouseover="showTip(event, '16', 16)">
+            FromExpression(...)
+          </code>
+          <div class="tip" id="16">
+            <strong>Signature:</strong> (expr:Expr * mode:BindingMode option * updateSourceTrigger:UpdateSourceTrigger option * fallbackValue:&#39;?15715 option * targetNullValue:&#39;?15716 option * validatesOnDataErrors:bool option * validatesOnExceptions:bool option) -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?15715, '?15716          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L228-228" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '17', 17)" onmouseover="showTip(event, '17', 17)">
+            OneWay(convert)
+          </code>
+          <div class="tip" id="17">
+            <strong>Signature:</strong> (convert:(obj -&gt; &#39;?15710)) -&gt; IValueConverter<br />
+                          <strong>Type parameters:</strong> '?15710          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L28-28" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '18', 18)" onmouseover="showTip(event, '18', 18)">
+            OneWay(expr)
+          </code>
+          <div class="tip" id="18">
+            <strong>Signature:</strong> expr:Expr -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L240-240" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '19', 19)" onmouseover="showTip(event, '19', 19)">
+            SetBindings(...)
+          </code>
+          <div class="tip" id="19">
+            <strong>Signature:</strong> (itemsSource:Expr&lt;&#39;?15721&gt; * selectedItem:Expr&lt;&#39;Item&gt; option * displayMember:Expr&lt;(&#39;Item -&gt; &#39;?15723)&gt; option) -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?15721, 'Item, '?15723          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L246-246" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '20', 20)" onmouseover="showTip(event, '20', 20)">
+            SetBindings(...)
+          </code>
+          <div class="tip" id="20">
+            <strong>Signature:</strong> (itemsSource:Expr&lt;&#39;?15725&gt; * columnBindings:(&#39;Item -&gt; (&#39;?15727 * Expr) list) * selectedItem:Expr&lt;&#39;Item&gt; option) -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?15725, 'Item, '?15727          </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L262-262" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
+            TwoWay(expr)
+          </code>
+          <div class="tip" id="21">
+            <strong>Signature:</strong> expr:Expr -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L239-239" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
+            UpdateSourceOnChange(expr)
+          </code>
+          <div class="tip" id="22">
+            <strong>Signature:</strong> expr:Expr -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Binding.fs#L238-238" class="github-link">Go to GitHub source</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.ProjectScaffold/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Desktop.UI</li>
+            <li><a href="/FSharp.ProjectScaffold/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.com/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/LICENSE.txt">License</a></li>
+            <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.ProjectScaffold/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.ProjectScaffold/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsprojects/FSharp.Desktop.UI"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

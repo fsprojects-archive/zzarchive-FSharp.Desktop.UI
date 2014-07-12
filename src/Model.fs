@@ -5,6 +5,7 @@ open System.ComponentModel
 open System.Collections.Generic
 open System.Reflection
 open Microsoft.FSharp.Quotations
+open Microsoft.FSharp.Quotations.Patterns
 
 open Castle.DynamicProxy
 
@@ -56,8 +57,8 @@ type Model() =
 
     member this.NotifyPropertyChanged(propertySelector: Expr)= 
         match propertySelector with 
-        | Patterns.PropertyGet(_, property, _) -> this.NotifyPropertyChanged property.Name
-        | _ -> invalidOp "Expecting property getter expression"
+        | PropertyGet(Some (Value (instance, _)), property, _) when Object.ReferenceEquals(instance, this) -> this.NotifyPropertyChanged property.Name
+        | _ -> invalidOp "Expecting property getter expression like `this.MyProperty`."
 
     interface INotifyDataErrorInfo with
         member this.HasErrors = 
