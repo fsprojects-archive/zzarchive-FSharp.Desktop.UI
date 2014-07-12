@@ -30,7 +30,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
 		docs\content\index.fsx = docs\content\index.fsx
-		docs\content\tutorial.fsx = docs\content\tutorial.fsx
+		docs\content\ref_controller.fsx = docs\content\ref_controller.fsx
+		docs\content\ref_databinding.fsx = docs\content\ref_databinding.fsx
+		docs\content\ref_model.fsx = docs\content\ref_model.fsx
+		docs\content\ref_mvc.fsx = docs\content\ref_mvc.fsx
+		docs\content\ref_validation.fsx = docs\content\ref_validation.fsx
+		docs\content\ref_view.fsx = docs\content\ref_view.fsx
+		docs\content\tutorial_calculator.fsx = docs\content\tutorial_calculator.fsx
+		docs\content\tutorial_composition.fsx = docs\content\tutorial_composition.fsx
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI", "src\FSharp.Desktop.UI.fsproj", "{0A504360-FE2A-48F7-B785-469D5DE44F8E}"

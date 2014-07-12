@@ -27,11 +27,9 @@ type IValueConverter with
     }
     static member OneWay convert = IValueConverter.Create(convert, fun _ -> DependencyProperty.UnsetValue)
 
-    //member this.Apply _ = undefined
-
 let coerce _ = undefined
 
-module Patterns = 
+module internal Patterns = 
 
     type PropertyInfo with
         member this.DependencyProperty : DependencyProperty = 
@@ -156,6 +154,7 @@ module Patterns =
                 |> unbox
 
             let binding = Binding(prop.Name, Mode = BindingMode.OneWay)
+            //binding.ValidatesOnNotifyDataErrors <- false
             binding.Converter <- {
                 new IValueConverter with
                     member this.Convert(value, _, _, _) = 
@@ -179,13 +178,6 @@ module Patterns =
             binding.StringFormat <- format
             //binding.ValidatesOnNotifyDataErrors <- false
             upcast binding
-        //??? hard to say if can be generally useful. For erased types.
-//        | Call((Some (Value (:? System.ComponentModel.ICustomTypeDescriptor as model, _))), get_Item, [ Value(:? string as propertyName, _)]) 
-//            when get_Item.Name = "get_Item" && model.GetProperties().Find(propertyName, ignoreCase = false) <> null -> Some propertyName
-
-//        | Call(None, method', [ Value(:? IValueConverter as converter, _); BindingExpression(:? Binding as binding) ] ) when method'.Name = "IValueConverter.Apply" -> 
-//            binding.Converter <- converter
-//            upcast binding
 
         | Converter(convert, BindingExpression(:? Binding as binding)) -> 
             binding.Mode <- BindingMode.OneWay
@@ -206,23 +198,23 @@ module Patterns =
         validatesOnExceptions |> Option.iter (fun x -> (^a : (member set_ValidatesOnExceptions : bool -> unit) (binding, x)))
         validatesOnDataErrors |> Option.iter (fun x -> (^a : (member set_ValidatesOnDataErrors : bool -> unit) (binding, x)))
 
-    type Expr with
-        member this.ToBindingExpr(?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnExceptions, ?validatesOnDataErrors) = 
-            match this with
-            | PropertySet(Target target, targetProperty, [], BindingExpression binding) ->
-
-                match binding with
-                | :? Binding as single -> 
-                    configureBinding(single,  mode, updateSourceTrigger, fallbackValue, targetNullValue, validatesOnExceptions, validatesOnDataErrors)
-                | :? MultiBinding as multi ->
-                    configureBinding(multi,  mode, updateSourceTrigger, fallbackValue, targetNullValue, validatesOnExceptions, validatesOnDataErrors)
-                | unexpected -> 
-                    Debug.Fail(sprintf "Unexpected binding type %s" (unexpected.GetType().Name))
-
-                target.SetBinding(targetProperty.DependencyProperty, binding)
-            | _ -> invalidArg "expr" (string this) 
-
 open Patterns
+
+type Expr with
+    member internal this.ToBinding(?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnExceptions, ?validatesOnDataErrors) = 
+        match this with
+        | PropertySet(Target target, targetProperty, [], BindingExpression binding) ->
+
+            match binding with
+            | :? Binding as single -> 
+                configureBinding(single,  mode, updateSourceTrigger, fallbackValue, targetNullValue, validatesOnExceptions, validatesOnDataErrors)
+            | :? MultiBinding as multi ->
+                configureBinding(multi,  mode, updateSourceTrigger, fallbackValue, targetNullValue, validatesOnExceptions, validatesOnDataErrors)
+            | unexpected -> 
+                Debug.Fail(sprintf "Unexpected binding type %s" (unexpected.GetType().Name))
+
+            target.SetBinding(targetProperty.DependencyProperty, binding)
+        | _ -> invalidArg "expr" (string this) 
 
 type Binding with
     static member FromExpression(expr, ?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnDataErrors, ?validatesOnExceptions) =
@@ -231,25 +223,20 @@ type Binding with
             | tail -> [ tail ]
 
         for e in split expr do
-            let be = e.ToBindingExpr(?mode = mode, ?updateSourceTrigger = updateSourceTrigger, ?fallbackValue = fallbackValue, 
+            let be = e.ToBinding(?mode = mode, ?updateSourceTrigger = updateSourceTrigger, ?fallbackValue = fallbackValue, 
                                      ?targetNullValue = targetNullValue, ?validatesOnExceptions = validatesOnExceptions, ?validatesOnDataErrors = validatesOnDataErrors)
             assert not be.HasError
     
-    static member UpdateSourceOnChange expr = Binding.FromExpression(expr, updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
-    static member TwoWay expr = Binding.FromExpression(expr, BindingMode.TwoWay)
-    static member OneWay expr = Binding.FromExpression(expr, BindingMode.OneWay)
-
-open System.Windows.Controls
 open System.Windows.Controls.Primitives
 
 type Selector with
     member this.SetBindings(itemsSource : Expr<#seq<'Item>>, ?selectedItem : Expr<'Item>, ?displayMember : Expr<('Item -> _)>) = 
 
-        let e = this.SetBinding(ItemsControl.ItemsSourceProperty, match itemsSource with BindingExpression binding -> binding)
+        let e = this.SetBinding(Selector.ItemsSourceProperty, match itemsSource with BindingExpression binding -> binding)
         assert not e.HasError
 
         selectedItem |> Option.iter(fun(BindingExpression binding) -> 
-            let e = this.SetBinding(DataGrid.SelectedItemProperty, binding)
+            let e = this.SetBinding(Selector.SelectedItemProperty, binding)
             assert not e.HasError
             this.IsSynchronizedWithCurrentItem <- Nullable true
         )
@@ -258,11 +245,3 @@ type Selector with
             this.DisplayMemberPath <- property.Name
         )
         
-type DataGrid with
-    member this.SetBindings(itemsSource : Expr<#seq<'Item>>, columnBindings : 'Item -> (#DataGridBoundColumn * Expr) list, ?selectedItem) = 
-
-        this.SetBindings(itemsSource, ?selectedItem = selectedItem)
-
-        for column, BindingExpression binding in columnBindings Unchecked.defaultof<'Item> do
-            column.Binding <- binding
-                

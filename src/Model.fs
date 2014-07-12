@@ -58,7 +58,7 @@ type Model() =
     member this.NotifyPropertyChanged(propertySelector: Expr)= 
         match propertySelector with 
         | PropertyGet(Some (Value (instance, _)), property, _) when Object.ReferenceEquals(instance, this) -> this.NotifyPropertyChanged property.Name
-        | _ -> invalidOp "Expecting property getter expression like `this.MyProperty`."
+        | _ -> invalidOp "Expecting property getter expression like `this.SomeProperty`."
 
     interface INotifyDataErrorInfo with
         member this.HasErrors = 
@@ -104,11 +104,11 @@ module Mvc =
 
     let inline startDialog(view, controller) = 
         let model = (^Model : (static member Create : unit -> ^Model ) ())
-        if Mvc<'Events, ^Model>(model, view, controller).StartDialog() then Some model else None
+        if Mvc<'Event, ^Model>(model, view, controller).StartDialog() then Some model else None
 
     let inline startWindow(view, controller) = 
         async {
             let model = (^Model : (static member Create : unit -> ^Model) ())
-            let! isOk = Mvc<'Events, ^Model>(model, view, controller).StartWindow()
+            let! isOk = Mvc<'Event, ^Model>(model, view, controller).StartWindow()
             return if isOk then Some model else None
         }

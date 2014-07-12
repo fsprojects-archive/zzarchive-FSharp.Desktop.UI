@@ -6,7 +6,7 @@
 // Binaries that have XML documentation (in a corresponding generated XML file)
 let referenceBinaries = [ "FSharp.Desktop.UI.dll" ]
 // Web site location for the generated documentation
-let website = "/FSharp.ProjectScaffold"
+let website = "/FSharp.Desktop.UI"
 
 let githubLink = "http://github.com/fsprojects/FSharp.Desktop.UI"
 

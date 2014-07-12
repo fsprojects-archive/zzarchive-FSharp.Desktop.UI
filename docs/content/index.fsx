@@ -4,7 +4,7 @@
 #I "../../bin"
 
 (**
-F# MVC Framework for WPF
+F# MVC for WPF Framework
 ===================
 
 Documentation
@@ -13,7 +13,7 @@ Documentation
   <div class="span1"></div>
   <div class="span6">
     <div class="well well-small" id="nuget">
-      The F# ProjectTemplate library can be <a href="https://nuget.org/packages/FSharp.Desktop.UI">installed from NuGet</a>:
+      The F# F# MVC for WPF library can be <a href="https://nuget.org/packages/FSharp.Desktop.UI">installed from NuGet</a>:
       <pre>PM> Install-Package FSharp.Desktop.UI</pre>
     </div>
   </div>

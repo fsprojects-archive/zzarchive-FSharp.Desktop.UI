@@ -8,14 +8,12 @@ open System.Reactive
 open System.Reactive.Concurrency
 open System.Reactive.Linq
 
-type IPartialView<'Events, 'Model> = 
-
-    abstract Events : IObservable<'Events> with get
+type IPartialView<'Event, 'Model> = 
+    abstract Events : IObservable<'Event> with get
     abstract SetBindings : 'Model -> unit
 
-type IView<'Events, 'Model> =
-    inherit IPartialView<'Events, 'Model>
-
+type IView<'Event, 'Model> =
+    inherit IPartialView<'Event, 'Model>
     abstract ShowDialog : unit -> bool
     abstract Show : unit -> Async<bool>
 
@@ -23,15 +21,14 @@ type EventHandler<'Model> =
     | Sync of ('Model -> unit)
     | Async of ('Model -> Async<unit>)
 
-type IController<'Events, 'Model> =
-
+type IController<'Event, 'Model> =
     abstract InitModel : 'Model -> unit
-    abstract Dispatcher : ('Events -> EventHandler<'Model>)
+    abstract Dispatcher : ('Event -> EventHandler<'Model>)
 
 [<Sealed>]
-type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Events, 'Model>, controller : IController<'Events, 'Model>) =
+type Mvc<'Event, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, view : IView<'Event, 'Model>, controller : IController<'Event, 'Model>) =
 
-    let mutable onError = fun _ exn -> ExceptionDispatchInfo.Capture(exn).Throw()
+    let mutable error = fun(exn, _) -> ExceptionDispatchInfo.Capture(exn).Throw()
     
     member this.Start() =
         controller.InitModel model
@@ -41,12 +38,12 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
             match controller.Dispatcher event with
             | Sync eventHandler ->
                 try eventHandler model 
-                with exn -> onError event exn
+                with why -> error(why, event)
             | Async eventHandler -> 
                 Async.StartWithContinuations(
                     computation = eventHandler model, 
                     continuation = ignore, 
-                    exceptionContinuation = onError event,
+                    exceptionContinuation = (fun why -> error(why, event)),
                     cancellationContinuation = ignore))        
 #if DEBUG
         |> Observer.Checked
@@ -65,7 +62,7 @@ type Mvc<'Events, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, 
             return! view.Show()
         }
 
-    member this.OnError with get() = onError and set value = onError <- value
+    member this.Error with get() = error and set value = error <- value
 
     member this.Compose(childController : IController<'EX, 'MX>, childView : IPartialView<'EX, 'MX>, childModelSelector : _ -> 'MX) = 
         let compositeView = {

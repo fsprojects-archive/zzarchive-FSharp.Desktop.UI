@@ -5,27 +5,27 @@ open System.Windows
 open System.Windows.Controls
 
 [<AbstractClass>]
-type PartialView<'Events, 'Model, 'Control when 'Control :> FrameworkElement>(control : 'Control) =
+type PartialView<'Event, 'Model, 'Control when 'Control :> FrameworkElement>(control : 'Control) =
 
     member this.Control = control
     
-    interface IPartialView<'Events, 'Model> with
+    interface IPartialView<'Event, 'Model> with
         member this.Events = 
             this.EventStreams |> List.reduce Observable.merge 
         member this.SetBindings model = 
             this.SetBindings model
             control.DataContext <- model
 
-    abstract EventStreams : IObservable<'Events> list
+    abstract EventStreams : IObservable<'Event> list
     abstract SetBindings : 'Model -> unit
 
 [<AbstractClass>]
-type View<'Events, 'Model, 'Window when 'Window :> Window and 'Window : (new : unit -> 'Window)>(?window) = 
-    inherit PartialView<'Events, 'Model, 'Window>(control = defaultArg window (new 'Window()))
+type View<'Event, 'Model, 'Window when 'Window :> Window and 'Window : (new : unit -> 'Window)>(?window) = 
+    inherit PartialView<'Event, 'Model, 'Window>(control = defaultArg window (new 'Window()))
 
     let mutable isOK = false
 
-    interface IView<'Events, 'Model> with
+    interface IView<'Event, 'Model> with
         member this.ShowDialog() = 
             this.Control.ShowDialog() |> ignore
             isOK
@@ -47,10 +47,10 @@ type View<'Events, 'Model, 'Window when 'Window :> Window and 'Window : (new : u
             value.Click.Add(ignore >> this.OK)
     
 [<AbstractClass>]
-type XamlView<'Events, 'Model>(resourceLocator) = 
-    inherit View<'Events, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
+type XamlView<'Event, 'Model>(resourceLocator) = 
+    inherit View<'Event, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
 
-    static member (?) (view : PartialView<'Events, 'Model, 'Control>, name) = 
+    static member (?) (view : PartialView<'Event, 'Model, 'Control>, name) = 
         match view.Control.FindName name with
         | null -> invalidArg "Name" ("Cannot find child control or resource named: " + name)
         | control -> control |> unbox
