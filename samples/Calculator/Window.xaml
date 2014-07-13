@@ -1,0 +1,62 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculator" Height="250" Width="650">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="0.5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Name="X" Margin="5" Height="25" Width="50"/>
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Button Content="+" Name="Add" Width="40" Height="25" Margin="5"/>
+            <Button Content="-" Name="Subtract" Width="40" Height="25" Margin="5"/>
+            <Button Content="*" Name="Multiply" Width="40" Height="25" Margin="5"/>
+            <Button Content="/" Name="Divide" Width="40" Height="25" Margin="5"/>
+            <Rectangle/>
+        </DockPanel>
+        <TextBox Grid.Row="2" Name="Y" Margin="5" Width="50" Height="25"/>
+        <DockPanel Grid.Row="3" Grid.ColumnSpan="2">
+            <TextBlock Text="Result : ?" Padding="5, 0" Name="Result"  VerticalAlignment="Center"/>
+            <Button Content="C" Name="Clear" Width="40" Height="25" Margin="5" DockPanel.Dock="Right"/>
+            <Rectangle/>
+        </DockPanel>
+        <Rectangle VerticalAlignment="Stretch" Width="1" Margin="5, 5" Stroke="Black" Grid.Column="2" Grid.RowSpan="5" />
+        <Label Content="Ask Wolframalpha:" Grid.Column="3" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="4" Name="WolframalphaQuery" Margin="5" Height="25" VerticalContentAlignment="Center"/>
+        <Label Content="AppId:" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
+        <PasswordBox Grid.Column="4" Grid.Row="1" Name="AppId" Margin="5" Height="25" VerticalContentAlignment="Center" />
+        <DockPanel Grid.Column="4" Grid.Row="2" >
+            <Button Content="Run" Name="AskWolframalpha" Width="100" Height="25" Margin="5" DockPanel.Dock="Right"/>
+            <Button Grid.Row="2" Content="Cancel" Name="CancelWolframalphaRequest" Width="100" Height="25" Margin="5" DockPanel.Dock="Right"/>
+            <Rectangle/>
+        </DockPanel>
+        <Label Content="Response:" Grid.Column="3" Grid.Row="2" VerticalAlignment="Bottom"/>
+        <TextBox Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="5" Name="WolframalphaResponse" TextWrapping="WrapWithOverflow"/>
+    </Grid>
+</Window>
