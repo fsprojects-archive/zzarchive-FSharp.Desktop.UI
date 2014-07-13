@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>PartialView<'Events, 'Model, 'Control> - FSharp.Desktop.UI</title>
+    <title>PartialView<'Event, 'Model, 'Control> - FSharp.Desktop.UI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Dmitry Morozov"/>
@@ -12,8 +12,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.ProjectScaffold/content/style.css" />
-    <script type="text/javascript" src="/FSharp.ProjectScaffold/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +26,7 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/FSharp.ProjectScaffold/index.html">FSharp.Desktop.UI</a></h3>
+        <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -35,7 +35,7 @@
 
 
 
-<h1>PartialView<'Events, 'Model, 'Control></h1>
+<h1>PartialView<'Event, 'Model, 'Control></h1>
 <div class="xmldoc">
 </div>
   <h3>Constructors</h3>
@@ -47,11 +47,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '57', 57)" onmouseover="showTip(event, '57', 57)">
+          <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
             new(control)
           </code>
-          <div class="tip" id="57">
-            <strong>Signature:</strong> control:&#39;Control -&gt; PartialView&lt;&#39;Events,&#39;Model,&#39;Control&gt;<br />
+          <div class="tip" id="39">
+            <strong>Signature:</strong> control:&#39;Control -&gt; PartialView&lt;&#39;Event,&#39;Model,&#39;Control&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
@@ -70,10 +70,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '72', 72)" onmouseover="showTip(event, '72', 72)">
+          <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
             Control
           </code>
-          <div class="tip" id="72">
+          <div class="tip" id="44">
             <strong>Signature:</strong> &#39;Control<br />
                       </div>
         </td>
@@ -85,11 +85,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '73', 73)" onmouseover="showTip(event, '73', 73)">
+          <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
             EventStreams
           </code>
-          <div class="tip" id="73">
-            <strong>Signature:</strong> IObservable&lt;&#39;Events&gt; list<br />
+          <div class="tip" id="46">
+            <strong>Signature:</strong> IObservable&lt;&#39;Event&gt; list<br />
               <strong>Modifiers:</strong> abstract<br />
                       </div>
         </td>
@@ -101,10 +101,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '74', 74)" onmouseover="showTip(event, '74', 74)">
+          <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
             SetBindings(arg1)
           </code>
-          <div class="tip" id="74">
+          <div class="tip" id="47">
             <strong>Signature:</strong> &#39;Model -&gt; unit<br />
               <strong>Modifiers:</strong> abstract<br />
                       </div>
@@ -119,10 +119,10 @@
 
         </div>
         <div class="span3">
-          <img src="/FSharp.ProjectScaffold/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">FSharp.Desktop.UI</li>
-            <li><a href="/FSharp.ProjectScaffold/index.html">Home page</a></li>
+            <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
             <li class="divider"></li>
             <li><a href="http://nuget.com/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
@@ -130,10 +130,17 @@
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
             
             <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.ProjectScaffold/tutorial.html">Sample tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Calculator tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Calculator tutorial</a></li>
 
             <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.ProjectScaffold/reference/index.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_model.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_view.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_controller.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_mvc.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_databinding.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_validation.html">API Reference</a></li>
+            <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

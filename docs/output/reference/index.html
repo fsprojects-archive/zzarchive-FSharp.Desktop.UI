@@ -12,8 +12,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.ProjectScaffold/content/style.css" />
-    <script type="text/javascript" src="/FSharp.ProjectScaffold/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +26,7 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/FSharp.ProjectScaffold/index.html">FSharp.Desktop.UI</a></h3>
+        <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -44,7 +44,7 @@
     <tbody>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-controller-2.html">Controller<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-controller-2.html">Controller<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
@@ -56,19 +56,19 @@
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-icontroller-2.html">IController<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-icontroller-2.html">IController<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-ipartialview-2.html">IPartialView<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-ipartialview-2.html">IPartialView<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-iview-2.html">IView<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-iview-2.html">IView<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
@@ -80,25 +80,25 @@
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-mvc-2.html">Mvc<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-mvc-2.html">Mvc<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-partialview-3.html">PartialView<'Events, 'Model, 'Control></a>
+            <a href="fsharp-desktop-ui-partialview-3.html">PartialView<'Event, 'Model, 'Control></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-view-3.html">View<'Events, 'Model, 'Window></a>
+            <a href="fsharp-desktop-ui-view-3.html">View<'Event, 'Model, 'Window></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="type-name">
-            <a href="fsharp-desktop-ui-xamlview-2.html">XamlView<'Events, 'Model></a>
+            <a href="fsharp-desktop-ui-xamlview-2.html">XamlView<'Event, 'Model></a>
           </td>
           <td class="xmldoc"></td>
         </tr>
@@ -146,10 +146,10 @@
 
         </div>
         <div class="span3">
-          <img src="/FSharp.ProjectScaffold/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">FSharp.Desktop.UI</li>
-            <li><a href="/FSharp.ProjectScaffold/index.html">Home page</a></li>
+            <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
             <li class="divider"></li>
             <li><a href="http://nuget.com/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
@@ -157,10 +157,17 @@
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
             
             <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.ProjectScaffold/tutorial.html">Sample tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Calculator tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Calculator tutorial</a></li>
 
             <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.ProjectScaffold/reference/index.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_model.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_view.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_controller.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_mvc.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_databinding.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_validation.html">API Reference</a></li>
+            <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

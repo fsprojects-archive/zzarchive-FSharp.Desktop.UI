@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Controller<'Events, 'Model> - FSharp.Desktop.UI</title>
+    <title>Controller<'Event, 'Model> - FSharp.Desktop.UI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Dmitry Morozov"/>
@@ -12,8 +12,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.ProjectScaffold/content/style.css" />
-    <script type="text/javascript" src="/FSharp.ProjectScaffold/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +26,7 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/FSharp.ProjectScaffold/index.html">FSharp.Desktop.UI</a></h3>
+        <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -35,7 +35,7 @@
 
 
 
-<h1>Controller<'Events, 'Model></h1>
+<h1>Controller<'Event, 'Model></h1>
 <div class="xmldoc">
 </div>
   <h3>Constructors</h3>
@@ -47,11 +47,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
+          <code onmouseout="hideTip(event, '26', 26)" onmouseover="showTip(event, '26', 26)">
             new()
           </code>
-          <div class="tip" id="44">
-            <strong>Signature:</strong> unit -&gt; Controller&lt;&#39;Events,&#39;Model&gt;<br />
+          <div class="tip" id="26">
+            <strong>Signature:</strong> unit -&gt; Controller&lt;&#39;Event,&#39;Model&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
@@ -70,11 +70,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
+          <code onmouseout="hideTip(event, '29', 29)" onmouseover="showTip(event, '29', 29)">
             Dispatcher
           </code>
-          <div class="tip" id="45">
-            <strong>Signature:</strong> &#39;Events -&gt; EventHandler&lt;&#39;Model&gt;<br />
+          <div class="tip" id="29">
+            <strong>Signature:</strong> &#39;Event -&gt; EventHandler&lt;&#39;Model&gt;<br />
               <strong>Modifiers:</strong> abstract<br />
                       </div>
         </td>
@@ -86,10 +86,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
+          <code onmouseout="hideTip(event, '30', 30)" onmouseover="showTip(event, '30', 30)">
             InitModel(arg1)
           </code>
-          <div class="tip" id="46">
+          <div class="tip" id="30">
             <strong>Signature:</strong> &#39;Model -&gt; unit<br />
               <strong>Modifiers:</strong> abstract<br />
                       </div>
@@ -110,11 +110,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
+          <code onmouseout="hideTip(event, '33', 33)" onmouseover="showTip(event, '33', 33)">
             Create(callback)
           </code>
-          <div class="tip" id="53">
-            <strong>Signature:</strong> (callback:(&#39;Events -&gt; &#39;Model -&gt; unit)) -&gt; IController&lt;&#39;Events,&#39;Model&gt;<br />
+          <div class="tip" id="33">
+            <strong>Signature:</strong> (callback:(&#39;Event -&gt; &#39;Model -&gt; unit)) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
@@ -125,11 +125,11 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '54', 54)" onmouseover="showTip(event, '54', 54)">
+          <code onmouseout="hideTip(event, '34', 34)" onmouseover="showTip(event, '34', 34)">
             Create(callback)
           </code>
-          <div class="tip" id="54">
-            <strong>Signature:</strong> (callback:(&#39;Events -&gt; EventHandler&lt;&#39;Model&gt;)) -&gt; IController&lt;&#39;Events,&#39;Model&gt;<br />
+          <div class="tip" id="34">
+            <strong>Signature:</strong> (callback:(&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;)) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
@@ -142,10 +142,10 @@
 
         </div>
         <div class="span3">
-          <img src="/FSharp.ProjectScaffold/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">FSharp.Desktop.UI</li>
-            <li><a href="/FSharp.ProjectScaffold/index.html">Home page</a></li>
+            <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
             <li class="divider"></li>
             <li><a href="http://nuget.com/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
@@ -153,10 +153,17 @@
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
             
             <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.ProjectScaffold/tutorial.html">Sample tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Calculator tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Calculator tutorial</a></li>
 
             <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.ProjectScaffold/reference/index.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_model.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_view.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_controller.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_mvc.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_databinding.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_validation.html">API Reference</a></li>
+            <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

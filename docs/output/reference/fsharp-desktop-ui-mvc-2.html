@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Mvc<'Events, 'Model> - FSharp.Desktop.UI</title>
+    <title>Mvc<'Event, 'Model> - FSharp.Desktop.UI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Dmitry Morozov"/>
@@ -12,8 +12,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.ProjectScaffold/content/style.css" />
-    <script type="text/javascript" src="/FSharp.ProjectScaffold/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +26,7 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/FSharp.ProjectScaffold/index.html">FSharp.Desktop.UI</a></h3>
+        <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -35,7 +35,7 @@
 
 
 
-<h1>Mvc<'Events, 'Model></h1>
+<h1>Mvc<'Event, 'Model></h1>
 <div class="xmldoc">
 </div>
   <h3>Constructors</h3>
@@ -47,16 +47,16 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '55', 55)" onmouseover="showTip(event, '55', 55)">
+          <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
             new(model, view, controller)
           </code>
-          <div class="tip" id="55">
-            <strong>Signature:</strong> (model:&#39;Model * view:IView&lt;&#39;Events,&#39;Model&gt; * controller:IController&lt;&#39;Events,&#39;Model&gt;) -&gt; Mvc&lt;&#39;Events,&#39;Model&gt;<br />
+          <div class="tip" id="38">
+            <strong>Signature:</strong> (model:&#39;Model * view:IView&lt;&#39;Event,&#39;Model&gt; * controller:IController&lt;&#39;Event,&#39;Model&gt;) -&gt; Mvc&lt;&#39;Event,&#39;Model&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L32-32" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L29-29" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
     </tbody>
@@ -70,106 +70,106 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '59', 59)" onmouseover="showTip(event, '59', 59)">
+          <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
             Compose(childController, events)
           </code>
-          <div class="tip" id="59">
-            <strong>Signature:</strong> (childController:IController&lt;&#39;?15513,&#39;Model&gt; * events:IObservable&lt;&#39;?15513&gt;) -&gt; Mvc&lt;Choice&lt;&#39;Events,&#39;?15513&gt;,&#39;Model&gt;<br />
-                          <strong>Type parameters:</strong> '?15513          </div>
+          <div class="tip" id="45">
+            <strong>Signature:</strong> (childController:IController&lt;&#39;?19265,&#39;Model&gt; * events:IObservable&lt;&#39;?19265&gt;) -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;?19265&gt;,&#39;Model&gt;<br />
+                          <strong>Type parameters:</strong> '?19265          </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L97-97" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L94-94" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '60', 60)" onmouseover="showTip(event, '60', 60)">
+          <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
             Compose(...)
           </code>
-          <div class="tip" id="60">
-            <strong>Signature:</strong> (childController:IController&lt;&#39;EX,&#39;MX&gt; * childView:IPartialView&lt;&#39;EX,&#39;MX&gt; * childModelSelector:(&#39;Model -&gt; &#39;MX)) -&gt; Mvc&lt;Choice&lt;&#39;Events,&#39;EX&gt;,&#39;Model&gt;<br />
+          <div class="tip" id="48">
+            <strong>Signature:</strong> (childController:IController&lt;&#39;EX,&#39;MX&gt; * childView:IPartialView&lt;&#39;EX,&#39;MX&gt; * childModelSelector:(&#39;Model -&gt; &#39;MX)) -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;EX&gt;,&#39;Model&gt;<br />
                           <strong>Type parameters:</strong> 'EX, 'MX          </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L70-70" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L67-67" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '61', 61)" onmouseover="showTip(event, '61', 61)">
-            OnError
+          <code onmouseout="hideTip(event, '49', 49)" onmouseover="showTip(event, '49', 49)">
+            Error
           </code>
-          <div class="tip" id="61">
-            <strong>Signature:</strong> &#39;Events -&gt; exn -&gt; unit<br />
+          <div class="tip" id="49">
+            <strong>Signature:</strong> exn * &#39;Event -&gt; unit<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L68-68" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L65-65" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '62', 62)" onmouseover="showTip(event, '62', 62)">
-            OnError()
+          <code onmouseout="hideTip(event, '50', 50)" onmouseover="showTip(event, '50', 50)">
+            Error()
           </code>
-          <div class="tip" id="62">
-            <strong>Signature:</strong> unit -&gt; &#39;Events -&gt; exn -&gt; unit<br />
+          <div class="tip" id="50">
+            <strong>Signature:</strong> unit -&gt; exn * &#39;Event -&gt; unit<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L68-68" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L65-65" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '63', 63)" onmouseover="showTip(event, '63', 63)">
+          <code onmouseout="hideTip(event, '51', 51)" onmouseover="showTip(event, '51', 51)">
             Start()
           </code>
-          <div class="tip" id="63">
+          <div class="tip" id="51">
             <strong>Signature:</strong> unit -&gt; IDisposable<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L36-36" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L33-33" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '64', 64)" onmouseover="showTip(event, '64', 64)">
+          <code onmouseout="hideTip(event, '52', 52)" onmouseover="showTip(event, '52', 52)">
             StartDialog()
           </code>
-          <div class="tip" id="64">
+          <div class="tip" id="52">
             <strong>Signature:</strong> unit -&gt; bool<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L58-58" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L55-55" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '65', 65)" onmouseover="showTip(event, '65', 65)">
+          <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
             StartWindow()
           </code>
-          <div class="tip" id="65">
+          <div class="tip" id="53">
             <strong>Signature:</strong> unit -&gt; Async&lt;bool&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
         
-            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L62-62" class="github-link">Go to GitHub source</a>
+            <a href="http://github.com/fsprojects/FSharp.Desktop.UI/tree/master/src/Mvc.fs#L59-59" class="github-link">Go to GitHub source</a>
         </td>
       </tr>
     </tbody>
@@ -177,10 +177,10 @@
 
         </div>
         <div class="span3">
-          <img src="/FSharp.ProjectScaffold/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">FSharp.Desktop.UI</li>
-            <li><a href="/FSharp.ProjectScaffold/index.html">Home page</a></li>
+            <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
             <li class="divider"></li>
             <li><a href="http://nuget.com/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
@@ -188,10 +188,17 @@
             <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
             
             <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.ProjectScaffold/tutorial.html">Sample tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Calculator tutorial</a></li>
+            <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Calculator tutorial</a></li>
 
             <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.ProjectScaffold/reference/index.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_model.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_view.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_controller.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_mvc.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_databinding.html">API Reference</a></li>
+              <li><a href="/FSharp.Desktop.UI/reference/ref_validation.html">API Reference</a></li>
+            <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>
