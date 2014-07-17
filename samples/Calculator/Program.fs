@@ -205,7 +205,7 @@ type CalculatorController(?wolframAlphaService: string -> string -> Async<Wolfra
                 then
                     model.WolframalphaResponse <- Failure (response.Error2.Value.Msg)                    
                 else
-                    match response.Pods |> Array.tryFind (fun x -> x.Id = "DecimalApproximation") with
+                    match response.Pods |> Array.tryFind (fun x -> x.Id = "Result" || x.Id = "DecimalApproximation") with
                     | Some x -> 
                         model.WolframalphaResponse <- Success x.Subpod.Plaintext.Value
                     | None -> 
