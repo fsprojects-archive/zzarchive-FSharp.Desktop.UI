@@ -65,7 +65,7 @@ type CalculatorView() as this =
                 let x: PasswordBox = unbox sender
                 x.Password <- unbox args.NewValue
             )
-        DependencyProperty.RegisterAttached("PasswordProperty", typeof<string>, typeof<PasswordBox>, metadata);
+        DependencyProperty.Register("PasswordProperty", typeof<string>, typeof<PasswordBox>, metadata);
 
     let add: Button = this ? Add
     let subtract: Button = this ? Subtract 
@@ -222,4 +222,4 @@ let main args =
     app.DispatcherUnhandledException.Add <| fun args ->
         if MessageBox.Show(args.Exception.ToString(), "Error! Ignore?", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes) = MessageBoxResult.Yes
         then args.Handled <- true
-    app.Run(view.Control)
+    app.Run(view.Element)

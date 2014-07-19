@@ -15,7 +15,7 @@ type IPartialView<'Event, 'Model> =
 type IView<'Event, 'Model> =
     inherit IPartialView<'Event, 'Model>
     abstract ShowDialog : unit -> bool
-    abstract Show : unit -> Async<bool>
+    abstract Show : unit -> Async<unit>
 
 type EventHandler<'Model> = 
     | Sync of ('Model -> unit)

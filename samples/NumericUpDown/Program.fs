@@ -35,7 +35,7 @@ type NumericUpDownEventsView() as this =
         mainPanel.Children.Add downButton |> ignore
         mainPanel.Children.Add input |> ignore
 
-        this.Control.Content <- mainPanel
+        this.Element.Content <- mainPanel
 
     override this.EventStreams = [
         upButton.Click |> Observable.map (fun _ -> Up)
@@ -62,4 +62,4 @@ let main _ =
     let mvc = Mvc(model, view, contoroller)
     use eventLoop = mvc.Start()
 
-    Application().Run view.Control
+    Application().Run view.Element

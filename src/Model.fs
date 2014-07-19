@@ -107,8 +107,5 @@ module Mvc =
         if Mvc<'Event, ^Model>(model, view, controller).StartDialog() then Some model else None
 
     let inline startWindow(view, controller) = 
-        async {
-            let model = (^Model : (static member Create : unit -> ^Model) ())
-            let! isOk = Mvc<'Event, ^Model>(model, view, controller).StartWindow()
-            return if isOk then Some model else None
-        }
+        let model = (^Model : (static member Create : unit -> ^Model) ())
+        Mvc<'Event, ^Model>(model, view, controller).StartWindow()
