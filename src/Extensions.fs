@@ -27,7 +27,7 @@ module internal Observer =
 
     let notifyOnDispatcher(observer : IObserver<_>) = 
         let dispatcher = Dispatcher.CurrentDispatcher 
-        let invokeOnDispatcher f = if dispatcher.CheckAccess() then f() else dispatcher.BeginInvoke(Action f) |> ignore 
+        let invokeOnDispatcher f = if dispatcher.CheckAccess() then f() else dispatcher.InvokeAsync f |> ignore 
         { 
             new IObserver<_> with 
                 member __.OnNext value = invokeOnDispatcher(fun() -> observer.OnNext value)

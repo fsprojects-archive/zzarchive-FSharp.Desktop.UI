@@ -1,8 +1,6 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
-#I @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\"
 
 (**
 F# MVC for WPF Framework
@@ -21,20 +19,20 @@ Documentation
   <div class="span1"></div>
 </div>
 
-Example
+Features
 -------
-
-This example demonstrates using a function defined in this sample library.
-
+    
+    * First-class events driven architecture 
+    * Decoupled testable controllers
+    * WPF platform details abstracted away behind generic view interface 
+    * Concise custom view models
+    * Compiler checked event to handler mapping
+    * Statically typed data-binding 
+    * Declarative derived/calculated properties
+    * Type system supported Async
+    * Reentrancy problem solved 
+    * Full (UI elements and presentation logic) composition 
+    * External event sources
+    * Modal windows as sync, non-modal as sync computations 
 *)
 
-#r "PresentationCore.dll"
-#r "PresentationFramework.dll"
-#r "WindowsBase.dll"
-#r "System.Xaml.dll"
-
-#r "FSharp.Desktop.UI.dll"
-
-open System.Windows
-
-let form = Window(Height= 250, Width=650, Title = "Numeric up/down")

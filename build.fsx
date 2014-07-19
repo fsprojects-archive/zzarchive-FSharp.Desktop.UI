@@ -8,6 +8,7 @@ open Fake.Git
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open System
+open Fake.XUnitHelper
 
 // --------------------------------------------------------------------------------------
 // START TODO: Provide project-specific details below
@@ -92,14 +93,15 @@ Target "Build" (fun _ ->
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
-
+let testDir = "bin"
 Target "RunTests" (fun _ ->
-    !! testAssemblies 
-    |> NUnit (fun p ->
+    !! (testDir + "/*.Tests.dll")
+    |> Fake.XUnitHelper.xUnit (fun p ->
         { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 20.
-            OutputFile = "TestResults.xml" })
+            ShadowCopy = false;
+            HtmlOutput = true;
+            XmlOutput = true;
+            OutputDir = testDir})
 )
 
 // --------------------------------------------------------------------------------------

@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI", "src\FSharp.Desktop.UI.fsproj", "{0A504360-FE2A-48F7-B785-469D5DE44F8E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI.Tests", "tests\FSharp.Desktop.UI.Tests.fsproj", "{42D95BE8-8F34-4C23-98EC-FC4A4786039E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A504360-FE2A-48F7-B785-469D5DE44F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42D95BE8-8F34-4C23-98EC-FC4A4786039E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D95BE8-8F34-4C23-98EC-FC4A4786039E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D95BE8-8F34-4C23-98EC-FC4A4786039E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D95BE8-8F34-4C23-98EC-FC4A4786039E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,7 +48,6 @@ type NumericUpDownEventsView() as this =
                 input.Text <- coerce model.Value
             @>
 
-
 [<EntryPoint; STAThread>]
 let main _ = 
 

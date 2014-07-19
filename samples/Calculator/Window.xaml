@@ -32,7 +32,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox Name="X" Margin="5" Height="25" Width="50"/>
+        <TextBox Name="X" Margin="5" Height="25" Width="100"/>
         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
             <Button Content="+" Name="Add" Width="40" Height="25" Margin="5"/>
             <Button Content="-" Name="Subtract" Width="40" Height="25" Margin="5"/>
@@ -40,7 +40,7 @@
             <Button Content="/" Name="Divide" Width="40" Height="25" Margin="5"/>
             <Rectangle/>
         </DockPanel>
-        <TextBox Grid.Row="2" Name="Y" Margin="5" Width="50" Height="25"/>
+        <TextBox Grid.Row="2" Name="Y" Margin="5" Width="100" Height="25"/>
         <DockPanel Grid.Row="3" Grid.ColumnSpan="2">
             <TextBlock Text="Result : ?" Padding="5, 0" Name="Result"  VerticalAlignment="Center"/>
             <Button Content="C" Name="Clear" Width="40" Height="25" Margin="5" DockPanel.Dock="Right"/>

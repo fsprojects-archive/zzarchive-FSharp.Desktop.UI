@@ -91,6 +91,9 @@ type Mvc<'Event, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, v
 
         Mvc(model, compositeView, compositeController)
 
+    static member (<+>) (mvc : Mvc<_, _>,  (childController, childView, childModelSelector)) = 
+        mvc.Compose(childController, childView, childModelSelector)
+
     member this.Compose(childController : IController<_, _>, events : IObservable<_>) = 
         let childView = {
             new IPartialView<_, _> with
