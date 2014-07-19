@@ -1,6 +1,6 @@
+docs/output
 nuget/*.nupkg
 packages
-docs/output
 temp
 
 #################
