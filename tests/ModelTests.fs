@@ -1,7 +1,7 @@
 ﻿module FSharp.Desktop.UI.ModelTests
 
-open Xunit
 open System.ComponentModel
+open Xunit
 
 [<AbstractClass>]
 type MyModel() =
