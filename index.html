@@ -50,39 +50,21 @@
 
 <h2>Features</h2>
 
-<table class="pre"><tr><td class="lines"><pre class="fssnip">
-<span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-</pre>
-</td>
-<td class="snippet"><pre class="fssnip">
-<span class="o">*</span> <span class="i">First</span><span class="o">-</span><span class="k">class</span> <span class="i">events</span> <span class="i">driven</span> <span class="i">architecture</span> 
-<span class="o">*</span> <span class="i">Decoupled</span> <span class="i">testable</span> <span class="i">controllers</span>
-<span class="o">*</span> <span class="i">WPF</span> <span class="i">platform</span> <span class="i">details</span> <span class="i">abstracted</span> <span class="i">away</span> <span class="i">behind</span> <span class="i">generic</span> <span class="i">view</span> <span class="k">interface</span> 
-<span class="o">*</span> <span class="i">Concise</span> <span class="i">custom</span> <span class="i">view</span> <span class="i">models</span>
-<span class="o">*</span> <span class="i">Compiler</span> <span class="i">checked</span> <span class="i">event</span> <span class="k">to</span> <span class="i">handler</span> <span class="i">mapping</span>
-<span class="o">*</span> <span class="i">Statically</span> <span class="i">typed</span> <span class="i">data</span><span class="o">-</span><span class="i">binding</span> 
-<span class="o">*</span> <span class="i">Declarative</span> <span class="i">derived</span><span class="o">/</span><span class="i">calculated</span> <span class="i">properties</span>
-<span class="o">*</span> <span class="i">Type</span> <span class="i">system</span> <span class="i">supported</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Async</span>
-<span class="o">*</span> <span class="i">Reentrancy</span> <span class="i">problem</span> <span class="i">solved</span> 
-<span class="o">*</span> <span class="i">Full</span> (<span class="i">UI</span> <span class="i">elements</span> <span class="k">and</span> <span class="i">presentation</span> <span class="i">logic</span>) <span class="i">composition</span> 
-<span class="o">*</span> <span class="i">External</span> <span class="i">event</span> <span class="i">sources</span>
-<span class="o">*</span> <span class="i">Modal</span> <span class="i">windows</span> <span class="k">as</span> <span class="i">sync</span>, <span class="i">non</span><span class="o">-</span><span class="i">modal</span> <span class="k">as</span> <span class="i">sync</span> <span class="i">computations</span> </pre>
-</td>
-</tr>
-</table>
+<ul>
+<li>First-class events driven architecture</li>
+<li>Decoupled testable controllers</li>
+<li>WPF platform details abstracted away behind generic view interface</li>
+<li>Concise custom view models</li>
+<li>Compiler checked event to handler mapping</li>
+<li>Statically typed data-binding</li>
+<li>Declarative derived/calculated properties</li>
+<li>Type system supported Async</li>
+<li>Reentrancy problem solved</li>
+<li>Full (UI elements and presentation logic) composition</li>
+<li>External event sources</li>
+<li>Modal windows as sync, non-modal as sync computations</li>
+</ul>
 
-<div class="tip" id="fs1">Multiple items<br />type Async<br />static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)<br />static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)<br />static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;<br />static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member CancelDefaultToken : unit -&gt; unit<br />static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;<br />static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg:&#39;Arg1 * beginAction:(&#39;Arg1 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * beginAction:(&#39;Arg1 * &#39;Arg2 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * arg3:&#39;Arg3 * beginAction:(&#39;Arg1 * &#39;Arg2 * &#39;Arg3 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromContinuations : callback:((&#39;T -&gt; unit) * (exn -&gt; unit) * (OperationCanceledException -&gt; unit) -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member Ignore : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;unit&gt;<br />static member OnCancel : interruption:(unit -&gt; unit) -&gt; Async&lt;IDisposable&gt;<br />static member Parallel : computations:seq&lt;Async&lt;&#39;T&gt;&gt; -&gt; Async&lt;&#39;T []&gt;<br />static member RunSynchronously : computation:Async&lt;&#39;T&gt; * ?timeout:int * ?cancellationToken:CancellationToken -&gt; &#39;T<br />static member Sleep : millisecondsDueTime:int -&gt; Async&lt;unit&gt;<br />static member Start : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions * ?cancellationToken:CancellationToken -&gt; Task&lt;&#39;T&gt;<br />static member StartChild : computation:Async&lt;&#39;T&gt; * ?millisecondsTimeout:int -&gt; Async&lt;Async&lt;&#39;T&gt;&gt;<br />static member StartChildAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions -&gt; Async&lt;Task&lt;&#39;T&gt;&gt;<br />static member StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartWithContinuations : computation:Async&lt;&#39;T&gt; * continuation:(&#39;T -&gt; unit) * exceptionContinuation:(exn -&gt; unit) * cancellationContinuation:(OperationCanceledException -&gt; unit) * ?cancellationToken:CancellationToken -&gt; unit<br />static member SwitchToContext : syncContext:SynchronizationContext -&gt; Async&lt;unit&gt;<br />static member SwitchToNewThread : unit -&gt; Async&lt;unit&gt;<br />static member SwitchToThreadPool : unit -&gt; Async&lt;unit&gt;<br />static member TryCancelled : computation:Async&lt;&#39;T&gt; * compensation:(OperationCanceledException -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member CancellationToken : Async&lt;CancellationToken&gt;<br />static member DefaultCancellationToken : CancellationToken<br /><br />Full name: Microsoft.FSharp.Control.Async<br /><br />--------------------<br />type Async&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Control.Async&lt;_&gt;</div>
 
             </div>
             <div class="span3">
