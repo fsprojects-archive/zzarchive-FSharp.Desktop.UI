@@ -14,7 +14,7 @@ let githubLink = "http://github.com/fsprojects/FSharp.Desktop.UI"
 let info =
   [ "project-name", "FSharp.Desktop.UI"
     "project-author", "Dmitry Morozov"
-    "project-summary", "F# MVC for WPF framework"
+    "project-summary", "F# MVC for WPF"
     "project-github", githubLink
     "project-nuget", "http://nuget.com/packages/FSharp.Desktop.UI" ]
 

@@ -22,17 +22,17 @@ Documentation
 Features
 -------
     
-    * First-class events driven architecture 
-    * Decoupled testable controllers
-    * WPF platform details abstracted away behind generic view interface 
-    * Concise custom view models
-    * Compiler checked event to handler mapping
-    * Statically typed data-binding 
-    * Declarative derived/calculated properties
-    * Type system supported Async
-    * Reentrancy problem solved 
-    * Full (UI elements and presentation logic) composition 
-    * External event sources
-    * Modal windows as sync, non-modal as sync computations 
+* First-class events driven architecture 
+* Decoupled testable controllers
+* WPF platform details abstracted away behind generic view interface 
+* Concise custom view models
+* Compiler checked event to handler mapping
+* Statically typed data-binding 
+* Declarative derived/calculated properties
+* Type system supported Async
+* Reentrancy problem solved 
+* Full (UI elements and presentation logic) composition 
+* External event sources
+* Modal windows as sync, non-modal as sync computations 
 *)
 
