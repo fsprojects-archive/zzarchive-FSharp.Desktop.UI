@@ -3,7 +3,7 @@ open System.Reflection
 
 [<assembly: AssemblyTitleAttribute("FSharp.Desktop.UI")>]
 [<assembly: AssemblyProductAttribute("FSharp.Desktop.UI")>]
-[<assembly: AssemblyDescriptionAttribute("F# MVC for WPF framework.")>]
+[<assembly: AssemblyDescriptionAttribute("F# MVC for WPF.")>]
 [<assembly: AssemblyVersionAttribute("0.0.0")>]
 [<assembly: AssemblyFileVersionAttribute("0.0.0")>]
 do ()
