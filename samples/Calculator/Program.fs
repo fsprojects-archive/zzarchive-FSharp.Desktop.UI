@@ -222,4 +222,4 @@ let main args =
     app.DispatcherUnhandledException.Add <| fun args ->
         if MessageBox.Show(args.Exception.ToString(), "Error! Ignore?", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes) = MessageBoxResult.Yes
         then args.Handled <- true
-    app.Run(view.Element)
+    app.Run(window = view.Root)

@@ -5,37 +5,37 @@ open System.Windows
 open System.Windows.Controls
 
 [<AbstractClass>]
-type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(element : 'Element) =
+type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(root : 'Element) =
 
-    member this.Element = element
+    member this.Root = root
     
     interface IPartialView<'Event, 'Model> with
         member this.Events = 
             this.EventStreams |> List.reduce Observable.merge 
         member this.SetBindings model = 
             this.SetBindings model
-            element.DataContext <- model
+            root.DataContext <- model
 
     abstract EventStreams : IObservable<'Event> list
     abstract SetBindings : 'Model -> unit
 
 [<AbstractClass>]
 type View<'Event, 'Model, 'Window when 'Window :> Window and 'Window : (new : unit -> 'Window)>(?window) = 
-    inherit PartialView<'Event, 'Model, 'Window>(element = defaultArg window (new 'Window()))
+    inherit PartialView<'Event, 'Model, 'Window>(root = defaultArg window (new 'Window()))
 
     interface IView<'Event, 'Model> with
         member this.ShowDialog() = 
-            let result = this.Element.ShowDialog()
+            let result = this.Root.ShowDialog()
             if result.HasValue then result.Value else false
         member this.Show() = 
-            this.Element.Show()
-            this.Element.Closed |> Event.map ignore |> Async.AwaitEvent 
+            this.Root.Show()
+            this.Root.Closed |> Event.map ignore |> Async.AwaitEvent 
 
 [<AbstractClass>]
 type XamlView<'Event, 'Model>(resourceLocator) = 
     inherit View<'Event, 'Model, Window>(resourceLocator |> Application.LoadComponent |> unbox)
 
     static member (?) (view : PartialView<'Event, 'Model, 'Control>, name) = 
-        match view.Element.FindName name with
+        match view.Root.FindName name with
         | null -> invalidArg "Name" ("Cannot find child control or resource named: " + name)
         | control -> control |> unbox

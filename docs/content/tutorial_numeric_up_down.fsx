@@ -3,7 +3,9 @@
 
 (**
 
-Basics - [Numeric Up/Down control](samples/NumericUpDown).
+Basics.
 ===================
+
+[Numeric Up/Down control](tree/master/samples/NumericUpDown) is very simple control 
 
 *)
