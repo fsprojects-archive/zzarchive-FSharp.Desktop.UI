@@ -1,18 +1,14 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
 #I "../../bin"
 
 (**
-Introducing your project
+
+Model
 ========================
-
-Say more
+ - Canonical way to define model type
+   * Inherit from FSharp.Desktop.UI.Model 
+   * Define as abstract read/write properties participating in data-binding
+ - Virtual properties INotifyPropertyChanged auto-wiring is not supported
 
 *)
-#r "FSharp.Desktop.UI.dll"
-open FSharp.Desktop.UI
 
-(**
-Some more info
-*)

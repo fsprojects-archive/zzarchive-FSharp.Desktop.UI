@@ -6,13 +6,13 @@ open System.Windows.Input
 
 open FSharp.Desktop.UI
 
-type NumericUpDownEvents = Up | Down
-
 [<AbstractClass>]
 type NumericUpDownEventsModel() = 
     inherit Model()
 
     abstract Value: int with get, set
+
+type NumericUpDownEvents = Up | Down
 
 type NumericUpDownEventsView() as this = 
     inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>(
@@ -46,8 +46,12 @@ type NumericUpDownEventsView() as this =
         upButton.Click |> Observable.map (fun _ -> Up)
         downButton.Click |> Observable.map (fun _ -> Down)
 
-        input.KeyUp |> Observable.choose (fun args -> if args.Key = Key.Up then Some Up else None)
-        input.KeyUp |> Observable.choose (fun args -> if args.Key = Key.Down then Some Down else None)
+        input.KeyUp |> Observable.choose (fun args -> 
+            match args.Key with 
+            | Key.Up -> Some Up  
+            | Key.Down -> Some Down
+            | _ ->  None
+        )
 
         input.MouseWheel |> Observable.map (fun args -> if args.Delta > 0 then Up else Down)
     ]
@@ -58,17 +62,17 @@ type NumericUpDownEventsView() as this =
                 input.Text <- coerce model.Value
             @>
 
-[<EntryPoint; STAThread>]
-let main _ = 
+let eventHandler event (model: NumericUpDownEventsModel) =
+    match event with
+    | Up -> model.Value <- model.Value + 1
+    | Down -> model.Value <- model.Value - 1
 
+let controller = Controller.Create eventHandler
+
+[<STAThread>]
+do
     let model = NumericUpDownEventsModel.Create()
     let view = NumericUpDownEventsView()
-    let contoroller = Controller.Create( fun event (model: NumericUpDownEventsModel) ->
-        match event with
-        | Up -> model.Value <- model.Value + 1
-        | Down -> model.Value <- model.Value - 1
-    )
-    let mvc = Mvc(model, view, contoroller)
+    let mvc = Mvc(model, view, controller)
     use eventLoop = mvc.Start()
-
-    Application().Run( window = view.Root)
+    Application().Run( window = view.Root) |> ignore

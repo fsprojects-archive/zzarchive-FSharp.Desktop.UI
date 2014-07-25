@@ -16,7 +16,7 @@ let info =
     "project-author", "Dmitry Morozov"
     "project-summary", "F# MVC for WPF"
     "project-github", githubLink
-    "project-nuget", "http://nuget.com/packages/FSharp.Desktop.UI" ]
+    "project-nuget", "http://nuget.org/packages/FSharp.Desktop.UI" ]
 
 // --------------------------------------------------------------------------------------
 // For typical project, no changes are needed below
