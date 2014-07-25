@@ -82,7 +82,9 @@ For simplicity in this particular application we�ll build it in a code.
 It also proves the point that WPF details abstracted so well that the library is agnostic to actual way WPF primitives assembled.</p>
 
 <p>In addition to event sourcing View also responsible for setting up proper data bindings. 
-The library introduce type-safe data-binding. The idea is map F# assignment statement quotation to data binding setup.</p>
+The library introduce <a href="ref_databinding.html">type-safe data-binding</a>. 
+The idea is map F# assignment statement quotation to data binding setup.<br />
+Other examples will expand on topic on type safe data binding.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l"> 1: </span>
@@ -141,20 +143,6 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
 <span class="l">54: </span>
 <span class="l">55: </span>
 <span class="l">56: </span>
-<span class="l">57: </span>
-<span class="l">58: </span>
-<span class="l">59: </span>
-<span class="l">60: </span>
-<span class="l">61: </span>
-<span class="l">62: </span>
-<span class="l">63: </span>
-<span class="l">64: </span>
-<span class="l">65: </span>
-<span class="l">66: </span>
-<span class="l">67: </span>
-<span class="l">68: </span>
-<span class="l">69: </span>
-<span class="l">70: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
@@ -213,21 +201,83 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
         <span onmouseout="hideTip(event, 'fs62', 127)" onmouseover="showTip(event, 'fs62', 127)" class="i">Binding</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs63', 128)" onmouseover="showTip(event, 'fs63', 128)" class="i">FromExpression</span> 
             &lt;@
                 <span onmouseout="hideTip(event, 'fs29', 129)" onmouseover="showTip(event, 'fs29', 129)" class="i">input</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs64', 130)" onmouseover="showTip(event, 'fs64', 130)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs65', 131)" onmouseover="showTip(event, 'fs65', 131)" class="i">coerce</span> <span onmouseout="hideTip(event, 'fs61', 132)" onmouseover="showTip(event, 'fs61', 132)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 133)" onmouseover="showTip(event, 'fs2', 133)" class="i">Value</span>
-            @&gt;
+            @&gt;</pre>
+</td>
+</tr>
+</table>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs66', 134)" onmouseover="showTip(event, 'fs66', 134)" class="i">model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 135)" onmouseover="showTip(event, 'fs9', 135)" class="i">NumericUpDownEventsModel</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 136)" onmouseover="showTip(event, 'fs2', 136)" class="i">Create</span>()
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs67', 137)" onmouseover="showTip(event, 'fs67', 137)" class="i">view</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 138)" onmouseover="showTip(event, 'fs6', 138)" class="i">NumericUpDownEventsView</span>()
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 139)" onmouseover="showTip(event, 'fs68', 139)" class="i">contoroller</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 140)" onmouseover="showTip(event, 'fs69', 140)" class="i">Controller</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs70', 141)" onmouseover="showTip(event, 'fs70', 141)" class="i">Create</span>( <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs71', 142)" onmouseover="showTip(event, 'fs71', 142)" class="i">event</span> (<span onmouseout="hideTip(event, 'fs61', 143)" onmouseover="showTip(event, 'fs61', 143)" class="i">model</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs9', 144)" onmouseover="showTip(event, 'fs9', 144)" class="i">NumericUpDownEventsModel</span>) <span class="k">-&gt;</span>
-    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs71', 145)" onmouseover="showTip(event, 'fs71', 145)" class="i">event</span> <span class="k">with</span>
-    | <span onmouseout="hideTip(event, 'fs4', 146)" onmouseover="showTip(event, 'fs4', 146)" class="i">Up</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs61', 147)" onmouseover="showTip(event, 'fs61', 147)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 148)" onmouseover="showTip(event, 'fs2', 148)" class="i">Value</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs61', 149)" onmouseover="showTip(event, 'fs61', 149)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 150)" onmouseover="showTip(event, 'fs2', 150)" class="i">Value</span> <span class="o">+</span> <span class="n">1</span>
-    | <span onmouseout="hideTip(event, 'fs5', 151)" onmouseover="showTip(event, 'fs5', 151)" class="i">Down</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs61', 152)" onmouseover="showTip(event, 'fs61', 152)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 153)" onmouseover="showTip(event, 'fs2', 153)" class="i">Value</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs61', 154)" onmouseover="showTip(event, 'fs61', 154)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 155)" onmouseover="showTip(event, 'fs2', 155)" class="i">Value</span> <span class="o">-</span> <span class="n">1</span>
-)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs72', 156)" onmouseover="showTip(event, 'fs72', 156)" class="i">mvc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs73', 157)" onmouseover="showTip(event, 'fs73', 157)" class="i">Mvc</span>(<span onmouseout="hideTip(event, 'fs66', 158)" onmouseover="showTip(event, 'fs66', 158)" class="i">model</span>, <span onmouseout="hideTip(event, 'fs67', 159)" onmouseover="showTip(event, 'fs67', 159)" class="i">view</span>, <span onmouseout="hideTip(event, 'fs68', 160)" onmouseover="showTip(event, 'fs68', 160)" class="i">contoroller</span>)
+<h2>Controller</h2>
 
-[&lt;<span onmouseout="hideTip(event, 'fs74', 161)" onmouseover="showTip(event, 'fs74', 161)" class="i">STAThread</span>&gt;]
+<p>For this introductory example think of controller as callback that takes event and model. 
+It processes event and apply changes to the model. 
+Model state changes propagate back to view via data binding.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs66', 134)" onmouseover="showTip(event, 'fs66', 134)" class="i">controller</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs67', 135)" onmouseover="showTip(event, 'fs67', 135)" class="i">Controller</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs68', 136)" onmouseover="showTip(event, 'fs68', 136)" class="i">Create</span>( <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs69', 137)" onmouseover="showTip(event, 'fs69', 137)" class="i">event</span> (<span onmouseout="hideTip(event, 'fs61', 138)" onmouseover="showTip(event, 'fs61', 138)" class="i">model</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs9', 139)" onmouseover="showTip(event, 'fs9', 139)" class="i">NumericUpDownEventsModel</span>) <span class="k">-&gt;</span>
+    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs69', 140)" onmouseover="showTip(event, 'fs69', 140)" class="i">event</span> <span class="k">with</span>
+    | <span onmouseout="hideTip(event, 'fs4', 141)" onmouseover="showTip(event, 'fs4', 141)" class="i">Up</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs61', 142)" onmouseover="showTip(event, 'fs61', 142)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 143)" onmouseover="showTip(event, 'fs2', 143)" class="i">Value</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs61', 144)" onmouseover="showTip(event, 'fs61', 144)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 145)" onmouseover="showTip(event, 'fs2', 145)" class="i">Value</span> <span class="o">+</span> <span class="n">1</span>
+    <span class="c">//| Down -&gt; model.Value &lt;- model.Value - 1</span>
+)</pre>
+</td>
+</tr>
+</table>
+
+<p>Controllers in real-world application slightly more sophisticated. 
+But <code>Controller.Create</code> method exists in the library and can be used as a shortcut to build simple controllers.</p>
+
+<p>Pattern matching in event inside controller callback is very interesting because it represents compiler checked event handlers map. 
+To prove the point comment out one of the case, for example Down. 
+You�ll immediately see a warning from compiler �� Incomplete pattern matches on this expression. 
+For example, the value 'Down' may indicate a case not covered by the pattern(s).�</p>
+
+<h2>Application</h2>
+
+<p>Application boot-strap code is trivial. Worth noting that model has be created via <code>Create</code> factory method.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+[&lt;<span onmouseout="hideTip(event, 'fs70', 146)" onmouseover="showTip(event, 'fs70', 146)" class="i">STAThread</span>&gt;]
 <span class="k">do</span>
-    <span class="k">use</span> <span onmouseout="hideTip(event, 'fs75', 162)" onmouseover="showTip(event, 'fs75', 162)" class="i">eventLoop</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs72', 163)" onmouseover="showTip(event, 'fs72', 163)" class="i">mvc</span><span class="o">.</span><span class="i">Start</span>()
-    <span onmouseout="hideTip(event, 'fs76', 164)" onmouseover="showTip(event, 'fs76', 164)" class="i">Application</span>()<span class="o">.</span><span class="i">Run</span>( <span class="i">window</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs67', 165)" onmouseover="showTip(event, 'fs67', 165)" class="i">view</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs42', 166)" onmouseover="showTip(event, 'fs42', 166)" class="i">Root</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs41', 167)" onmouseover="showTip(event, 'fs41', 167)" class="i">ignore</span></pre>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs61', 147)" onmouseover="showTip(event, 'fs61', 147)" class="i">model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 148)" onmouseover="showTip(event, 'fs9', 148)" class="i">NumericUpDownEventsModel</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 149)" onmouseover="showTip(event, 'fs2', 149)" class="i">Create</span>()
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs71', 150)" onmouseover="showTip(event, 'fs71', 150)" class="i">view</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 151)" onmouseover="showTip(event, 'fs6', 151)" class="i">NumericUpDownEventsView</span>()
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs72', 152)" onmouseover="showTip(event, 'fs72', 152)" class="i">eventHandler</span> <span onmouseout="hideTip(event, 'fs69', 153)" onmouseover="showTip(event, 'fs69', 153)" class="i">event</span> (<span onmouseout="hideTip(event, 'fs61', 154)" onmouseover="showTip(event, 'fs61', 154)" class="i">model</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs9', 155)" onmouseover="showTip(event, 'fs9', 155)" class="i">NumericUpDownEventsModel</span>) <span class="o">=</span> 
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs69', 156)" onmouseover="showTip(event, 'fs69', 156)" class="i">event</span> <span class="k">with</span>
+        | <span onmouseout="hideTip(event, 'fs4', 157)" onmouseover="showTip(event, 'fs4', 157)" class="i">Up</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs61', 158)" onmouseover="showTip(event, 'fs61', 158)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 159)" onmouseover="showTip(event, 'fs2', 159)" class="i">Value</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs61', 160)" onmouseover="showTip(event, 'fs61', 160)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 161)" onmouseover="showTip(event, 'fs2', 161)" class="i">Value</span> <span class="o">+</span> <span class="n">1</span>
+        | <span onmouseout="hideTip(event, 'fs5', 162)" onmouseover="showTip(event, 'fs5', 162)" class="i">Down</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs61', 163)" onmouseover="showTip(event, 'fs61', 163)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 164)" onmouseover="showTip(event, 'fs2', 164)" class="i">Value</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs61', 165)" onmouseover="showTip(event, 'fs61', 165)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 166)" onmouseover="showTip(event, 'fs2', 166)" class="i">Value</span> <span class="o">-</span> <span class="n">1</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs73', 167)" onmouseover="showTip(event, 'fs73', 167)" class="i">controller</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs67', 168)" onmouseover="showTip(event, 'fs67', 168)" class="i">Controller</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs68', 169)" onmouseover="showTip(event, 'fs68', 169)" class="i">Create</span> <span onmouseout="hideTip(event, 'fs72', 170)" onmouseover="showTip(event, 'fs72', 170)" class="i">eventHandler</span>
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs74', 171)" onmouseover="showTip(event, 'fs74', 171)" class="i">mvc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs75', 172)" onmouseover="showTip(event, 'fs75', 172)" class="i">Mvc</span>(<span onmouseout="hideTip(event, 'fs61', 173)" onmouseover="showTip(event, 'fs61', 173)" class="i">model</span>, <span onmouseout="hideTip(event, 'fs71', 174)" onmouseover="showTip(event, 'fs71', 174)" class="i">view</span>, <span onmouseout="hideTip(event, 'fs73', 175)" onmouseover="showTip(event, 'fs73', 175)" class="i">controller</span>)
+
+    <span class="k">use</span> <span onmouseout="hideTip(event, 'fs76', 176)" onmouseover="showTip(event, 'fs76', 176)" class="i">eventLoop</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs74', 177)" onmouseover="showTip(event, 'fs74', 177)" class="i">mvc</span><span class="o">.</span><span class="i">Start</span>()
+    <span onmouseout="hideTip(event, 'fs77', 178)" onmouseover="showTip(event, 'fs77', 178)" class="i">Application</span>()<span class="o">.</span><span class="i">Run</span>( <span class="i">window</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 179)" onmouseover="showTip(event, 'fs71', 179)" class="i">view</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs42', 180)" onmouseover="showTip(event, 'fs42', 180)" class="i">Root</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs41', 181)" onmouseover="showTip(event, 'fs41', 181)" class="i">ignore</span></pre>
 </td>
 </tr>
 </table>
@@ -297,17 +347,18 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
 <div class="tip" id="fs63">static member Binding.FromExpression : expr:Quotations.Expr * ?mode:BindingMode * ?updateSourceTrigger:UpdateSourceTrigger * ?fallbackValue:&#39;a0 * ?targetNullValue:&#39;a1 * ?validatesOnDataErrors:bool * ?validatesOnExceptions:bool -&gt; unit</div>
 <div class="tip" id="fs64">property TextBox.Text: string</div>
 <div class="tip" id="fs65">val coerce : &#39;a -&gt; &#39;b<br /><br />Full name: FSharp.Desktop.UI.Binding.coerce</div>
-<div class="tip" id="fs66">val model : NumericUpDownEventsModel<br /><br />Full name: Tutorial_numeric_up_down.model</div>
-<div class="tip" id="fs67">val view : NumericUpDownEventsView<br /><br />Full name: Tutorial_numeric_up_down.view</div>
-<div class="tip" id="fs68">val contoroller : IController&lt;NumericUpDownEvents,NumericUpDownEventsModel&gt;<br /><br />Full name: Tutorial_numeric_up_down.contoroller</div>
-<div class="tip" id="fs69">Multiple items<br />type Controller&lt;&#39;Event,&#39;Model&gt; =<br />&#160;&#160;interface IController&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;new : unit -&gt; Controller&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;abstract member InitModel : &#39;Model -&gt; unit<br />&#160;&#160;abstract member Dispatcher : (&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;)<br />&#160;&#160;static member Create : callback:(&#39;Event -&gt; &#39;Model -&gt; unit) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;static member Create : callback:(&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br /><br />Full name: FSharp.Desktop.UI.Controller&lt;_,_&gt;<br /><br />--------------------<br />new : unit -&gt; Controller&lt;&#39;Event,&#39;Model&gt;</div>
-<div class="tip" id="fs70">static member Controller.Create : callback:(&#39;Event -&gt; &#39;Model -&gt; unit) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />static member Controller.Create : callback:(&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;) -&gt; IController&lt;&#39;Event,&#39;Model&gt;</div>
-<div class="tip" id="fs71">val event : NumericUpDownEvents</div>
-<div class="tip" id="fs72">val mvc : obj<br /><br />Full name: Tutorial_numeric_up_down.mvc</div>
-<div class="tip" id="fs73">Multiple items<br />module Mvc<br /><br />from FSharp.Desktop.UI<br /><br />--------------------<br />type Mvc&lt;&#39;Event,&#39;Model (requires &#39;Model :&gt; INotifyPropertyChanged)&gt; =<br />&#160;&#160;new : model:&#39;Model * view:IView&lt;&#39;Event,&#39;Model&gt; * controller:IController&lt;&#39;Event,&#39;Model&gt; -&gt; Mvc&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;member Compose : childController:IController&lt;&#39;a2,&#39;Model&gt; * events:IObservable&lt;&#39;a2&gt; -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;a2&gt;,&#39;Model&gt;<br />&#160;&#160;member Compose : childController:IController&lt;&#39;EX,&#39;MX&gt; * childView:IPartialView&lt;&#39;EX,&#39;MX&gt; * childModelSelector:(&#39;Model -&gt; &#39;MX) -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;EX&gt;,&#39;Model&gt;<br />&#160;&#160;member Start : unit -&gt; IDisposable<br />&#160;&#160;member StartDialog : unit -&gt; bool<br />&#160;&#160;member StartWindow : unit -&gt; Async&lt;unit&gt;<br />&#160;&#160;member Error : (exn * &#39;Event -&gt; unit)<br />&#160;&#160;member Error : (exn * &#39;Event -&gt; unit) with set<br />&#160;&#160;static member ( &lt;+&gt; ) : mvc:Mvc&lt;&#39;a2,&#39;a3&gt; * (#IController&lt;&#39;a5,&#39;a6&gt; * #IPartialView&lt;&#39;a5,&#39;a6&gt; * (&#39;a3 -&gt; &#39;a6)) -&gt; Mvc&lt;Choice&lt;&#39;a2,&#39;a5&gt;,&#39;a3&gt; (requires &#39;a3 :&gt; INotifyPropertyChanged)<br /><br />Full name: FSharp.Desktop.UI.Mvc&lt;_,_&gt;<br /><br />--------------------<br />new : model:&#39;Model * view:IView&lt;&#39;Event,&#39;Model&gt; * controller:IController&lt;&#39;Event,&#39;Model&gt; -&gt; Mvc&lt;&#39;Event,&#39;Model&gt;</div>
-<div class="tip" id="fs74">Multiple items<br />type STAThreadAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; STAThreadAttribute<br /><br />Full name: System.STAThreadAttribute<br /><br />--------------------<br />STAThreadAttribute() : unit</div>
-<div class="tip" id="fs75">val eventLoop : IDisposable</div>
-<div class="tip" id="fs76">Multiple items<br />type Application =<br />&#160;&#160;inherit DispatcherObject<br />&#160;&#160;new : unit -&gt; Application<br />&#160;&#160;member FindResource : resourceKey:obj -&gt; obj<br />&#160;&#160;member MainWindow : Window with get, set<br />&#160;&#160;member Properties : IDictionary<br />&#160;&#160;member Resources : ResourceDictionary with get, set<br />&#160;&#160;member Run : unit -&gt; int + 1 overload<br />&#160;&#160;member Shutdown : unit -&gt; unit + 1 overload<br />&#160;&#160;member ShutdownMode : ShutdownMode with get, set<br />&#160;&#160;member StartupUri : Uri with get, set<br />&#160;&#160;member TryFindResource : resourceKey:obj -&gt; obj<br />&#160;&#160;...<br /><br />Full name: System.Windows.Application<br /><br />--------------------<br />Application() : unit</div>
+<div class="tip" id="fs66">val controller : IController&lt;NumericUpDownEvents,NumericUpDownEventsModel&gt;<br /><br />Full name: Tutorial_numeric_up_down.controller</div>
+<div class="tip" id="fs67">Multiple items<br />type Controller&lt;&#39;Event,&#39;Model&gt; =<br />&#160;&#160;interface IController&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;new : unit -&gt; Controller&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;abstract member InitModel : &#39;Model -&gt; unit<br />&#160;&#160;abstract member Dispatcher : (&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;)<br />&#160;&#160;static member Create : callback:(&#39;Event -&gt; &#39;Model -&gt; unit) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;static member Create : callback:(&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br /><br />Full name: FSharp.Desktop.UI.Controller&lt;_,_&gt;<br /><br />--------------------<br />new : unit -&gt; Controller&lt;&#39;Event,&#39;Model&gt;</div>
+<div class="tip" id="fs68">static member Controller.Create : callback:(&#39;Event -&gt; &#39;Model -&gt; unit) -&gt; IController&lt;&#39;Event,&#39;Model&gt;<br />static member Controller.Create : callback:(&#39;Event -&gt; EventHandler&lt;&#39;Model&gt;) -&gt; IController&lt;&#39;Event,&#39;Model&gt;</div>
+<div class="tip" id="fs69">val event : NumericUpDownEvents</div>
+<div class="tip" id="fs70">Multiple items<br />type STAThreadAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; STAThreadAttribute<br /><br />Full name: System.STAThreadAttribute<br /><br />--------------------<br />STAThreadAttribute() : unit</div>
+<div class="tip" id="fs71">val view : NumericUpDownEventsView</div>
+<div class="tip" id="fs72">val eventHandler : (NumericUpDownEvents -&gt; NumericUpDownEventsModel -&gt; &#39;a)</div>
+<div class="tip" id="fs73">val controller : IController&lt;NumericUpDownEvents,NumericUpDownEventsModel&gt;</div>
+<div class="tip" id="fs74">val mvc : obj</div>
+<div class="tip" id="fs75">Multiple items<br />module Mvc<br /><br />from FSharp.Desktop.UI<br /><br />--------------------<br />type Mvc&lt;&#39;Event,&#39;Model (requires &#39;Model :&gt; INotifyPropertyChanged)&gt; =<br />&#160;&#160;new : model:&#39;Model * view:IView&lt;&#39;Event,&#39;Model&gt; * controller:IController&lt;&#39;Event,&#39;Model&gt; -&gt; Mvc&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;member Compose : childController:IController&lt;&#39;a2,&#39;Model&gt; * events:IObservable&lt;&#39;a2&gt; -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;a2&gt;,&#39;Model&gt;<br />&#160;&#160;member Compose : childController:IController&lt;&#39;EX,&#39;MX&gt; * childView:IPartialView&lt;&#39;EX,&#39;MX&gt; * childModelSelector:(&#39;Model -&gt; &#39;MX) -&gt; Mvc&lt;Choice&lt;&#39;Event,&#39;EX&gt;,&#39;Model&gt;<br />&#160;&#160;member Start : unit -&gt; IDisposable<br />&#160;&#160;member StartDialog : unit -&gt; bool<br />&#160;&#160;member StartWindow : unit -&gt; Async&lt;unit&gt;<br />&#160;&#160;member Error : (exn * &#39;Event -&gt; unit)<br />&#160;&#160;member Error : (exn * &#39;Event -&gt; unit) with set<br />&#160;&#160;static member ( &lt;+&gt; ) : mvc:Mvc&lt;&#39;a2,&#39;a3&gt; * (#IController&lt;&#39;a5,&#39;a6&gt; * #IPartialView&lt;&#39;a5,&#39;a6&gt; * (&#39;a3 -&gt; &#39;a6)) -&gt; Mvc&lt;Choice&lt;&#39;a2,&#39;a5&gt;,&#39;a3&gt; (requires &#39;a3 :&gt; INotifyPropertyChanged)<br /><br />Full name: FSharp.Desktop.UI.Mvc&lt;_,_&gt;<br /><br />--------------------<br />new : model:&#39;Model * view:IView&lt;&#39;Event,&#39;Model&gt; * controller:IController&lt;&#39;Event,&#39;Model&gt; -&gt; Mvc&lt;&#39;Event,&#39;Model&gt;</div>
+<div class="tip" id="fs76">val eventLoop : IDisposable</div>
+<div class="tip" id="fs77">Multiple items<br />type Application =<br />&#160;&#160;inherit DispatcherObject<br />&#160;&#160;new : unit -&gt; Application<br />&#160;&#160;member FindResource : resourceKey:obj -&gt; obj<br />&#160;&#160;member MainWindow : Window with get, set<br />&#160;&#160;member Properties : IDictionary<br />&#160;&#160;member Resources : ResourceDictionary with get, set<br />&#160;&#160;member Run : unit -&gt; int + 1 overload<br />&#160;&#160;member Shutdown : unit -&gt; unit + 1 overload<br />&#160;&#160;member ShutdownMode : ShutdownMode with get, set<br />&#160;&#160;member StartupUri : Uri with get, set<br />&#160;&#160;member TryFindResource : resourceKey:obj -&gt; obj<br />&#160;&#160;...<br /><br />Full name: System.Windows.Application<br /><br />--------------------<br />Application() : unit</div>
 
             </div>
             <div class="span3">
