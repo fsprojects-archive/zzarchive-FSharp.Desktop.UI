@@ -78,7 +78,7 @@ Once that done INotifyPropertyChanged and INotifyDataErrorInfo will be auto-wire
 Although it is not too hard to provide implementation of <code>IView&lt;'Event, 'Model&gt;</code> interface, the library provides base helper classes like View and XamlView.</p>
 
 <p>Traditional way to design actual WPF window is to use XAML designer. 
-For simplicity in this particular application we\�ll build it in a code. 
+For simplicity in this particular application we will build it in a code. 
 It also proves the point that WPF details abstracted so well that the library is agnostic to actual way WPF primitives assembled.</p>
 
 <p>In addition to event sourcing View also responsible for setting up proper data bindings. 
@@ -237,7 +237,7 @@ But <code>Controller.Create</code> method exists in the library and can be used 
 
 <p>Pattern matching in event inside controller callback is very interesting because it represents compiler checked event handlers map. 
 To prove the point comment out one of the case, for example Down. 
-You will immediately see a warning from compiler "� Incomplete pattern matches on this expression. 
+You will immediately see a warning from compiler "Incomplete pattern matches on this expression. 
 For example, the value 'Down' may indicate a case not covered by the pattern(s)."</p>
 
 <h2>Application</h2>
