@@ -45,18 +45,12 @@ keyboard up/down arrows, or mouse wheel.</p>
 
 <p>Let's go step-by-step through development process.</p>
 
-<h2>Model</h2>
+<h3>Model</h3>
 
-<p>Our model has single property <code></code>`Value bounded to input text box.</p>
-
-<p>To defining custom model:</p>
-
-<ul>
-<li>Inherit from FSharp.Desktop.UI.Model</li>
-<li>To get auto-wired for PropertyChanged notification and thus data-binding support property must be declared as abstract. 
-Base class will provide backing storage for actual values.</li>
-<li>Mark your class with AbstractClassAttribute</li>
-</ul>
+<p>Our model has single property <code>Value</code> bounded to input text box.
+The library provides quick canonical way to define custom models. 
+Make sure to inherit model type from FSharp.Desktop.UI.Model and declare as abstract read/write properties you want to data-bind. 
+Once that done INotifyPropertyChanged and INotifyDataErrorInfo will be auto-wired.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
@@ -81,6 +75,8 @@ Base class will provide backing storage for actual values.</li>
 </table>
 
 <p>There are <a href="ref_model.html">alternative methods</a> to define custom models.</p>
+
+<h1>Ev</h1>
 
 <div class="tip" id="fs1">namespace FSharp</div>
 <div class="tip" id="fs2">namespace FSharp.Desktop</div>
