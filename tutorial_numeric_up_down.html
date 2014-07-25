@@ -39,13 +39,13 @@
 It provides a TextBox with button spinners that allow incrementing and decrementing int values by using the spinner buttons, 
 keyboard up/down arrows, or mouse wheel.</p>
 
-<p>To keep it simple we'll build application rather than reusable control.</p>
+<p>To keep it simple we will build application rather than reusable control.</p>
 
 <img src="img/NumericUpDown.png"/>
 
 <p>Let's go step-by-step through development process.</p>
 
-<h3>Model</h3>
+<h2>Model</h2>
 
 <p>Our model has single property <code>Value</code> bounded to input text box.
 The library provides quick canonical way to define custom models. 
@@ -72,10 +72,10 @@ Once that done INotifyPropertyChanged and INotifyDataErrorInfo will be auto-wire
 
 <p>There are <a href="ref_model.html">alternative methods</a> to define custom models.</p>
 
-<h3>Events + View</h3>
+<h2>Events + View</h2>
 
 <p>Because view is essentially single event stream the best way to define variety of event is to use discriminated unions. It seems obvious that we need two events: Up and Down. Low level events like <code>MouseMove</code> or <code>KeyUp</code> are mapped into high-level ones. 
-Although it�s not too hard to provide implementation of <code>IView&lt;'Event, 'Model&gt;</code> interface, the library provides base helper classes like View and XamlView.</p>
+Although it is not too hard to provide implementation of <code>IView&lt;'Event, 'Model&gt;</code> interface, the library provides base helper classes like View and XamlView.</p>
 
 <p>Traditional way to design actual WPF window is to use XAML designer. 
 For simplicity in this particular application we�ll build it in a code. 
@@ -148,6 +148,13 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
 <span class="l">61: </span>
 <span class="l">62: </span>
 <span class="l">63: </span>
+<span class="l">64: </span>
+<span class="l">65: </span>
+<span class="l">66: </span>
+<span class="l">67: </span>
+<span class="l">68: </span>
+<span class="l">69: </span>
+<span class="l">70: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
@@ -155,7 +162,11 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
 
 <span class="k">type</span> <span onmouseout="hideTip(event, 'fs6', 11)" onmouseover="showTip(event, 'fs6', 11)" class="i">NumericUpDownEventsView</span>() <span class="k">as</span> <span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="i">this</span> <span class="o">=</span> 
     <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="i">View</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs3', 14)" onmouseover="showTip(event, 'fs3', 14)" class="i">NumericUpDownEvents</span>, <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="i">NumericUpDownEventsModel</span>, <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="i">Window</span><span class="o">&gt;</span>(
-        <span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="i">Window</span>( <span class="i">Width</span> <span class="o">=</span> <span class="n">250.</span>, <span class="i">Height</span> <span class="o">=</span> <span class="n">80.</span>, <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="i">WindowStartupLocation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 19)" onmouseover="showTip(event, 'fs11', 19)" class="i">WindowStartupLocation</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="i">CenterScreen</span>, <span class="i">Title</span> <span class="o">=</span> <span class="s">&quot;</span><span class="s">Up</span><span class="s">/</span><span class="s">Down</span><span class="s">&quot;</span>))
+        <span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="i">Window</span>( 
+            <span class="i">Width</span> <span class="o">=</span> <span class="n">250.</span>, 
+            <span class="i">Height</span> <span class="o">=</span> <span class="n">80.</span>, 
+            <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="i">WindowStartupLocation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 19)" onmouseover="showTip(event, 'fs11', 19)" class="i">WindowStartupLocation</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="i">CenterScreen</span>, 
+            <span class="i">Title</span> <span class="o">=</span> <span class="s">&quot;</span><span class="s">Up</span><span class="s">/</span><span class="s">Down</span><span class="s">&quot;</span>))
 
     <span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="i">mainPanel</span> <span class="o">=</span> 
         <span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="i">grid</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="i">Grid</span>()
@@ -166,7 +177,10 @@ The library introduce type-safe data-binding. The idea is map F# assignment stat
     <span class="c">//controls</span>
     <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 41)" onmouseover="showTip(event, 'fs26', 41)" class="i">upButton</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 42)" onmouseover="showTip(event, 'fs27', 42)" class="i">Button</span>(<span class="i">Content</span> <span class="o">=</span> <span class="s">&quot;</span><span class="s">^</span><span class="s">&quot;</span>, <span class="i">Width</span> <span class="o">=</span> <span class="n">50.</span>)
     <span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 43)" onmouseover="showTip(event, 'fs28', 43)" class="i">downButton</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 44)" onmouseover="showTip(event, 'fs27', 44)" class="i">Button</span>(<span class="i">Content</span> <span class="o">=</span> <span class="s">&quot;</span><span class="s">v</span><span class="s">&quot;</span>, <span class="i">Width</span> <span class="o">=</span> <span class="n">50.</span>)
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 45)" onmouseover="showTip(event, 'fs29', 45)" class="i">input</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 46)" onmouseover="showTip(event, 'fs30', 46)" class="i">TextBox</span>(<span onmouseout="hideTip(event, 'fs31', 47)" onmouseover="showTip(event, 'fs31', 47)" class="i">TextAlignment</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 48)" onmouseover="showTip(event, 'fs31', 48)" class="i">TextAlignment</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 49)" onmouseover="showTip(event, 'fs32', 49)" class="i">Center</span>, <span class="i">FontSize</span> <span class="o">=</span> <span class="n">20.</span>, <span class="i">VerticalContentAlignment</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 50)" onmouseover="showTip(event, 'fs33', 50)" class="i">VerticalAlignment</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs34', 51)" onmouseover="showTip(event, 'fs34', 51)" class="i">Center</span>)
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 45)" onmouseover="showTip(event, 'fs29', 45)" class="i">input</span> <span class="o">=</span> 
+        <span onmouseout="hideTip(event, 'fs30', 46)" onmouseover="showTip(event, 'fs30', 46)" class="i">TextBox</span>(<span onmouseout="hideTip(event, 'fs31', 47)" onmouseover="showTip(event, 'fs31', 47)" class="i">TextAlignment</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 48)" onmouseover="showTip(event, 'fs31', 48)" class="i">TextAlignment</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 49)" onmouseover="showTip(event, 'fs32', 49)" class="i">Center</span>, 
+            <span class="i">FontSize</span> <span class="o">=</span> <span class="n">20.</span>, 
+            <span class="i">VerticalContentAlignment</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 50)" onmouseover="showTip(event, 'fs33', 50)" class="i">VerticalAlignment</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs34', 51)" onmouseover="showTip(event, 'fs34', 51)" class="i">Center</span>)
     
     <span class="k">do</span>  <span class="c">//layout</span>
         <span onmouseout="hideTip(event, 'fs26', 52)" onmouseover="showTip(event, 'fs26', 52)" class="i">upButton</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 53)" onmouseover="showTip(event, 'fs35', 53)" class="i">SetValue</span>(<span onmouseout="hideTip(event, 'fs15', 54)" onmouseover="showTip(event, 'fs15', 54)" class="i">Grid</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 55)" onmouseover="showTip(event, 'fs36', 55)" class="i">ColumnProperty</span>, <span class="n">1</span>)
