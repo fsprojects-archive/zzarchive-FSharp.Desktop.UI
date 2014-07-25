@@ -53,7 +53,8 @@ keyboard up/down arrows, or mouse wheel.</p>
 
 <ul>
 <li>Inherit from FSharp.Desktop.UI.Model</li>
-<li>To participate in data-binding and send PropertyChange notification property has to be declared as abstract. Base class will provide backing storage for actual values.</li>
+<li>To get auto-wired for PropertyChanged notification and thus data-binding support property must be declared as abstract. 
+Base class will provide backing storage for actual values.</li>
 <li>Mark your class with AbstractClassAttribute</li>
 </ul>
 
