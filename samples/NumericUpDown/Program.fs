@@ -15,8 +15,14 @@ type NumericUpDownEventsModel() =
 type NumericUpDownEvents = Up | Down
 
 type NumericUpDownEventsView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>(
-        Window( Width = 250., Height = 80., WindowStartupLocation = WindowStartupLocation.CenterScreen, Title = "Up/Down"))
+    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>()
+    
+    //Assembling WPF window in code. 
+    do 
+        this.Root.Width <- 250.
+        this.Root.Height <- 80.
+        this.Root.WindowStartupLocation <- WindowStartupLocation.CenterScreen
+        this.Root.Title <- "Up/Down"
 
     let mainPanel = 
         let grid = Grid()
@@ -24,12 +30,11 @@ type NumericUpDownEventsView() as this =
         [ ColumnDefinition(); ColumnDefinition(Width = GridLength.Auto) ] |> List.iter grid.ColumnDefinitions.Add
         grid
 
-    //controls
     let upButton = Button(Content = "^", Width = 50.)
     let downButton = Button(Content = "v", Width = 50.)
     let input = TextBox(TextAlignment = TextAlignment.Center, FontSize = 20., VerticalContentAlignment = VerticalAlignment.Center)
     
-    do  //layout
+    do  
         upButton.SetValue(Grid.ColumnProperty, 1)
         downButton.SetValue(Grid.ColumnProperty, 1)
         downButton.SetValue(Grid.RowProperty, 1)
@@ -42,6 +47,7 @@ type NumericUpDownEventsView() as this =
 
         this.Root.Content <- mainPanel
 
+    //View implementation 
     override this.EventStreams = [
         upButton.Click |> Observable.map (fun _ -> Up)
         downButton.Click |> Observable.map (fun _ -> Down)
@@ -60,6 +66,7 @@ type NumericUpDownEventsView() as this =
         Binding.FromExpression 
             <@
                 input.Text <- coerce model.Value
+                //'coerce' means "use WPF default conversions"
             @>
 
 let eventHandler event (model: NumericUpDownEventsModel) =

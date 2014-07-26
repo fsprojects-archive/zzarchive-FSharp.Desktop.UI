@@ -15,10 +15,9 @@ open System.Windows.Input
 
 open FSharp.Desktop.UI
 
-
 (**
 
-Basics.
+Basics
 ===================
 
 [Numeric Up/Down control](https://github.com/fsprojects/FSharp.Desktop.UI/tree/master/samples/NumericUpDown) is simplified version of IntegerUpDown control from [Extended WPF Toolkit](https://wpftoolkit.codeplex.com/wikipage?title=IntegerUpDown&referringTitle=NumericUpDown). 
@@ -68,12 +67,14 @@ Other examples will expand on topic on type safe data binding.
 type NumericUpDownEvents = Up | Down
 
 type NumericUpDownEventsView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>(
-        Window( 
-            Width = 250., 
-            Height = 80., 
-            WindowStartupLocation = WindowStartupLocation.CenterScreen, 
-            Title = "Up/Down"))
+    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>()
+    
+    //Assembling WPF window in code. 
+    do 
+        this.Root.Width <- 250.
+        this.Root.Height <- 80.
+        this.Root.WindowStartupLocation <- WindowStartupLocation.CenterScreen
+        this.Root.Title <- "Up/Down"
 
     let mainPanel = 
         let grid = Grid()
@@ -81,15 +82,11 @@ type NumericUpDownEventsView() as this =
         [ ColumnDefinition(); ColumnDefinition(Width = GridLength.Auto) ] |> List.iter grid.ColumnDefinitions.Add
         grid
 
-    //controls
     let upButton = Button(Content = "^", Width = 50.)
     let downButton = Button(Content = "v", Width = 50.)
-    let input = 
-        TextBox(TextAlignment = TextAlignment.Center, 
-            FontSize = 20., 
-            VerticalContentAlignment = VerticalAlignment.Center)
+    let input = TextBox(TextAlignment = TextAlignment.Center, FontSize = 20., VerticalContentAlignment = VerticalAlignment.Center)
     
-    do  //layout
+    do  
         upButton.SetValue(Grid.ColumnProperty, 1)
         downButton.SetValue(Grid.ColumnProperty, 1)
         downButton.SetValue(Grid.RowProperty, 1)
@@ -102,6 +99,7 @@ type NumericUpDownEventsView() as this =
 
         this.Root.Content <- mainPanel
 
+    //View implementation 
     override this.EventStreams = [
         upButton.Click |> Observable.map (fun _ -> Up)
         downButton.Click |> Observable.map (fun _ -> Down)
@@ -119,7 +117,8 @@ type NumericUpDownEventsView() as this =
     override this.SetBindings model =   
         Binding.FromExpression 
             <@
-                input.Text <- coerce model.Value
+                input.Text <- coerce model.Value 
+                //'coerce' means "use WPF default conversions"
             @>
 
 (**
@@ -163,3 +162,13 @@ do
     Application().Run( window = view.Root) |> ignore
 
 
+(**
+
+Where Are We?
+-------------------------------------
+
+It's quite remarkable what we were able to archive with such small amount of code. 
+Try to implement exactly same functionality using classic MVVM or one of the mvvm-style frameworks. 
+Compare and make you own judgment. Next example is [Calculator application](tutorial_calculator.html).
+
+*)

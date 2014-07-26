@@ -46,7 +46,13 @@ Features
 * Full (UI elements and presentation logic) composition 
 * External event sources
 * Modal windows as sync, non-modal as sync computations 
-* Reentrancy problem solved 
+* [Reentrancy problem](https://github.com/dmitry-a-morozov/fsharp-wpf-mvc-series/wiki/Reentrancy-problem) solved
+
+Note on tutorials
+-------
+
+All tutorials try to strike a right balance between simplicity and proper coverage of real-world scenarios. 
+Provide feedback if something important is missing.
 
 *)
 
