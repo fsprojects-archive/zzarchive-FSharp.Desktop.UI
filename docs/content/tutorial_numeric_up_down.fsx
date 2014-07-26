@@ -161,7 +161,6 @@ do
     use eventLoop = mvc.Start()
     Application().Run( window = view.Root) |> ignore
 
-
 (**
 
 Where Are We?
