@@ -167,7 +167,7 @@ do
 Where Are We?
 -------------------------------------
 
-It's quite remarkable what we were able to archive with such small amount of code. 
+It is quite remarkable what we were able to archive with such small amount of code. 
 Try to implement exactly same functionality using classic MVVM or one of the mvvm-style frameworks. 
 Compare and make you own judgment. Next example is [Calculator application](tutorial_calculator.html).
 
