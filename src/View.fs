@@ -3,6 +3,7 @@
 open System
 open System.Windows
 open System.Windows.Controls
+open System.Reactive.Linq
 
 [<AbstractClass>]
 type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(root : 'Element) =
@@ -11,7 +12,7 @@ type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(roo
     
     interface IPartialView<'Event, 'Model> with
         member this.Events = 
-            this.EventStreams |> List.reduce Observable.merge 
+            this.EventStreams.Merge()
         member this.SetBindings model = 
             this.SetBindings model
             root.DataContext <- model

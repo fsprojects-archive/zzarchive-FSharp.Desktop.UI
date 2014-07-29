@@ -55,10 +55,10 @@ type Model() =
     member this.NotifyPropertyChanged propertyName = 
         propertyChangedEvent.Trigger(this, PropertyChangedEventArgs propertyName)
 
-    member this.NotifyPropertyChanged(propertySelector: Expr)= 
+    member this.NotifyPropertyChanged propertySelector = 
         match propertySelector with 
         | PropertyGet(Some (Value (instance, _)), property, _) when Object.ReferenceEquals(instance, this) -> this.NotifyPropertyChanged property.Name
-        | _ -> invalidOp "Expecting property getter expression like `this.SomeProperty`."
+        | _ -> invalidOp "Expecting property getter expression only like `this.SomeProperty`."
 
     interface INotifyDataErrorInfo with
         member this.HasErrors = 
