@@ -21,8 +21,8 @@ type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(roo
     abstract SetBindings : 'Model -> unit
 
 [<AbstractClass>]
-type View<'Event, 'Model, 'Window when 'Window :> Window and 'Window : (new : unit -> 'Window)>(?window) = 
-    inherit PartialView<'Event, 'Model, 'Window>(root = defaultArg window (new 'Window()))
+type View<'Event, 'Model, 'Window when 'Window :> Window>(window: 'Window) = 
+    inherit PartialView<'Event, 'Model, 'Window>(window)
 
     interface IView<'Event, 'Model> with
         member this.ShowDialog() = 

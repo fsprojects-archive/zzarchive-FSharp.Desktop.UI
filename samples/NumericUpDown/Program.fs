@@ -15,7 +15,7 @@ type NumericUpDownEventsModel() =
 type NumericUpDownEvents = Up | Down
 
 type NumericUpDownEventsView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>()
+    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>( Window())
     
     //Assembling WPF window in code. 
     do 
