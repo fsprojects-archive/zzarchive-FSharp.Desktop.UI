@@ -63,11 +63,11 @@ type NumericUpDownEventsView() as this =
     ]
 
     override this.SetBindings model =   
-        Binding.FromExpression 
+        Binding.OfExpression 
             <@
                 input.Text <- coerce model.Value
                 //'coerce' means "use WPF default conversions"
-            @>
+            @> 
 
 let eventHandler event (model: NumericUpDownEventsModel) =
     match event with

@@ -165,21 +165,21 @@ module internal Patterns =
             Some binding
         | _ -> None
 
-    let rec (|BindingExpression|) = function
+    let rec (|Source|) = function
         | DerivedProperty binding 
         | ExtensionDerivedProperty binding -> binding
         | PropertyPath path -> 
             Binding(path) :> BindingBase
-        | Coerce( BindingExpression binding, _) 
-        | SpecificCall <@ coerce @> (None, _, [ BindingExpression binding ]) 
-        | Nullable( BindingExpression binding) -> 
+        | Coerce( Source binding, _) 
+        | SpecificCall <@ coerce @> (None, _, [ Source binding ]) 
+        | Nullable( Source binding) -> 
             binding
-        | StringFormat(format, BindingExpression(:? Binding as binding)) -> 
+        | StringFormat(format, Source(:? Binding as binding)) -> 
             binding.StringFormat <- format
             //binding.ValidatesOnNotifyDataErrors <- false
             upcast binding
 
-        | Converter(convert, BindingExpression(:? Binding as binding)) -> 
+        | Converter(convert, Source(:? Binding as binding)) -> 
             binding.Mode <- BindingMode.OneWay
             //binding.ValidatesOnNotifyDataErrors <- false
             binding.Converter <- IValueConverter.OneWay convert
@@ -203,7 +203,7 @@ open Patterns
 type Expr with
     member internal this.ToBinding(?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnExceptions, ?validatesOnDataErrors) = 
         match this with
-        | PropertySet(Target target, targetProperty, [], BindingExpression binding) ->
+        | PropertySet(Target target, targetProperty, [], Source binding) ->
 
             match binding with
             | :? Binding as single -> 
@@ -217,7 +217,7 @@ type Expr with
         | _ -> invalidArg "expr" (string this) 
 
 type Binding with
-    static member FromExpression(expr, ?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnDataErrors, ?validatesOnExceptions) =
+    static member OfExpression(expr, ?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnDataErrors, ?validatesOnExceptions) =
         let rec split = function 
             | Sequential(head, tail) -> head :: split tail
             | tail -> [ tail ]
@@ -232,10 +232,10 @@ open System.Windows.Controls.Primitives
 type Selector with
     member this.SetBindings(itemsSource : Expr<#seq<'Item>>, ?selectedItem : Expr<'Item>, ?displayMember : Expr<('Item -> _)>) = 
 
-        let e = this.SetBinding(Selector.ItemsSourceProperty, match itemsSource with BindingExpression binding -> binding)
+        let e = this.SetBinding(Selector.ItemsSourceProperty, match itemsSource with Source binding -> binding)
         assert not e.HasError
 
-        selectedItem |> Option.iter(fun(BindingExpression binding) -> 
+        selectedItem |> Option.iter(fun(Source binding) -> 
             let e = this.SetBinding(Selector.SelectedItemProperty, binding)
             assert not e.HasError
             this.IsSynchronizedWithCurrentItem <- Nullable true

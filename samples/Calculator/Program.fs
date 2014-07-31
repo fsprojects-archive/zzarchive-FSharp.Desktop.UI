@@ -117,7 +117,7 @@ type CalculatorView() as this =
         
         wolframalphaAppId.SetBinding(passwordProperty, Binding("WolframalphaAppId", Mode = BindingMode.TwoWay)) |> ignore
 
-        Binding.FromExpression 
+        Binding.OfExpression 
             <@ 
                 result.Text <- String.Format("Result : {0}", model.Result) 
 
@@ -129,7 +129,7 @@ type CalculatorView() as this =
                 cancelWolframalphaRequest.IsEnabled <- model.WolframalphaResponse = Running
             @>
 
-        Binding.FromExpression(
+        Binding.OfExpression(
             <@ 
                 x.Text <- coerce model.X
                 y.Text <- coerce model.Y 
