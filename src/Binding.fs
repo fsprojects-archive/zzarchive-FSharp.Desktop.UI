@@ -16,17 +16,18 @@ open Unchecked
 
 type DerivedPropertyAttribute = ReflectedDefinitionAttribute
 
-type IValueConverter with 
-    static member Create(convert : 'a -> 'b, convertBack : 'b -> 'a) =  {
-        new IValueConverter with
-            member this.Convert(value, _, _, _) = try value |> unbox |> convert |> box with _ -> DependencyProperty.UnsetValue
-            member this.ConvertBack(value, _, _, _) = try value |> unbox |> convertBack |> box with _ -> DependencyProperty.UnsetValue
-    }
-    static member OneWay convert = IValueConverter.Create(convert, fun _ -> DependencyProperty.UnsetValue)
-
 let coerce _ = undefined
 
 module internal Patterns = 
+
+    type IValueConverter with 
+        static member OneWay converter = {
+            new IValueConverter with
+                member this.Convert(value, _, _, _) = 
+                    try converter value 
+                    with _ -> DependencyProperty.UnsetValue
+                member this.ConvertBack(_, _, _, _) = DependencyProperty.UnsetValue
+        }
 
     type PropertyInfo with
         member this.DependencyProperty : DependencyProperty = 
@@ -138,13 +139,7 @@ module internal Patterns =
 
             let binding = Binding(prop.Name, Mode = BindingMode.OneWay)
             //binding.ValidatesOnNotifyDataErrors <- false
-            binding.Converter <- {
-                new IValueConverter with
-                    member this.Convert(value, _, _, _) = 
-                        try converter value 
-                        with _ -> DependencyProperty.UnsetValue
-                    member this.ConvertBack(_, _, _, _) = DependencyProperty.UnsetValue
-            }
+            binding.Converter <- IValueConverter.OneWay converter
             Some binding
         | _ -> None
 
