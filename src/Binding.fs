@@ -16,9 +16,6 @@ open Unchecked
 
 type DerivedPropertyAttribute = ReflectedDefinitionAttribute
 
-type IEnumerable<'T> with
-    member this.CurrentItem : 'T = undefined
-
 type IValueConverter with 
     static member Create(convert : 'a -> 'b, convertBack : 'b -> 'a) =  {
         new IValueConverter with
@@ -53,24 +50,10 @@ module internal Patterns =
             match e with
             | PropertyGet( Some tail, property, []) -> 
                 loop tail (property.Name :: acc)
-            | SpecificCall <@ Seq.empty.CurrentItem @> (None, _, [ tail ]) -> 
-                loop tail ("/" :: acc)
             | Value _ | Var _ -> Some acc
             | _ -> None
 
-        loop expr []
-        |> Option.map (function 
-            | [] -> ""
-            | head :: _ as steps ->
-                steps 
-                |> Seq.pairwise 
-                |> Seq.map (function 
-                    | "/", x -> x 
-                    | _, "/" -> "/" 
-                    | x, y -> "." + y) 
-                |> String.concat ""
-                |> (+) head
-        )
+        loop expr [] |> Option.map (String.concat "." )
 
     let (|StringFormat|_|) = function
         | SpecificCall <@ String.Format : string * obj -> string @> (None, [], [ Value(:? string as format, _); Coerce( propertyPath, _) ]) ->

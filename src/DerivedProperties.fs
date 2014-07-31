@@ -13,7 +13,7 @@ type PropertyInfo with
     member internal this.IsNullableValue =  
         this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<Nullable<_>> && this.Name = "Value"
 
-let (|PropertyPathOfDependency|_|) self expr = 
+let internal (|PropertyPathOfDependency|_|) self expr = 
     let rec loop e acc = 
         match e with
         | PropertyGet( Some tail, property, []) -> 
