@@ -35,16 +35,16 @@ For implementation details read [source code](https://github.com/fsprojects/FSha
 Features
 -------
     
-* First-class events driven [architecture](ref_mvc.html) 
+* First-class event driven [architecture](ref_mvc.html) 
 * Decoupled testable [controllers](ref_controller.html)
 * WPF platform details abstracted away behind [generic view interface](ref_view.html)
-* Concise custom [view models](ref_model.html)
+* Simple library-idiomatic way to define [view models](ref_model.html)
 * Compiler checked event to handler mapping
 * Statically typed [data-binding](ref_databinding.html) 
 * Declarative [derived/calculated properties](ref_databinding.html)
 * Async support
 * Full (UI elements and presentation logic) composition 
-* External event sources
+* External (non-visual) event sources
 * Modal windows as sync, non-modal as sync computations 
 * [Reentrancy problem](https://github.com/dmitry-a-morozov/fsharp-wpf-mvc-series/wiki/Reentrancy-problem) solved
 

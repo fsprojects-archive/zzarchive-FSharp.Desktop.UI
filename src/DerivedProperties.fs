@@ -1,4 +1,4 @@
-﻿module FSharp.Desktop.UI.DerivedProperties
+﻿module internal FSharp.Desktop.UI.DerivedProperties
 
 open System
 open System.Reflection
