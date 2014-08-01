@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Model
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="F# MVC for WPF" />
+    <meta name="author" content="Dmitry Morozov" />
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="http://fsharp.org">fsharp.org</a></li>
+                <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
+            </ul>
+            <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="span9" id="main">
+                
+<h1>Model</h1>
+
+<h2>Overview</h2>
+
+<ul>
+<li>Implement <a href="http://msdn.microsoft.com/en-us/library/ms229614.aspx">INotifyPropertyChanged</a> (this restriction enforced by type constrain on Mvc type)</li>
+<li>Optionally implement <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifydataerrorinfo.aspx">INotifyDataErrorInfo</a> to support user-input validation</li>
+</ul>
+
+<h2>Library-idiomatic way to define model types</h2>
+
+<ul>
+<li>Inherit from FSharp.Desktop.UI.Model</li>
+<li>Mark type with <code>[&lt;AbstractClassAttribute&gt;]</code></li>
+<li>Define as abstract read/write properties participating in data-binding
+<ul>
+<li>Virtual properties INotifyPropertyChanged auto-wiring is not supported</li>
+</ul></li>
+<li>Use Model.Create<�Model> static factory method to create model instances.</li>
+</ul>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Desktop</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">UI</span>
+
+[&lt;<span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">AbstractClass</span>&gt;]
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="i">PersonModel</span>() <span class="o">=</span> 
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="i">Model</span>()
+
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="i">FirstName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">string</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 9)" onmouseover="showTip(event, 'fs4', 9)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs4', 10)" onmouseover="showTip(event, 'fs4', 10)" class="i">set</span>
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs4', 11)" onmouseover="showTip(event, 'fs4', 11)" class="i">LastName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 12)" onmouseover="showTip(event, 'fs4', 12)" class="i">string</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 13)" onmouseover="showTip(event, 'fs4', 13)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs4', 14)" onmouseover="showTip(event, 'fs4', 14)" class="i">set</span>
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="i">Age</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 16)" onmouseover="showTip(event, 'fs4', 16)" class="i">int</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 17)" onmouseover="showTip(event, 'fs4', 17)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs4', 18)" onmouseover="showTip(event, 'fs4', 18)" class="i">set</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 19)" onmouseover="showTip(event, 'fs4', 19)" class="i">model</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 20)" onmouseover="showTip(event, 'fs4', 20)" class="i">PersonModel</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 21)" onmouseover="showTip(event, 'fs4', 21)" class="i">PersonModel</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 22)" onmouseover="showTip(event, 'fs4', 22)" class="i">Create</span>()</pre>
+</td>
+</tr>
+</table>
+
+<h2>Hand-written property definitions</h2>
+
+<p>If for some reason (like performance) you prefer to roll-out you own properties definitions 
+you still can leverage base class helper methods to send PropertyChanged notifications. 
+It can be mixed with abstract auto-wired properties.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+[&lt;<span onmouseout="hideTip(event, 'fs4', 23)" onmouseover="showTip(event, 'fs4', 23)" class="i">AbstractClass</span>&gt;]
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 24)" onmouseover="showTip(event, 'fs4', 24)" class="i">PersonModel2</span>() <span class="o">=</span> 
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs4', 25)" onmouseover="showTip(event, 'fs4', 25)" class="i">Model</span>()
+
+    <span class="k">let</span> <span class="k">mutable</span> <span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="i">firstName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 27)" onmouseover="showTip(event, 'fs4', 27)" class="i">string</span> <span class="o">=</span> <span class="k">null</span>
+    <span class="k">let</span> <span class="k">mutable</span> <span onmouseout="hideTip(event, 'fs4', 28)" onmouseover="showTip(event, 'fs4', 28)" class="i">lastName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 29)" onmouseover="showTip(event, 'fs4', 29)" class="i">string</span> <span class="o">=</span> <span class="k">null</span>
+
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs4', 30)" onmouseover="showTip(event, 'fs4', 30)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="i">FirstName</span> 
+        <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 32)" onmouseover="showTip(event, 'fs4', 32)" class="i">get</span>() <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 33)" onmouseover="showTip(event, 'fs4', 33)" class="i">firstName</span> 
+        <span class="k">and</span> <span onmouseout="hideTip(event, 'fs4', 34)" onmouseover="showTip(event, 'fs4', 34)" class="i">set</span> <span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="i">value</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs4', 36)" onmouseover="showTip(event, 'fs4', 36)" class="i">firstName</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="i">value</span>
+            <span class="c">//raise notification manually</span>
+            <span onmouseout="hideTip(event, 'fs4', 38)" onmouseover="showTip(event, 'fs4', 38)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 39)" onmouseover="showTip(event, 'fs4', 39)" class="i">NotifyPropertyChanged</span> <span class="s">&quot;</span><span class="s">FirstName</span><span class="s">&quot;</span>
+            <span class="c">//Update of property value clears up errors for auto-wired properties.</span>
+            <span class="c">//For had-written properties it�s left up you </span>
+            <span class="c">//this.SetErrors(&quot;FirstName&quot;)</span>
+
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs4', 40)" onmouseover="showTip(event, 'fs4', 40)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 41)" onmouseover="showTip(event, 'fs4', 41)" class="i">LastName</span>
+        <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 42)" onmouseover="showTip(event, 'fs4', 42)" class="i">get</span>() <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 43)" onmouseover="showTip(event, 'fs4', 43)" class="i">lastName</span> 
+        <span class="k">and</span> <span onmouseout="hideTip(event, 'fs4', 44)" onmouseover="showTip(event, 'fs4', 44)" class="i">set</span> <span onmouseout="hideTip(event, 'fs4', 45)" onmouseover="showTip(event, 'fs4', 45)" class="i">value</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs4', 46)" onmouseover="showTip(event, 'fs4', 46)" class="i">lastName</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs4', 47)" onmouseover="showTip(event, 'fs4', 47)" class="i">value</span>
+            <span class="c">//A safer alternative is to use quotation-base overload</span>
+            <span onmouseout="hideTip(event, 'fs4', 48)" onmouseover="showTip(event, 'fs4', 48)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 49)" onmouseover="showTip(event, 'fs4', 49)" class="i">NotifyPropertyChanged</span> &lt;@ <span onmouseout="hideTip(event, 'fs4', 50)" onmouseover="showTip(event, 'fs4', 50)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 51)" onmouseover="showTip(event, 'fs4', 51)" class="i">LastName</span> @&gt;
+            <span class="c">//Same as for FirstName property</span>
+            <span class="c">//this.SetErrors(&quot;LastName&quot;)</span>
+
+    <span class="c">//other properties can be kept as abstract therefore auto-wired</span>
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs4', 52)" onmouseover="showTip(event, 'fs4', 52)" class="i">Age</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 53)" onmouseover="showTip(event, 'fs4', 53)" class="i">int</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs4', 54)" onmouseover="showTip(event, 'fs4', 54)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs4', 55)" onmouseover="showTip(event, 'fs4', 55)" class="i">set</span></pre>
+</td>
+</tr>
+</table>
+
+<h2>Alternative ways to implement models</h2>
+
+<div class="tip" id="fs1">namespace FSharp</div>
+<div class="tip" id="fs2">namespace FSharp.Desktop</div>
+<div class="tip" id="fs3">namespace FSharp.Desktop.UI</div>
+<div class="tip" id="fs4"></div>
+
+            </div>
+            <div class="span3">
+                <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:185px;margin:10px" />
+                <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+                    <li class="nav-header">FSharp.Desktop.UI</li>
+                    <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
+                    <li class="divider"></li>
+                    <li><a href="http://nuget.org/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/LICENSE.txt">License</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
+
+                    <li class="nav-header">Getting started</li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_numeric_up_down.html">Basics: Numeric Up/Down</a></li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Intermediate: Calculator</a></li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Advanced: Composition</a></li>
+
+                    <li class="nav-header">Documentation</li>
+                    <li><a href="/FSharp.Desktop.UI/ref_model.html">Model</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_view.html">View</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_controller.html">Controller</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_mvc.html">MVC</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_databinding.html">Type-safe data binding</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_validation.html">Validation</a></li>
+                    <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <a href="http://github.com/fsprojects/FSharp.Desktop.UI"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a>
+</body>
+</html>
