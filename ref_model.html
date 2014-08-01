@@ -156,6 +156,17 @@ It can be mixed with abstract auto-wired properties.</p>
 
 <h2>Alternative ways to implement models</h2>
 
+<ul>
+<li>Fully hand written implementation</li>
+<li><a href="https://github.com/Fody/PropertyChanged">Fody/PropertyChanged</a> is really good valuable alternative.</li>
+<li>Other ... (maybe some Roslyn-based solution which is essentially similar to Fody.PropertyChanged)</li>
+</ul>
+
+<p>Don�t forget about INotifyDataErrorInfo if you need to support data-input errors notifications
+The library tries to be both powerful and composable (flexible). 
+For that reason it accepts many default components can be swapped for custom ones as long as they conform a same interface. 
+This is applicable to model implementation too.</p>
+
 <div class="tip" id="fs1"></div>
 
             </div>
