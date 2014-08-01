@@ -7,15 +7,15 @@ open System.Windows.Input
 open FSharp.Desktop.UI
 
 [<AbstractClass>]
-type NumericUpDownEventsModel() = 
+type NumericUpDownModel() = 
     inherit Model()
 
     abstract Value: int with get, set
 
 type NumericUpDownEvents = Up | Down
 
-type NumericUpDownEventsView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>( Window())
+type NumericUpDownView() as this = 
+    inherit View<NumericUpDownEvents, NumericUpDownModel, Window>( Window())
     
     //Assembling WPF window in code. 
     do 
@@ -69,7 +69,7 @@ type NumericUpDownEventsView() as this =
                 //'coerce' means "use WPF default conversions"
             @> 
 
-let eventHandler event (model: NumericUpDownEventsModel) =
+let eventHandler event (model: NumericUpDownModel) =
     match event with
     | Up -> model.Value <- model.Value + 1
     | Down -> model.Value <- model.Value - 1
@@ -78,8 +78,8 @@ let controller = Controller.Create eventHandler
 
 [<STAThread>]
 do
-    let model = NumericUpDownEventsModel.Create()
-    let view = NumericUpDownEventsView()
+    let model = NumericUpDownModel.Create()
+    let view = NumericUpDownView()
     let mvc = Mvc(model, view, controller)
     use eventLoop = mvc.Start()
     Application().Run( window = view.Root) |> ignore

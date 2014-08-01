@@ -40,7 +40,7 @@ Once that done INotifyPropertyChanged and INotifyDataErrorInfo will be auto-wire
 *)
 
 [<AbstractClass>]
-type NumericUpDownEventsModel() = 
+type NumericUpDownModel() = 
     inherit Model()
 
     abstract Value: int with get, set
@@ -66,8 +66,8 @@ Other examples will expand on topic on type safe data binding.
 
 type NumericUpDownEvents = Up | Down
 
-type NumericUpDownEventsView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownEventsModel, Window>()
+type NumericUpDownView() as this = 
+    inherit View<NumericUpDownEvents, NumericUpDownModel, Window>()
     
     //Assembling WPF window in code. 
     do 
@@ -131,7 +131,7 @@ Model state changes propagate back to view via data binding.
 
 *)
 
-let eventHandler event (model: NumericUpDownEventsModel) =
+let eventHandler event (model: NumericUpDownModel) =
     match event with
     | Up -> model.Value <- model.Value + 1
     | Down -> model.Value <- model.Value - 1
@@ -139,7 +139,7 @@ let eventHandler event (model: NumericUpDownEventsModel) =
 let controller = Controller.Create eventHandler
 
 (**
-Controllers in real-world application slightly more sophisticated. 
+Controllers in real-world application are more complex. 
 But `Controller.Create` method exists in the library and can be used as a shortcut to build simple controllers. 
 
 Pattern matching in event inside controller callback is very interesting because it represents compiler checked event handlers map. 
@@ -155,8 +155,8 @@ Application boot-strap code is trivial. Worth noting that model has be created v
 
 [<STAThread>]
 do
-    let model = NumericUpDownEventsModel.Create()
-    let view = NumericUpDownEventsView()
+    let model = NumericUpDownModel.Create()
+    let view = NumericUpDownView()
     let mvc = Mvc(model, view, controller)
     use eventLoop = mvc.Start()
     Application().Run( window = view.Root) |> ignore
