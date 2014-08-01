@@ -138,7 +138,7 @@ module internal Patterns =
                 |> unbox
 
             let binding = Binding(prop.Name, Mode = BindingMode.OneWay)
-            //binding.ValidatesOnNotifyDataErrors <- false
+            binding.ValidatesOnNotifyDataErrors <- false
             binding.Converter <- IValueConverter.OneWay converter
             Some binding
         | _ -> None
@@ -154,16 +154,15 @@ module internal Patterns =
             binding
         | StringFormat(format, Source(:? Binding as binding)) -> 
             binding.StringFormat <- format
-            //binding.ValidatesOnNotifyDataErrors <- false
+            binding.ValidatesOnNotifyDataErrors <- false
             upcast binding
 
         | Converter(convert, Source(:? Binding as binding)) -> 
             binding.Mode <- BindingMode.OneWay
-            //binding.ValidatesOnNotifyDataErrors <- false
+            binding.ValidatesOnNotifyDataErrors <- false
             binding.Converter <- IValueConverter.OneWay convert
             upcast binding
         | SinglePropertyExpression binding -> 
-            //binding.ValidatesOnNotifyDataErrors <- false
             upcast binding
 
         | expr -> invalidArg "binding property path quotation" (string expr)
