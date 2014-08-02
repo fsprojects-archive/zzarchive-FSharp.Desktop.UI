@@ -22,7 +22,6 @@ module internal Extensions =
 module internal Observer =
 
     open System.Reactive
-    open System.Reactive.Concurrency
     open System.Windows.Threading
 
     let notifyOnDispatcher(observer : IObserver<_>) = 
