@@ -43,7 +43,7 @@ module internal Patterns =
             | Some( PropertyGet(tail, prop, []) ) -> prop.GetValue(loop tail, [||])
             | _ -> null
         match loop expr with
-        | :? FrameworkElement as target -> Some target
+        | :? DependencyObject as target -> Some target
         | _ -> None
 
     let (|PropertyPath|_|) expr = 
@@ -190,7 +190,7 @@ type Expr with
             | unexpected -> 
                 Debug.Fail(sprintf "Unexpected binding type %s" (unexpected.GetType().Name))
 
-            target.SetBinding(targetProperty.DependencyProperty, binding)
+            BindingOperations.SetBinding( target, targetProperty.DependencyProperty, binding)
         | _ -> invalidArg "expr" (string this) 
 
 type Binding with
