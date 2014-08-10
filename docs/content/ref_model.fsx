@@ -91,5 +91,6 @@ Note on conceptual design
   - Projection (via data binding) of some view properties (subset)
   - Ideally has parameter-less constructor (although Model.Create factory method supports parameter-full constructors)
 
-<img src="img/Model.Concept.png"/>
+<img src="img/ModelConcept.png"/>
+
 *)
