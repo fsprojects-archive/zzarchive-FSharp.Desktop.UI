@@ -89,7 +89,7 @@ Note on conceptual design
 -------
   - Visual state holder
   - Projection (via data binding) of some view properties (subset)
-  - Ideally has parameter-less constructor (although Model.Create<’T> supports constructor parameter passage)
+  - Ideally has parameter-less constructor (although Model.Create factory method supports constructor parameter passage)
 
 <img src="img/Model.Concept.png"/>
 *)
