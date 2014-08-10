@@ -84,4 +84,12 @@ Don not forget about INotifyDataErrorInfo if you need to support data-input erro
 The library tries to be both powerful and composable (flexible). 
 For that reason it accepts many default components can be swapped for custom ones as long as they conform a same interface. 
 This is applicable to model implementation too. 
+
+Note on conceptual design
+-------
+  - Visual state holder
+  - Projection (via data binding) of some view properties (subset)
+  - Ideally has parameter-less constructor (although Model.Create<’T> supports constructor parameter passage)
+
+<img src="img/Model.Concept.png"/>
 *)
