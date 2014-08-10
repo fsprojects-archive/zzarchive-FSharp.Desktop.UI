@@ -120,7 +120,7 @@ module Patterns =
         }
 
     let (|SinglePropertyExpression|_|) expr = 
-        match expr |> extractPropertyGetters |> Seq.toList with
+        match expr |> extractPropertyGetters |> Seq.distinct |> Seq.toList with
         | [ SourceProperty prop as getterToReplace ] ->
             let propertyValue = Var("value", typeof<obj>)
             let rec replacePropertyWithParam expr = 
