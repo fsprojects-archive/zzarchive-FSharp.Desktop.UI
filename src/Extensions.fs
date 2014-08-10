@@ -1,7 +1,11 @@
 ﻿namespace FSharp.Desktop.UI
 
+open System.Runtime.CompilerServices
+[<assembly:InternalsVisibleTo("SqlClient.Tests")>]
+do() 
+
 open System
- 
+
 [<AutoOpen>]
 module internal Extensions = 
 

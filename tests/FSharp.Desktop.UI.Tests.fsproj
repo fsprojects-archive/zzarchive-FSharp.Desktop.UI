@@ -60,6 +60,7 @@
   </Target>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="BindingTests.fs" />
     <Compile Include="ViewTests.fs" />
     <Compile Include="ModelTests.fs" />
   </ItemGroup>

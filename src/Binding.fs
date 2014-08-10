@@ -18,7 +18,7 @@ type DerivedPropertyAttribute = ReflectedDefinitionAttribute
 
 let coerce _ = undefined
 
-module internal Patterns = 
+module Patterns = 
 
     type IValueConverter with 
         static member OneWay converter = {
@@ -67,7 +67,7 @@ module internal Patterns =
         | _ -> None    
 
     let (|Converter|_|) = function
-        | Call(instance, method', [ propertyPath ]) -> 
+        | Call(instance, method', [ PropertyPath _ as propertyPath ]) -> 
             let instance = match instance with | Some( Value( value, _)) -> value | _ -> null
             Some((fun(value : obj) -> method'.Invoke(instance, [| value |])), propertyPath )
         | _ -> None    
