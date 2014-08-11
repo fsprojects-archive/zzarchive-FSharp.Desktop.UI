@@ -87,9 +87,9 @@ This is applicable to model implementation too.
 
 Note on conceptual design
 -------
-  - Visual state holder
-  - Projection (via data binding) of some view properties (subset)
-  - Ideally has parameter-less constructor (although Model.Create factory method supports parameter-full constructors)
+  - Model is holder of _visual state_
+  - Another way to think about model is that it's a projection (via data binding) of some GUI elements properties
+  - Ideally model has parameter-less constructor (although Model.Create factory method supports parameter-full constructors)
 
 <img src="img/ModelConcept.png"/>
 
