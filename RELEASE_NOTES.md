@@ -9,3 +9,6 @@
 
 #### 0.3.0-beta 
 * Made DependencyObject as data-binding target instead of specialized FrameworkElement
+
+#### 0.4.0-beta 
+* DataContext should be set before SetBindings
