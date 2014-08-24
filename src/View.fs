@@ -14,8 +14,8 @@ type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(roo
         member this.Events = 
             this.EventStreams.Merge()
         member this.SetBindings model = 
-            this.SetBindings model
             root.DataContext <- model
+            this.SetBindings model
 
     abstract EventStreams : IObservable<'Event> list
     abstract SetBindings : 'Model -> unit
