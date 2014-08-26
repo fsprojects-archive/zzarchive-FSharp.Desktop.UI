@@ -26,3 +26,26 @@ let uniqueSinglePropertyExpression() =
     Assert.False( textBox.IsEnabled)
     model.Value <- "text"
     Assert.True( textBox.IsEnabled)
+
+[<AbstractClass>]
+type ModelWithOptionFields() =
+    inherit Model()
+
+    abstract X: int option with get, set
+
+    [<DerivedProperty>]
+    member this.XStr = 
+        if this.X.IsSome 
+        then this.X.Value.ToString()
+        else "empty"
+
+[<Fact>]
+let modelWithOptionFields() = 
+    let textBox = TextBox()
+    let model : ModelWithOptionFields = ModelWithOptionFields.Create()
+    model.X <- None
+    textBox.DataContext <- model
+    Binding.OfExpression <@ textBox.Text <- model.XStr @>
+    Assert.Equal<string>( "empty", textBox.Text)
+    model.X <- Some 42
+    Assert.Equal<string>( "42", textBox.Text)

@@ -12,3 +12,6 @@
 
 #### 0.4.0-beta 
 * DataContext should be set before SetBindings
+
+#### 0.5.0-beta 
+* Special treatment for properties of types option<_> and Nullable<_> 

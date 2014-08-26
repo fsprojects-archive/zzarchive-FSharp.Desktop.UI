@@ -10,14 +10,16 @@ open Microsoft.FSharp.Quotations.DerivedPatterns
 open Microsoft.FSharp.Quotations.ExprShape
 
 type PropertyInfo with
-    member internal this.IsNullableValue =  
-        this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<Nullable<_>> && this.Name = "Value"
+
+    member internal this.IgnoreInBindingPath =  
+        this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<Nullable<_>> 
+        || this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<option<_>> 
 
 let internal (|PropertyPathOfDependency|_|) self expr = 
     let rec loop e acc = 
         match e with
         | PropertyGet( Some tail, property, []) -> 
-            if property.IsNullableValue
+            if property.IgnoreInBindingPath
             then loop tail acc 
             else loop tail (property.Name :: acc)
         | Var x when x = self -> acc
@@ -66,7 +68,7 @@ let getPropertyDependencies(model, propertyBody) =
 
 let getMultiBindingForDerivedProperty(root, model: Var, body: Expr, getter: obj -> obj) = 
     let binding = MultiBinding(ValidatesOnNotifyDataErrors = false)
-    let self = Binding(path = root) 
+    let self = Binding(path = root, Mode = BindingMode.OneWay) 
     binding.Bindings.Add self
 
     for path in getPropertyDependencies(model, body) do
