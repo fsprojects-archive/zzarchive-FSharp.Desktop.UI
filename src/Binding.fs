@@ -97,10 +97,6 @@ module Patterns =
             getMultiBindingForDerivedProperty(path, model, methodBody, getter) |> Some
         | _ -> None
     
-    let private getUnboxImpl = 
-        let ref = Type.GetType("Microsoft.FSharp.Core.Operators, FSharp.Core").GetMethod("Unbox")
-        fun t -> ref.MakeGenericMethod [| t |]
-
     let rec (|SourceProperty|_|) = function 
         | PropertyGet( Some _, prop, []) -> Some prop 
         | PropertyGet( Some( PropertyGet( Some _, step1, [])), step2, []) when step2.DeclaredOnNullable || step2.DeclaredOnOption -> Some step1 
@@ -122,7 +118,7 @@ module Patterns =
             let rec replacePropertyWithParam expr = 
                 match expr with 
                 | PropertyGet _ as getter when getter = getterToReplace -> 
-                    Expr.Call(getUnboxImpl prop.PropertyType, [Expr.Var propertyValue])
+                    Expr.Coerce( Expr.Var propertyValue, prop.PropertyType)
                 | ShapeVar var -> Expr.Var(var)
                 | ShapeLambda(var, body) -> Expr.Lambda(var, replacePropertyWithParam body)  
                 | ShapeCombination(shape, exprs) -> ExprShape.RebuildShapeCombination(shape, exprs |> List.map(fun e -> replacePropertyWithParam e))
