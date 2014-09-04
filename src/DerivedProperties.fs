@@ -11,15 +11,17 @@ open Microsoft.FSharp.Quotations.ExprShape
 
 type PropertyInfo with
 
-    member internal this.IgnoreInBindingPath =  
-        this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<Nullable<_>> 
-        || this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<option<_>> 
+    member internal this.DeclaredOnNullable =  
+        this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<_ Nullable> 
+
+    member internal this.DeclaredOnOption =  
+        this.DeclaringType.IsGenericType && this.DeclaringType.GetGenericTypeDefinition() = typedefof<_ option> 
 
 let internal (|PropertyPathOfDependency|_|) self expr = 
     let rec loop e acc = 
         match e with
         | PropertyGet( Some tail, property, []) -> 
-            if property.IgnoreInBindingPath
+            if property.DeclaredOnNullable || (List.isEmpty acc && property.DeclaredOnOption)
             then loop tail acc 
             else loop tail (property.Name :: acc)
         | Var x when x = self -> acc
@@ -73,7 +75,7 @@ let getMultiBindingForDerivedProperty(root, model: Var, body: Expr, getter: obj 
 
     for path in getPropertyDependencies(model, body) do
         assert (path <> null)
-        binding.Bindings.Add <| Binding(root + "." + path, Mode = BindingMode.OneWay)
+        binding.Bindings.Add <| Binding(root + "." + path, Mode = BindingMode.OneWay, FallbackValue = null)
 
     binding.Converter <- {
         new IMultiValueConverter with

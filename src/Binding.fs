@@ -107,7 +107,7 @@ module Patterns =
 
     let rec (|SourceProperty|_|) = function 
         | PropertyGet( Some _, prop, []) -> Some prop 
-        | PropertyGet( Some( PropertyGet( Some _, step1, [])), step2, []) when step2.IgnoreInBindingPath -> Some step1 
+        | PropertyGet( Some( PropertyGet( Some _, step1, [])), step2, []) when step2.DeclaredOnNullable || step2.DeclaredOnOption -> Some step1 
         | _ -> None
 
     let rec extractPropertyGetters propertyBody = 

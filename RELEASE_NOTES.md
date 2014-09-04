@@ -15,3 +15,6 @@
 
 #### 0.5.0-beta 
 * Special treatment for properties of types option<_> and Nullable<_> 
+
+#### 0.6.0-beta 
+* Fixed derived properties not to stop evalutation on missing (nulls) path steps

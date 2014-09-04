@@ -4,6 +4,7 @@ open Xunit
 open System
 open System.Windows.Controls
 open System.Windows.Data
+open System.ComponentModel
 
 [<AbstractClass>]
 type MyModel() =
@@ -49,3 +50,4 @@ let modelWithOptionFields() =
     Assert.Equal<string>( "empty", textBox.Text)
     model.X <- Some 42
     Assert.Equal<string>( "42", textBox.Text)
+
