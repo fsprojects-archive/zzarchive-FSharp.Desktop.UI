@@ -101,10 +101,6 @@ module Patterns =
         let ref = Type.GetType("Microsoft.FSharp.Core.Operators, FSharp.Core").GetMethod("Unbox")
         fun t -> ref.MakeGenericMethod [| t |]
 
-    let private getBoxImpl = 
-        let ref = Type.GetType("Microsoft.FSharp.Core.Operators, FSharp.Core").GetMethod("Box")
-        fun t -> ref.MakeGenericMethod [| t |]
-
     let rec (|SourceProperty|_|) = function 
         | PropertyGet( Some _, prop, []) -> Some prop 
         | PropertyGet( Some( PropertyGet( Some _, step1, [])), step2, []) when step2.DeclaredOnNullable || step2.DeclaredOnOption -> Some step1 
@@ -131,9 +127,8 @@ module Patterns =
                 | ShapeLambda(var, body) -> Expr.Lambda(var, replacePropertyWithParam body)  
                 | ShapeCombination(shape, exprs) -> ExprShape.RebuildShapeCombination(shape, exprs |> List.map(fun e -> replacePropertyWithParam e))
 
-            let converterBody = Expr.Call(getBoxImpl expr.Type, [ replacePropertyWithParam expr ])
             let converter : obj -> obj = 
-                Expr.Lambda(propertyValue, converterBody)
+                Expr.Lambda( propertyValue, Expr.Coerce(replacePropertyWithParam expr, typeof<obj>))
                 |> Microsoft.FSharp.Linq.RuntimeHelpers.LeafExpressionConverter.EvaluateQuotation 
                 |> unbox
 
