@@ -124,7 +124,7 @@ module Patterns =
                 | ShapeCombination(shape, exprs) -> ExprShape.RebuildShapeCombination(shape, exprs |> List.map(fun e -> replacePropertyWithParam e))
 
             let converter : obj -> obj = 
-                Expr.Lambda( propertyValue, Expr.Coerce(replacePropertyWithParam expr, typeof<obj>))
+                Expr.Lambda( propertyValue, body = Expr.Coerce(replacePropertyWithParam expr, typeof<obj>))
                 |> Microsoft.FSharp.Linq.RuntimeHelpers.LeafExpressionConverter.EvaluateQuotation 
                 |> unbox
 
