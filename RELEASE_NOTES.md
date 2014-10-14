@@ -18,3 +18,6 @@
 
 #### 0.6.0-beta 
 * Fixed derived properties not to stop evalutation on missing (nulls) path steps
+
+#### 0.7.0 
+* Replaced reflective invocations to box/unbox with Expr.Coerce
