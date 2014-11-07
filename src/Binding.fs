@@ -30,11 +30,8 @@ module Patterns =
         }
 
     type PropertyInfo with
-        member this.DependencyProperty : DependencyProperty = 
-            this.DeclaringType
-                .GetField(this.Name + "Property", BindingFlags.Static ||| BindingFlags.Public ||| BindingFlags.FlattenHierarchy)
-                .GetValue(null, [||]) 
-                |> unbox
+        member this.DependencyProperty: DependencyProperty = 
+            this.DeclaringType.GetField(this.Name + "Property").GetValue(null) |> unbox
 
     let (|Target|_|) expr = 
         let rec loop = function
