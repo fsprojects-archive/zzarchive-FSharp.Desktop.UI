@@ -10,3 +10,9 @@ More information can be found in the [documentation](http://fsprojects.github.io
 The library is available under Apache 2.0. For more information see the [License file] 
 (LICENSE.md) in the GitHub repository.
 
+### Maintainer(s)
+
+- [@dmitry-a-morozov](https://github.com/dmitry-a-morozov)
+- [@forki](https://github.com/forki)
+
+The default maintainer account for projects under "fsprojects" is [@fsgit](https://github.com/fsgit) - F# Community Project Incubation Space (repo management)
