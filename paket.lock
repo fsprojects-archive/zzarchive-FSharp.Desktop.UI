@@ -1,11 +1,11 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
-    Castle.Core (3.3.0)
+    Castle.Core (3.3.3)
     FAKE (3.13.3)
     FSharp.Compiler.Service (0.0.81)
-    FSharp.Data (2.0.9)
-      Zlib.Portable (>= 1.9.2)
+    FSharp.Data (2.1.1)
+      Zlib.Portable (>= 1.10.0)
     FSharp.Formatting (2.5.1)
       FSharp.Compiler.Service (>= 0.0.81)
       Microsoft.AspNet.Razor (2.0.30506)
