@@ -86,9 +86,13 @@ Target "CleanDocs" (fun _ ->
 // Build library & test project
 
 Target "Build" (fun _ ->
-    !! (solutionFile + "*.sln")
+    !! (solutionFile + ".sln")
     |> MSBuildRelease "" "Rebuild"
     |> ignore
+    
+    !! (solutionFile + ".Sample.sln")
+    |> MSBuildRelease "" "Rebuild"
+    |> ignore    
 )
 
 // --------------------------------------------------------------------------------------

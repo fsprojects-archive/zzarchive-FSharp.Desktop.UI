@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{ECD60B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI", "src\FSharp.Desktop.UI.fsproj", "{0A504360-FE2A-48F7-B785-469D5DE44F8E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Desktop.UI", "src\FSharp.Desktop.UI\FSharp.Desktop.UI.fsproj", "{0A504360-FE2A-48F7-B785-469D5DE44F8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81E5E012-1824-4763-8106-18BB5BE49E3E}"
 	ProjectSection(SolutionItems) = preProject

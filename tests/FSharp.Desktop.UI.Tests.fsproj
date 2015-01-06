@@ -81,7 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\FSharp.Desktop.UI.fsproj">
+    <ProjectReference Include="..\src\FSharp.Desktop.UI\FSharp.Desktop.UI.fsproj">
       <Name>FSharp.Desktop.UI</Name>
       <Project>{0a504360-fe2a-48f7-b785-469d5de44f8e}</Project>
       <Private>True</Private>
