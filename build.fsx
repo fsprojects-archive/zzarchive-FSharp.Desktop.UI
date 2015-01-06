@@ -36,7 +36,7 @@ let description = """
 // List of author names (for NuGet package)
 let authors = [ "Dmitry Morozov" ]
 // Tags for your project (for NuGet package)
-let tags = "F# fsharp wpf"
+let tags = "F# fsharp wpf mvc"
 
 // File system information 
 // (<solutionFile>.sln is built during the building process)
