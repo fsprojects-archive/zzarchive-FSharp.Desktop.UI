@@ -1,0 +1,13 @@
+source https://nuget.org/api/v2
+
+nuget FAKE
+nuget FSharp.Formatting
+nuget Nuget.CommandLine 2.8.3
+nuget Castle.Core 3.3.0
+nuget FSharp.Data 2.0.9
+nuget Rx-Core 2.2.5
+nuget Rx-Interfaces 2.2.5
+nuget Rx-Linq 2.2.5
+nuget Rx-Main 2.2.5
+nuget Rx-PlatformServices 2.2.5
+nuget xunit 1.9.2

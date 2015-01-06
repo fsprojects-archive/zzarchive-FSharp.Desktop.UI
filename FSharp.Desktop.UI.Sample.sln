@@ -1,8 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7CA15A55-A6DE-4385-A1DB-F1A198236F68}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Calculator", "samples\Calculator\Calculator.fsproj", "{97BA155D-E4D9-47D5-91BE-14B65775BFB1}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumericUpDown", "samples\NumericUpDown\NumericUpDown.fsproj", "{230F96A3-08EE-4520-95E7-64D9705E628C}"
