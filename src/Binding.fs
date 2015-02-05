@@ -18,6 +18,16 @@ type DerivedPropertyAttribute = ReflectedDefinitionAttribute
 
 let coerce _ = undefined
 
+module BindingOptions =
+    let Mode (_ : BindingMode) (_ : 'T) : 'T                 = undefined
+    let OneWay (_ : 'T) : 'T                                 = undefined
+    let UpdateSource (_ : UpdateSourceTrigger) (_ : 'T) : 'T = undefined
+    let UpdateSourceOnChange (_ : 'T) : 'T                   = undefined
+    let FallbackValue (_ : obj) (_ : 'T) : 'T                = undefined
+    let TargetNullValue (_ : obj) (_ : 'T) : 'T              = undefined
+    let ValidatesOnDataErrors (_ : bool) (_ : 'T) : 'T       = undefined
+    let ValidatesOnExceptions (_ : bool) (_ : 'T) : 'T       = undefined
+
 module Patterns = 
 
     type IValueConverter with 
@@ -140,6 +150,34 @@ module Patterns =
         | SpecificCall <@ coerce @> (None, _, [ Source binding ]) 
         | Nullable( Source binding) -> 
             binding
+
+        // Binding properties modifiers:
+        | SpecificCall <@ BindingOptions.Mode @> (None, _, [ Value(mode, _); Source(:? Binding as binding) ]) ->
+            binding.Mode <- unbox mode
+            upcast binding
+        | SpecificCall <@ BindingOptions.OneWay @> (None, _, [ Source(:? Binding as binding) ]) ->
+            binding.Mode <- BindingMode.OneWay
+            upcast binding
+        | SpecificCall <@ BindingOptions.UpdateSource @> (None, _, [ Value(trigger, _); Source(:? Binding as binding) ]) ->
+            binding.UpdateSourceTrigger <- unbox trigger
+            upcast binding
+        | SpecificCall <@ BindingOptions.UpdateSourceOnChange @> (None, _, [ Source(:? Binding as binding) ]) ->
+            binding.UpdateSourceTrigger <- UpdateSourceTrigger.PropertyChanged
+            upcast binding
+        | SpecificCall <@ BindingOptions.FallbackValue @> (None, _, [ Value(value, _); Source(:? Binding as binding) ]) ->
+            binding.FallbackValue <- value
+            upcast binding
+        | SpecificCall <@ BindingOptions.TargetNullValue @> (None, _, [ Value(value, _); Source(:? Binding as binding) ]) ->
+            binding.TargetNullValue <- value
+            upcast binding
+        | SpecificCall <@ BindingOptions.ValidatesOnDataErrors @> (None, _, [ Value(value, _); Source(:? Binding as binding) ]) ->
+            binding.ValidatesOnDataErrors <- unbox value
+            upcast binding
+        | SpecificCall <@ BindingOptions.ValidatesOnExceptions @> (None, _, [ Value(value, _); Source(:? Binding as binding) ]) ->
+            binding.ValidatesOnExceptions <- unbox value
+            upcast binding
+        // End of Binding properties modifiers.
+
         | StringFormat(format, Source(:? Binding as binding)) -> 
             binding.StringFormat <- format
             binding.ValidatesOnNotifyDataErrors <- false
@@ -166,9 +204,35 @@ module Patterns =
 open Patterns
 
 type Expr with
+    static member internal RewritePipeIntoCall (e : Expr) =
+        let rec unpipe (vars : Map<string, Expr>) (pipedArgs : Expr list) (expr : Expr) =
+            match expr with
+            | SpecificCall <@ (|>) @> (None, _, [pipedArg; rightOfPipe]) ->
+                unpipe vars (pipedArg::pipedArgs) rightOfPipe
+            | Lambda (arg, lambdaExpr) ->
+                match pipedArgs with
+                | hd::tl ->
+                    let vars' = vars.Add(arg.Name, hd)
+                    unpipe vars' tl lambdaExpr
+                | [] -> failwith "Missing argument."
+            | Let (var, letExpr, inBody) ->
+                let vars' = vars.Add(var.Name, letExpr)
+                unpipe vars' pipedArgs inBody
+            | Call(_, fcn, args) ->
+                let argValues =
+                    [for arg in args ->
+                        match arg with
+                        | Var v -> vars.[v.Name]
+                        | e -> e
+                    ] |> List.map Expr.RewritePipeIntoCall
+                Expr.Call(fcn, argValues)
+            | e -> e  // Leave all other expression types untouched.
+        unpipe Map.empty [] e
+
     member internal this.ToBinding(?mode, ?updateSourceTrigger, ?fallbackValue, ?targetNullValue, ?validatesOnExceptions, ?validatesOnDataErrors) = 
         match this with
-        | PropertySet(Target target, targetProperty, [], Source binding) ->
+        | PropertySet(Target target, targetProperty, [], bindingExpr) ->
+            let (Source binding) = Expr.RewritePipeIntoCall bindingExpr
 
             match binding with
             | :? Binding as single -> 
