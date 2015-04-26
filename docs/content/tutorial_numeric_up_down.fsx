@@ -67,7 +67,7 @@ Other examples will expand on topic on type safe data binding.
 type NumericUpDownEvents = Up | Down
 
 type NumericUpDownView() as this = 
-    inherit View<NumericUpDownEvents, NumericUpDownModel, Window>()
+    inherit View<NumericUpDownEvents, NumericUpDownModel, Window>(Window())
     
     //Assembling WPF window in code. 
     do 
@@ -115,7 +115,7 @@ type NumericUpDownView() as this =
     ]
 
     override this.SetBindings model =   
-        Binding.FromExpression 
+        Binding.OfExpression 
             <@
                 input.Text <- coerce model.Value 
                 //'coerce' means "use WPF default conversions"
