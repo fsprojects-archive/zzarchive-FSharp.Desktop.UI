@@ -7,7 +7,7 @@
     <owners>@authors@</owners>
     <licenseUrl>http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>http://fsprojects.github.com/FSharp.Desktop.UI</projectUrl>
-    <iconUrl>https://raw.github.com/fsharp/FSharp.Desktop.UI/master/nuget/logo.png</iconUrl>
+    <iconUrl>http://raw.githubusercontent.com/fsprojects/FSharp.Desktop.UI/master/docs/files/img/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>@summary@</summary>
     <description>@description@</description>
