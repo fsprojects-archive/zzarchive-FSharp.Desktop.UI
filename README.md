@@ -18,4 +18,4 @@ The library is available under Apache 2.0. For more information see the [License
 - [@dmitry-a-morozov](https://github.com/dmitry-a-morozov)
 - [@forki](https://github.com/forki)
 
-The default maintainer account for projects under "fsprojects" is [@fsgit](https://github.com/fsgit) - F# Community Project Incubation Space (repo management)
+The default maintainer account for projects under "fsprojects" is [@fsprojectsgit](https://github.com/fsprojectsgit) - F# Community Project Incubation Space (repo management)
