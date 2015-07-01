@@ -138,50 +138,49 @@ type CalculatorView() as this =
             @>, 
             updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
 
-type CalculatorController(?wolframAlphaService: string -> string -> Async<WolframAlpha.Response>) = 
+type CalculatorController(?wolframAlphaService: string -> string -> Async<WolframAlpha.Response>) =
+    inherit Controller<CalculatorEvents, CalculatorModel>()
 
     let wolframAlphaService = defaultArg wolframAlphaService WolframAlpha.instance
 
-    interface IController<CalculatorEvents, CalculatorModel> with
+    override this.InitModel model = 
+        model.WolframalphaResponse <- Empty
+        let appKey = ConfigurationManager.AppSettings.["WolframalphaAppId"]
+        if appKey <> null 
+        then model.WolframalphaAppId <- appKey
 
-        member this.InitModel model = 
-            model.WolframalphaResponse <- Empty
-            let appKey = ConfigurationManager.AppSettings.["WolframalphaAppId"]
-            if appKey <> null 
-            then model.WolframalphaAppId <- appKey
+    override this.Dispatcher = function
+        | Add -> Sync this.Add
+        | Subtract -> Sync this.Subtract
+        | Multiply -> Sync this.Multiply
+        | Divide -> Sync this.Divide
+        | Clear -> Sync this.Clear
+        | ArgChanging(text, cancel) -> Sync(this.DiscardInvalidInput text cancel)
+        | AskWolframalpha -> Async this.AskWolframalpha 
+        | CancelAskWolframalphaRequest -> Sync <| fun _ -> Async.CancelDefaultToken()
 
-        member this.Dispatcher = function
-            | Add -> Sync this.Add
-            | Subtract -> Sync this.Subtract
-            | Multiply -> Sync this.Multiply
-            | Divide -> Sync this.Divide
-            | Clear -> Sync this.Clear
-            | ArgChanging(text, cancel) -> Sync(this.DiscardInvalidInput text cancel)
-            | AskWolframalpha -> Async this.AskWolframalpha 
-            | CancelAskWolframalphaRequest -> Sync <| fun _ -> Async.CancelDefaultToken()
-
-    member this.Add(model: CalculatorModel) = 
+    member this.Add model = 
         if model.Y < 0. 
         then model |> Validation.setError <@ fun m -> m.Y @> "Must be positive number."
         else model.Result <- model.X + model.Y
 
-    member this.Subtract(model: CalculatorModel) = 
+    member this.Subtract model = 
         if model.Y < 0. 
         then model |> Validation.setError <@ fun  m -> m.Y @> "Must be positive number."
         else model.Result <- model.X - model.Y
 
-    member this.Multiply(model: CalculatorModel) = 
+    member this.Multiply model = 
         model.Result <- model.X * model.Y
 
-    member this.Divide(model: CalculatorModel) = 
+    member this.Divide model = 
         model.Result <- model.X / model.Y
 
-    member this.Clear(model: CalculatorModel) = 
+    member this.Clear model = 
         model.X <- 0.
         model.Y <- 0.
         model.Result <- 0.
 
-    member this.DiscardInvalidInput (newValue: string) cancel (model: CalculatorModel) = 
+    member this.DiscardInvalidInput (newValue: string) cancel model = 
         let textToCheck = if newValue.EndsWith(".") then newValue + "0" else newValue
         match Double.TryParse textToCheck with 
         | false, _  ->  cancel()

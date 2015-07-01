@@ -16,6 +16,26 @@ type PartialView<'Event, 'Model, 'Element when 'Element :> FrameworkElement>(roo
         member this.SetBindings model = 
             root.DataContext <- model
             this.SetBindings model
+        member __.DialogService = {
+            new IDialogService with
+                member __.MessageBox( text, caption, button, icon, defaultResult, options, owner) = 
+                    match caption, button, icon, defaultResult, options, owner with
+                    | None, None, None, None, None, None -> MessageBox.Show text
+                    | Some caption, None, None, None, None, None  -> MessageBox.Show(text, caption)
+                    | Some caption, Some button, None, None, None, None  -> MessageBox.Show(text, caption, button)
+                    | Some caption, Some button, Some icon, None, None, None  -> MessageBox.Show(text, caption, button, icon)
+                    | Some caption, Some button, Some icon, Some defaultResult, None, None  -> MessageBox.Show(text, caption, button, icon, defaultResult)
+                    | Some caption, Some button, Some icon, Some defaultResult, Some options, None  -> MessageBox.Show(text, caption, button, icon, defaultResult, options)
+                    //Owner
+                    | None, None, None, None, None, Some owner -> MessageBox.Show(owner, text)
+                    | Some caption, None, None, None, None, Some owner -> MessageBox.Show(owner, text, caption)
+                    | Some caption, Some button, None, None, None, Some owner -> MessageBox.Show(owner, text, caption, button)
+                    | Some caption, Some button, Some icon, None, None, Some owner -> MessageBox.Show(owner, text, caption, button, icon)
+                    | Some caption, Some button, Some icon, Some defaultResult, None, Some owner -> MessageBox.Show(owner, text, caption, button, icon, defaultResult)
+                    | Some caption, Some button, Some icon, Some defaultResult, Some options, Some owner -> MessageBox.Show(owner, text, caption, button, icon, defaultResult, options)
+
+                    | _ as xs -> invalidOp "Unexpected parameters: %A" xs
+        }
 
     abstract EventStreams : IObservable<'Event> list
     abstract SetBindings : 'Model -> unit
