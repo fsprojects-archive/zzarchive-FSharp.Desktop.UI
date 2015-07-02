@@ -12,12 +12,10 @@ open System.Windows
 
 type IDialogService = 
     abstract MessageBox: text: string * ?caption: string * ?button: MessageBoxButton * ?icon: MessageBoxImage * ?defaultResult: MessageBoxResult * ?options: MessageBoxOptions * ?owner: Window -> MessageBoxResult
-    //more specialized members can be defined like: Error, Warning, Confrim
 
 type IPartialView<'Event, 'Model> = 
     abstract Events: IObservable<'Event> with get
     abstract SetBindings: 'Model -> unit
-    abstract DialogService: IDialogService with get
 
 type IView<'Event, 'Model> =
     inherit IPartialView<'Event, 'Model>
@@ -68,7 +66,30 @@ type Mvc<'Event, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, v
     let mutable error = fun(exn, _) -> ExceptionDispatchInfo.Capture(exn).Throw()
     
     member this.Start() =
+        
+        controller.DialogService <- {
+            new IDialogService with
+                member __.MessageBox( text, caption, button, icon, defaultResult, options, owner) = 
+                    match caption, button, icon, defaultResult, options, owner with
+                    | None, None, None, None, None, None -> MessageBox.Show text
+                    | Some caption, None, None, None, None, None  -> MessageBox.Show(text, caption)
+                    | Some caption, Some button, None, None, None, None  -> MessageBox.Show(text, caption, button)
+                    | Some caption, Some button, Some icon, None, None, None  -> MessageBox.Show(text, caption, button, icon)
+                    | Some caption, Some button, Some icon, Some defaultResult, None, None  -> MessageBox.Show(text, caption, button, icon, defaultResult)
+                    | Some caption, Some button, Some icon, Some defaultResult, Some options, None  -> MessageBox.Show(text, caption, button, icon, defaultResult, options)
+                    //Owner
+                    | None, None, None, None, None, Some owner -> MessageBox.Show(owner, text)
+                    | Some caption, None, None, None, None, Some owner -> MessageBox.Show(owner, text, caption)
+                    | Some caption, Some button, None, None, None, Some owner -> MessageBox.Show(owner, text, caption, button)
+                    | Some caption, Some button, Some icon, None, None, Some owner -> MessageBox.Show(owner, text, caption, button, icon)
+                    | Some caption, Some button, Some icon, Some defaultResult, None, Some owner -> MessageBox.Show(owner, text, caption, button, icon, defaultResult)
+                    | Some caption, Some button, Some icon, Some defaultResult, Some options, Some owner -> MessageBox.Show(owner, text, caption, button, icon, defaultResult, options)
+
+                    | _ as xs -> invalidOp "Unexpected parameters: %A" xs
+        }
+
         controller.InitModel model
+
         view.SetBindings model
 
         Observer.Create(fun event -> 
@@ -109,7 +130,6 @@ type Mvc<'Event, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, v
                     member __.SetBindings model =
                         view.SetBindings model  
                         model |> childModelSelector |> childView.SetBindings
-                    member __.DialogService = view.DialogService
                     member __.Show() = view.Show()
                     member __.ShowDialog() = view.ShowDialog()
         }
@@ -137,7 +157,6 @@ type Mvc<'Event, 'Model when 'Model :> INotifyPropertyChanged>(model : 'Model, v
             new IPartialView<_, _> with
                 member __.Events = events
                 member __.SetBindings _ = () 
-                member __.DialogService = view.DialogService
         }
         this.Compose(childController, childView, id)
 
