@@ -1,0 +1,10 @@
+source https://nuget.org/api/v2
+
+nuget FAKE
+nuget FSharp.Formatting
+nuget Nuget.CommandLine
+nuget Castle.Core
+nuget FSharp.Data
+nuget Rx-Main
+nuget xunit ~> 1
+nuget xunit.extensions ~> 1

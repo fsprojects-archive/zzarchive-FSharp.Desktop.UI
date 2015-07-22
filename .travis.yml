@@ -1,0 +1,10 @@
+language: csharp
+
+sudo: false  # use the new container-based Travis infrastructure
+
+install:
+  - mkdir ~/.config/.mono/keypairs
+  - chmod 700 ~/.config/.mono/keypairs
+
+script:
+  - ./build.sh All

@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Desktop.UI">
-      <HintPath>..\..\src\bin\Debug\FSharp.Desktop.UI.dll</HintPath>
+      <HintPath>..\..\bin\FSharp.Desktop.UI.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

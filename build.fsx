@@ -36,7 +36,7 @@ let description = """
 // List of author names (for NuGet package)
 let authors = [ "Dmitry Morozov" ]
 // Tags for your project (for NuGet package)
-let tags = "F# fsharp wpf"
+let tags = "F# fsharp wpf mvc"
 
 // File system information 
 // (<solutionFile>.sln is built during the building process)
@@ -86,9 +86,13 @@ Target "CleanDocs" (fun _ ->
 // Build library & test project
 
 Target "Build" (fun _ ->
-    !! (solutionFile + "*.sln")
+    !! (solutionFile + ".sln")
     |> MSBuildRelease "" "Rebuild"
     |> ignore
+    
+    !! (solutionFile + ".Sample.sln")
+    |> MSBuildRelease "" "Rebuild"
+    |> ignore    
 )
 
 // --------------------------------------------------------------------------------------
