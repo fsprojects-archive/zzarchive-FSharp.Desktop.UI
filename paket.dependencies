@@ -6,4 +6,5 @@ nuget Nuget.CommandLine
 nuget Castle.Core
 nuget FSharp.Data
 nuget Rx-Main
-nuget xunit
+nuget xunit ~> 1
+nuget xunit.extensions ~> 1

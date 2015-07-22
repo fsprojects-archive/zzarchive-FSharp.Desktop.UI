@@ -29,4 +29,6 @@ NUGET
       Rx-Core (>= 2.2.5)
       Rx-Interfaces (>= 2.2.5)
     xunit (1.9.2)
+    xunit.extensions (1.9.2)
+      xunit (1.9.2)
     Zlib.Portable (1.10.0)
