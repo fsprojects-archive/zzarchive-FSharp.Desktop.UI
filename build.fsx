@@ -124,7 +124,12 @@ Target "NuGet" (fun _ ->
             OutputPath = "bin"
             AccessKey = getBuildParamOrDefault "nugetkey" ""
             Publish = hasBuildParam "nugetkey"
-            Dependencies = [] })
+            Dependencies = 
+                [
+                    "Castle.Core", GetPackageVersion "packages" "Castle.Core"
+                    "Rx-Main", GetPackageVersion "packages" "Rx-Main"
+                ] 
+        })
         ("nuget/" + project + ".nuspec")
 )
 

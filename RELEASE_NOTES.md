@@ -21,3 +21,6 @@
 
 #### 0.7.0 
 * Replaced reflective invocations to box/unbox with Expr.Coerce
+
+#### 0.7.1 
+* Upgrade Castle.Core to the latest ver 3.3.3.

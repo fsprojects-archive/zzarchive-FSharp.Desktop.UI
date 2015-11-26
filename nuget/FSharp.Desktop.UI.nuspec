@@ -20,9 +20,7 @@
       <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
     </frameworkAssemblies>
-    <dependencies>
-      <dependency id="Castle.Core"/>
-    </dependencies>
+    @dependencies@
   </metadata>
   <files>
     <file src="..\bin\FSharp.Desktop.UI.dll" target="lib/net45" />

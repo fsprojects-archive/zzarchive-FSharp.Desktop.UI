@@ -2,6 +2,7 @@ docs/output
 nuget/*.nupkg
 packages
 temp
+.fake/
 
 #################
 ## Eclipse
