@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Data binding options
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="F# MVC for WPF" />
+    <meta name="author" content="Dmitry Morozov" />
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Desktop.UI/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Desktop.UI/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="http://fsharp.org">fsharp.org</a></li>
+                <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">github page</a></li>
+            </ul>
+            <h3 class="muted"><a href="/FSharp.Desktop.UI/index.html">FSharp.Desktop.UI</a></h3>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="span9" id="main">
+                
+<h1>Data binding options</h1>
+
+<p>You can specify data binding options when calling <code>Binding.OfExpression</code> with quoted 
+assignment statements. All binding options reside in the <code>BindingOptions</code> namespace.</p>
+
+<p>In the following examples, we'll use this model:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="i">BindingOptions</span>
+
+[&lt;<span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="t">AbstractClass</span>&gt;]
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="t">PersonModel</span>() <span class="o">=</span> 
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs11', 19)" onmouseover="showTip(event, 'fs11', 19)" class="t">Model</span>()
+
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="i">FirstName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs11', 21)" onmouseover="showTip(event, 'fs11', 21)" class="t">string</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs11', 23)" onmouseover="showTip(event, 'fs11', 23)" class="i">set</span>
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="i">LastName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs11', 25)" onmouseover="showTip(event, 'fs11', 25)" class="t">string</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs11', 27)" onmouseover="showTip(event, 'fs11', 27)" class="i">set</span>
+    <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs11', 28)" onmouseover="showTip(event, 'fs11', 28)" class="i">Age</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs11', 29)" onmouseover="showTip(event, 'fs11', 29)" class="t">int</span> <span class="k">with</span> <span onmouseout="hideTip(event, 'fs11', 30)" onmouseover="showTip(event, 'fs11', 30)" class="i">get</span>, <span onmouseout="hideTip(event, 'fs11', 31)" onmouseover="showTip(event, 'fs11', 31)" class="i">set</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>The textboxes bound to the model properties in the associated view will use the same names:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs12', 32)" onmouseover="showTip(event, 'fs12', 32)" class="t">DummyEvents</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 33)" onmouseover="showTip(event, 'fs13', 33)" class="p">Dummy</span>
+
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs14', 34)" onmouseover="showTip(event, 'fs14', 34)" class="t">PersonView</span>() <span class="k">as</span> <span onmouseout="hideTip(event, 'fs15', 35)" onmouseover="showTip(event, 'fs15', 35)" class="v">this</span> <span class="o">=</span> 
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs16', 36)" onmouseover="showTip(event, 'fs16', 36)" class="t">View</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs12', 37)" onmouseover="showTip(event, 'fs12', 37)" class="t">DummyEvents</span>, <span onmouseout="hideTip(event, 'fs17', 38)" onmouseover="showTip(event, 'fs17', 38)" class="t">PersonModel</span>, <span onmouseout="hideTip(event, 'fs18', 39)" onmouseover="showTip(event, 'fs18', 39)" class="t">Window</span><span class="o">&gt;</span>(<span onmouseout="hideTip(event, 'fs18', 40)" onmouseover="showTip(event, 'fs18', 40)" class="t">Window</span>())
+    
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 41)" onmouseover="showTip(event, 'fs19', 41)" class="i">FirstName</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 42)" onmouseover="showTip(event, 'fs20', 42)" class="t">TextBox</span>()
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 43)" onmouseover="showTip(event, 'fs21', 43)" class="i">LastName</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 44)" onmouseover="showTip(event, 'fs20', 44)" class="t">TextBox</span>()
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 45)" onmouseover="showTip(event, 'fs22', 45)" class="i">Age</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 46)" onmouseover="showTip(event, 'fs20', 46)" class="t">TextBox</span>()
+</code></pre></td>
+</tr>
+</table>
+
+<p>Binding options are set by piping the binding source (the right hand side of a 
+binding assignment statement in the quotation sent to Binding.OfExpression) to a 
+binding option modifier function, as shown in the example below:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="k">override</span> <span onmouseout="hideTip(event, 'fs15', 70)" onmouseover="showTip(event, 'fs15', 70)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 71)" onmouseover="showTip(event, 'fs31', 71)" class="f">SetBindings</span> <span onmouseout="hideTip(event, 'fs32', 72)" onmouseover="showTip(event, 'fs32', 72)" class="i">model</span> <span class="o">=</span>   
+        <span onmouseout="hideTip(event, 'fs33', 73)" onmouseover="showTip(event, 'fs33', 73)" class="t">Binding</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs34', 74)" onmouseover="showTip(event, 'fs34', 74)" class="f">OfExpression</span> 
+            &lt;@
+                <span onmouseout="hideTip(event, 'fs19', 75)" onmouseover="showTip(event, 'fs19', 75)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 76)" onmouseover="showTip(event, 'fs35', 76)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 77)" onmouseover="showTip(event, 'fs32', 77)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 78)" onmouseover="showTip(event, 'fs11', 78)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 79)" onmouseover="showTip(event, 'fs36', 79)" class="f">OneWay</span>
+                <span onmouseout="hideTip(event, 'fs21', 80)" onmouseover="showTip(event, 'fs21', 80)" class="i">LastName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 81)" onmouseover="showTip(event, 'fs35', 81)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 82)" onmouseover="showTip(event, 'fs32', 82)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 83)" onmouseover="showTip(event, 'fs11', 83)" class="i">LastName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs37', 84)" onmouseover="showTip(event, 'fs37', 84)" class="f">TargetNullValue</span> <span class="s">&quot;&quot;</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 85)" onmouseover="showTip(event, 'fs38', 85)" class="f">Mode</span> <span onmouseout="hideTip(event, 'fs39', 86)" onmouseover="showTip(event, 'fs39', 86)" class="t">BindingMode</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs40', 87)" onmouseover="showTip(event, 'fs40', 87)" class="i">OneTime</span>
+                <span onmouseout="hideTip(event, 'fs22', 88)" onmouseover="showTip(event, 'fs22', 88)" class="i">Age</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 89)" onmouseover="showTip(event, 'fs35', 89)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs41', 90)" onmouseover="showTip(event, 'fs41', 90)" class="f">coerce</span> <span onmouseout="hideTip(event, 'fs32', 91)" onmouseover="showTip(event, 'fs32', 91)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 92)" onmouseover="showTip(event, 'fs11', 92)" class="i">Age</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 93)" onmouseover="showTip(event, 'fs42', 93)" class="f">UpdateSourceOnChange</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 94)" onmouseover="showTip(event, 'fs43', 94)" class="f">ValidatesOnExceptions</span> <span class="k">true</span>
+            @&gt;
+</code></pre></td>
+</tr>
+</table>
+
+<h2>Available data binding options</h2>
+
+<h4>FallbackValue value</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.bindingbase.fallbackvalue%28v=vs.110%29.aspx"><code>Binding.FallbackValue</code></a> 
+to <code>value</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 98)" onmouseover="showTip(event, 'fs19', 98)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 99)" onmouseover="showTip(event, 'fs35', 99)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 100)" onmouseover="showTip(event, 'fs32', 100)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 101)" onmouseover="showTip(event, 'fs11', 101)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 102)" onmouseover="showTip(event, 'fs45', 102)" class="f">FallbackValue</span> <span class="s">&quot;Couldn&#39;t get first name&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>Mode bindingMode</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.mode%28v=vs.110%29.aspx"><code>Binding.Mode</code></a> 
+to <code>bindingMode</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 103)" onmouseover="showTip(event, 'fs19', 103)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 104)" onmouseover="showTip(event, 'fs35', 104)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 105)" onmouseover="showTip(event, 'fs32', 105)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 106)" onmouseover="showTip(event, 'fs11', 106)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 107)" onmouseover="showTip(event, 'fs38', 107)" class="f">Mode</span> <span onmouseout="hideTip(event, 'fs39', 108)" onmouseover="showTip(event, 'fs39', 108)" class="t">BindingMode</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs46', 109)" onmouseover="showTip(event, 'fs46', 109)" class="i">OneWayToSource</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>OneWay</h4>
+
+<p>Shortcut for setting <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.mode%28v=vs.110%29.aspx"><code>Binding.Mode</code></a> 
+to <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.bindingmode%28v=vs.110%29.aspx"><code>BindingMode.OneWay</code></a>. 
+Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 110)" onmouseover="showTip(event, 'fs19', 110)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 111)" onmouseover="showTip(event, 'fs35', 111)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 112)" onmouseover="showTip(event, 'fs32', 112)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 113)" onmouseover="showTip(event, 'fs11', 113)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 114)" onmouseover="showTip(event, 'fs36', 114)" class="f">OneWay</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>TargetNullValue value</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.bindingbase.targetnullvalue%28v=vs.110%29.aspx"><code>Binding.TargetNullValue</code></a> 
+to <code>value</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 115)" onmouseover="showTip(event, 'fs19', 115)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 116)" onmouseover="showTip(event, 'fs35', 116)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 117)" onmouseover="showTip(event, 'fs32', 117)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 118)" onmouseover="showTip(event, 'fs11', 118)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs37', 119)" onmouseover="showTip(event, 'fs37', 119)" class="f">TargetNullValue</span> <span class="s">&quot;&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>UpdateSource trigger</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.updatesourcetrigger%28v=vs.110%29.aspx"><code>Binding.UpdateSourceTrigger</code></a> 
+to <code>trigger</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 120)" onmouseover="showTip(event, 'fs19', 120)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 121)" onmouseover="showTip(event, 'fs35', 121)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 122)" onmouseover="showTip(event, 'fs32', 122)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 123)" onmouseover="showTip(event, 'fs11', 123)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs47', 124)" onmouseover="showTip(event, 'fs47', 124)" class="f">UpdateSource</span> <span onmouseout="hideTip(event, 'fs48', 125)" onmouseover="showTip(event, 'fs48', 125)" class="t">UpdateSourceTrigger</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs49', 126)" onmouseover="showTip(event, 'fs49', 126)" class="i">Explicit</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>UpdateSourceOnChange</h4>
+
+<p>Shortcut for setting <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.updatesourcetrigger%28v=vs.110%29.aspx"><code>Binding.UpdateSourceTrigger</code></a> 
+to <code>UpdateSourceTrigger.PropertyChanged</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 127)" onmouseover="showTip(event, 'fs19', 127)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 128)" onmouseover="showTip(event, 'fs35', 128)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 129)" onmouseover="showTip(event, 'fs32', 129)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 130)" onmouseover="showTip(event, 'fs11', 130)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 131)" onmouseover="showTip(event, 'fs42', 131)" class="f">UpdateSourceOnChange</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>ValidatesOnDataErrors value</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.validatesondataerrors%28v=vs.110%29.aspx"><code>Binding.ValidatesOnDataErrors</code></a> 
+to <code>value</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 132)" onmouseover="showTip(event, 'fs19', 132)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 133)" onmouseover="showTip(event, 'fs35', 133)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 134)" onmouseover="showTip(event, 'fs32', 134)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 135)" onmouseover="showTip(event, 'fs11', 135)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs50', 136)" onmouseover="showTip(event, 'fs50', 136)" class="f">ValidatesOnDataErrors</span> <span class="k">true</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<h4>ValidatesOnExceptions value</h4>
+
+<p>Sets <a href="https://msdn.microsoft.com/en-us/library/system.windows.data.binding.validatesonexceptions%28v=vs.110%29.aspx"><code>Binding.ValidatesOnExceptions</code></a> 
+to <code>value</code>. Example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      <span onmouseout="hideTip(event, 'fs19', 137)" onmouseover="showTip(event, 'fs19', 137)" class="i">FirstName</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 138)" onmouseover="showTip(event, 'fs35', 138)" class="i">Text</span> <span class="o">&lt;-</span> <span onmouseout="hideTip(event, 'fs32', 139)" onmouseover="showTip(event, 'fs32', 139)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 140)" onmouseover="showTip(event, 'fs11', 140)" class="i">FirstName</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 141)" onmouseover="showTip(event, 'fs43', 141)" class="f">ValidatesOnExceptions</span> <span class="k">true</span>
+</code></pre></td>
+</tr>
+</table>
+
+<hr />
+
+<div class="tip" id="fs1">namespace System</div>
+<div class="tip" id="fs2">namespace System.Windows</div>
+<div class="tip" id="fs3">namespace System.Windows.Controls</div>
+<div class="tip" id="fs4">namespace System.Windows.Data</div>
+<div class="tip" id="fs5">namespace System.Windows.Input</div>
+<div class="tip" id="fs6">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="tip" id="fs7">namespace FSharp.Desktop</div>
+<div class="tip" id="fs8">namespace FSharp.Desktop.UI</div>
+<div class="tip" id="fs9">module BindingOptions<br /><br />from FSharp.Desktop.UI.BindingModule</div>
+<div class="tip" id="fs10">Multiple items<br />type AbstractClassAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; AbstractClassAttribute<br /><br />Full name: Microsoft.FSharp.Core.AbstractClassAttribute<br /><br />--------------------<br />new : unit -&gt; AbstractClassAttribute</div>
+<div class="tip" id="fs11"></div>
+<div class="tip" id="fs12">type DummyEvents = | Dummy<br /><br />Full name: Ref_databinding_options.DummyEvents</div>
+<div class="tip" id="fs13">union case DummyEvents.Dummy: DummyEvents</div>
+<div class="tip" id="fs14">Multiple items<br />type PersonView =<br />&#160;&#160;inherit View&lt;DummyEvents,PersonModel,Window&gt;<br />&#160;&#160;new : unit -&gt; PersonView<br />&#160;&#160;member Quotation : model:PersonModel -&gt; Expr&lt;unit&gt;<br />&#160;&#160;override SetBindings : model:PersonModel -&gt; unit<br />&#160;&#160;override EventStreams : IObservable&lt;DummyEvents&gt; list<br /><br />Full name: Ref_databinding_options.PersonView<br /><br />--------------------<br />new : unit -&gt; PersonView</div>
+<div class="tip" id="fs15">val this : PersonView</div>
+<div class="tip" id="fs16">Multiple items<br />type View&lt;&#39;Event,&#39;Model,&#39;Window (requires &#39;Window :&gt; Window)&gt; =<br />&#160;&#160;inherit PartialView&lt;&#39;Event,&#39;Model,&#39;Window&gt;<br />&#160;&#160;interface IView&lt;&#39;Event,&#39;Model&gt;<br />&#160;&#160;new : window:&#39;Window -&gt; View&lt;&#39;Event,&#39;Model,&#39;Window&gt;<br /><br />Full name: FSharp.Desktop.UI.View&lt;_,_,_&gt;<br /><br />--------------------<br />new : window:&#39;Window -&gt; View&lt;&#39;Event,&#39;Model,&#39;Window&gt;</div>
+<div class="tip" id="fs17">Multiple items<br />type PersonModel =<br />&#160;&#160;inherit Model<br />&#160;&#160;new : unit -&gt; PersonModel<br />&#160;&#160;abstract member Age : int<br />&#160;&#160;abstract member FirstName : string<br />&#160;&#160;abstract member LastName : string<br />&#160;&#160;abstract member Age : int with set<br />&#160;&#160;abstract member FirstName : string with set<br />&#160;&#160;abstract member LastName : string with set<br /><br />Full name: Ref_databinding_options.PersonModel<br /><br />--------------------<br />new : unit -&gt; PersonModel</div>
+<div class="tip" id="fs18">Multiple items<br />type Window =<br />&#160;&#160;inherit ContentControl<br />&#160;&#160;new : unit -&gt; Window<br />&#160;&#160;member Activate : unit -&gt; bool<br />&#160;&#160;member AllowsTransparency : bool with get, set<br />&#160;&#160;member Close : unit -&gt; unit<br />&#160;&#160;member DialogResult : Nullable&lt;bool&gt; with get, set<br />&#160;&#160;member DragMove : unit -&gt; unit<br />&#160;&#160;member Hide : unit -&gt; unit<br />&#160;&#160;member Icon : ImageSource with get, set<br />&#160;&#160;member IsActive : bool<br />&#160;&#160;member Left : float with get, set<br />&#160;&#160;...<br /><br />Full name: System.Windows.Window<br /><br />--------------------<br />Window() : unit</div>
+<div class="tip" id="fs19">val FirstName : TextBox</div>
+<div class="tip" id="fs20">Multiple items<br />type TextBox =<br />&#160;&#160;inherit TextBoxBase<br />&#160;&#160;new : unit -&gt; TextBox<br />&#160;&#160;member CaretIndex : int with get, set<br />&#160;&#160;member CharacterCasing : CharacterCasing with get, set<br />&#160;&#160;member Clear : unit -&gt; unit<br />&#160;&#160;member GetCharacterIndexFromLineIndex : lineIndex:int -&gt; int<br />&#160;&#160;member GetCharacterIndexFromPoint : point:Point * snapToText:bool -&gt; int<br />&#160;&#160;member GetFirstVisibleLineIndex : unit -&gt; int<br />&#160;&#160;member GetLastVisibleLineIndex : unit -&gt; int<br />&#160;&#160;member GetLineIndexFromCharacterIndex : charIndex:int -&gt; int<br />&#160;&#160;member GetLineLength : lineIndex:int -&gt; int<br />&#160;&#160;...<br /><br />Full name: System.Windows.Controls.TextBox<br /><br />--------------------<br />TextBox() : unit</div>
+<div class="tip" id="fs21">val LastName : TextBox</div>
+<div class="tip" id="fs22">val Age : TextBox</div>
+<div class="tip" id="fs23">val mainPanel : StackPanel</div>
+<div class="tip" id="fs24">Multiple items<br />type StackPanel =<br />&#160;&#160;inherit Panel<br />&#160;&#160;new : unit -&gt; StackPanel<br />&#160;&#160;member CanHorizontallyScroll : bool with get, set<br />&#160;&#160;member CanVerticallyScroll : bool with get, set<br />&#160;&#160;member ExtentHeight : float<br />&#160;&#160;member ExtentWidth : float<br />&#160;&#160;member HorizontalOffset : float<br />&#160;&#160;member LineDown : unit -&gt; unit<br />&#160;&#160;member LineLeft : unit -&gt; unit<br />&#160;&#160;member LineRight : unit -&gt; unit<br />&#160;&#160;member LineUp : unit -&gt; unit<br />&#160;&#160;...<br /><br />Full name: System.Windows.Controls.StackPanel<br /><br />--------------------<br />StackPanel() : unit</div>
+<div class="tip" id="fs25">property Panel.Children: UIElementCollection</div>
+<div class="tip" id="fs26">UIElementCollection.Add(element: UIElement) : int</div>
+<div class="tip" id="fs27">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs28">property PartialView.Root: Window</div>
+<div class="tip" id="fs29">property ContentControl.Content: obj</div>
+<div class="tip" id="fs30">override PersonView.EventStreams : IObservable&lt;DummyEvents&gt; list<br /><br />Full name: Ref_databinding_options.PersonView.EventStreams</div>
+<div class="tip" id="fs31">override PersonView.SetBindings : model:PersonModel -&gt; unit<br /><br />Full name: Ref_databinding_options.PersonView.SetBindings</div>
+<div class="tip" id="fs32">val model : PersonModel</div>
+<div class="tip" id="fs33">Multiple items<br />type Binding =<br />&#160;&#160;inherit BindingBase<br />&#160;&#160;new : unit -&gt; Binding + 1 overload<br />&#160;&#160;member AsyncState : obj with get, set<br />&#160;&#160;member BindsDirectlyToSource : bool with get, set<br />&#160;&#160;member Converter : IValueConverter with get, set<br />&#160;&#160;member ConverterCulture : CultureInfo with get, set<br />&#160;&#160;member ConverterParameter : obj with get, set<br />&#160;&#160;member ElementName : string with get, set<br />&#160;&#160;member IsAsync : bool with get, set<br />&#160;&#160;member Mode : BindingMode with get, set<br />&#160;&#160;member NotifyOnSourceUpdated : bool with get, set<br />&#160;&#160;...<br /><br />Full name: System.Windows.Data.Binding<br /><br />--------------------<br />Binding() : unit<br />Binding(path: string) : unit</div>
+<div class="tip" id="fs34">static member Binding.OfExpression : expr:Quotations.Expr * ?mode:BindingMode * ?updateSourceTrigger:UpdateSourceTrigger * ?fallbackValue:&#39;a0 * ?targetNullValue:&#39;a1 * ?validatesOnDataErrors:bool * ?validatesOnExceptions:bool -&gt; unit</div>
+<div class="tip" id="fs35">property TextBox.Text: string</div>
+<div class="tip" id="fs36">val OneWay : &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.OneWay</div>
+<div class="tip" id="fs37">val TargetNullValue : obj -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.TargetNullValue</div>
+<div class="tip" id="fs38">val Mode : BindingMode -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.Mode</div>
+<div class="tip" id="fs39">type BindingMode =<br />&#160;&#160;| TwoWay = 0<br />&#160;&#160;| OneWay = 1<br />&#160;&#160;| OneTime = 2<br />&#160;&#160;| OneWayToSource = 3<br />&#160;&#160;| Default = 4<br /><br />Full name: System.Windows.Data.BindingMode</div>
+<div class="tip" id="fs40">field BindingMode.OneTime = 2</div>
+<div class="tip" id="fs41">val coerce : &#39;a -&gt; &#39;b<br /><br />Full name: FSharp.Desktop.UI.Binding.coerce</div>
+<div class="tip" id="fs42">val UpdateSourceOnChange : &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.UpdateSourceOnChange</div>
+<div class="tip" id="fs43">val ValidatesOnExceptions : bool -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.ValidatesOnExceptions</div>
+<div class="tip" id="fs44">member PersonView.Quotation : model:PersonModel -&gt; Quotations.Expr&lt;unit&gt;<br /><br />Full name: Ref_databinding_options.PersonView.Quotation</div>
+<div class="tip" id="fs45">val FallbackValue : obj -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.FallbackValue</div>
+<div class="tip" id="fs46">field BindingMode.OneWayToSource = 3</div>
+<div class="tip" id="fs47">val UpdateSource : UpdateSourceTrigger -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.UpdateSource</div>
+<div class="tip" id="fs48">type UpdateSourceTrigger =<br />&#160;&#160;| Default = 0<br />&#160;&#160;| PropertyChanged = 1<br />&#160;&#160;| LostFocus = 2<br />&#160;&#160;| Explicit = 3<br /><br />Full name: System.Windows.Data.UpdateSourceTrigger</div>
+<div class="tip" id="fs49">field UpdateSourceTrigger.Explicit = 3</div>
+<div class="tip" id="fs50">val ValidatesOnDataErrors : bool -&gt; &#39;T -&gt; &#39;T<br /><br />Full name: FSharp.Desktop.UI.BindingModule.BindingOptions.ValidatesOnDataErrors</div>
+
+            </div>
+            <div class="span3">
+                <img src="/FSharp.Desktop.UI/img/logo.png" alt="F# Project" style="width:185px;margin:10px" />
+                <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+                    <li class="nav-header">FSharp.Desktop.UI</li>
+                    <li><a href="/FSharp.Desktop.UI/index.html">Home page</a></li>
+                    <li class="divider"></li>
+                    <li><a href="http://nuget.org/packages/FSharp.Desktop.UI">Get Library via NuGet</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI">Source Code on GitHub</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/LICENSE.md">License</a></li>
+                    <li><a href="http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
+
+                    <li class="nav-header">Getting started</li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_numeric_up_down.html">Basics: Numeric Up/Down</a></li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_calculator.html">Intermediate: Calculator</a></li>
+                    <li><a href="/FSharp.Desktop.UI/tutorial_composition.html">Advanced: Composition</a></li>
+
+                    <li class="nav-header">Documentation</li>
+                    <li><a href="/FSharp.Desktop.UI/ref_model.html">Model</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_view.html">View</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_controller.html">Controller</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_mvc.html">MVC</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_databinding.html">Type-safe data binding</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_databinding_options.html">Data binding options</a></li>
+                    <li><a href="/FSharp.Desktop.UI/ref_validation.html">Validation</a></li>
+                    <li><a href="/FSharp.Desktop.UI/reference/index.html">API Reference</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <a href="http://github.com/fsprojects/FSharp.Desktop.UI"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a>
+</body>
+</html>
