@@ -25,6 +25,10 @@ module internal MethodInfo =
 
 open MethodInfo
 
+type DerivedFrom(parents : string array) =
+    inherit System.Attribute()
+    member x.Parents = parents
+
 [<AbstractClass>]
 type Model() = 
 
@@ -77,6 +81,16 @@ type Model() =
 and internal AbstractProperties() =
     let data = Dictionary()
 
+    let membersWithParent (model : 'MType when 'MType :> Model) parentName =
+        let memberHasDerived (m : MemberInfo) =
+            Attribute.IsDefined(m, typeof<DerivedFrom>)
+        let memberParentListHasName prop (m : MemberInfo) =
+            let attr = m.GetCustomAttribute(typeof<DerivedFrom>) :?> DerivedFrom
+            Seq.exists (fun x -> x = prop) attr.Parents
+        model.GetType().GetMembers()
+        |> Array.filter memberHasDerived
+        |> Array.filter (memberParentListHasName parentName)
+
     interface IInterceptor with
         member this.Intercept invocation = 
             match invocation.Method with 
@@ -88,6 +102,9 @@ and internal AbstractProperties() =
                         let model: Model = invocation.InvocationTarget |> unbox
                         model.NotifyPropertyChanged propertyName
                         model.SetErrors(propertyName, Array.empty)
+                        for child in (membersWithParent model propertyName) do
+                            model.NotifyPropertyChanged (child.Name)
+                            model.SetErrors (child.Name, Array.empty)
 
                 | Abstract & PropertyGetter propertyName ->
                     match data.TryGetValue propertyName with 
