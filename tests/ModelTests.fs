@@ -14,6 +14,10 @@ type MyModel() =
     [<DerivedFrom([| "FirstName"; "LastName" |])>]
     member x.FullName () =
         sprintf "%s %s" x.FirstName x.LastName
+        
+    [<DerivedFrom([| "FullName" |])>]
+    member x.FullNameWithAge () =
+        sprintf "Name: %s Age: %d" (x.FullName()) 42
 
 let getModel () =
     let model: MyModel = MyModel.Create()
@@ -56,3 +60,14 @@ let noParentsChange() =
     let whichPropertiesChanged = new System.Collections.Generic.List<string>()
     use __ = inpc.PropertyChanged.Subscribe(fun args -> whichPropertiesChanged.Add(args.PropertyName))
     Assert.Empty(whichPropertiesChanged)
+
+[<Fact>]
+let transitivePropertiesPropagate() =
+    let (model, inpc) = getModel()
+    let whichPropertiesChanged = new System.Collections.Generic.List<string>()
+    use __ = inpc.PropertyChanged.Subscribe(fun args -> whichPropertiesChanged.Add(args.PropertyName))
+    model.FirstName <- "Daniela"
+    Assert.Contains("FirstName", whichPropertiesChanged)
+    Assert.Contains("FullName", whichPropertiesChanged)
+    Assert.Contains("FullNameWithAge", whichPropertiesChanged)
+    Assert.Equal(3, whichPropertiesChanged.Count);
