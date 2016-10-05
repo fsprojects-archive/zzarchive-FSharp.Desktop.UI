@@ -82,6 +82,7 @@ type Model() =
 
 and internal AbstractProperties() =
     let data = Dictionary()
+    let dependencyCache = Dictionary<string, MemberInfo array>()
 
     let membersWithParent (model : 'MType when 'MType :> Model) parentName =
         let hasParent parent (m : MemberInfo) =
@@ -91,8 +92,17 @@ and internal AbstractProperties() =
                 Seq.exists (fun x -> x = parent) attr.Parents
             | false -> false
 
-        model.GetType().GetMembers()
-        |> Array.filter (hasParent parentName)
+        let getDirectChildren name =
+            match dependencyCache.ContainsKey name with
+            | true ->
+                dependencyCache.[name]
+            | false ->
+                let directChildren = 
+                    model.GetType().GetMembers()
+                    |> Array.filter (hasParent name)
+                dependencyCache.Add(name, directChildren)
+                directChildren
+        getDirectChildren parentName
 
             
 
