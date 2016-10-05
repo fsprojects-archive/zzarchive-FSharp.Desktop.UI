@@ -102,7 +102,13 @@ and internal AbstractProperties() =
                     |> Array.filter (hasParent name)
                 dependencyCache.Add(name, directChildren)
                 directChildren
-        getDirectChildren parentName
+        let test = new System.Collections.Generic.List<MemberInfo>()
+        let rec getAllChildren name = 
+            for child in getDirectChildren name do
+                test.Add(child)
+                getAllChildren (child.Name)
+        getAllChildren parentName
+        Array.ofSeq test
 
             
 

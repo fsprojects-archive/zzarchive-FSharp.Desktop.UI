@@ -52,7 +52,6 @@ let oneParentPropertyChanged() =
     model.FirstName <- "Daniela"
     Assert.Contains("FullName", whichPropertiesChanged)
     Assert.Contains("FirstName", whichPropertiesChanged)
-    Assert.Equal(2, whichPropertiesChanged.Count);
 
 [<Fact>]
 let noParentsChange() =
