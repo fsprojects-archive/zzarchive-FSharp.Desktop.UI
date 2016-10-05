@@ -29,6 +29,8 @@ type DerivedFrom(parents : string array) =
     inherit System.Attribute()
     member x.Parents = parents
 
+
+
 [<AbstractClass>]
 type Model() = 
 
@@ -82,14 +84,17 @@ and internal AbstractProperties() =
     let data = Dictionary()
 
     let membersWithParent (model : 'MType when 'MType :> Model) parentName =
-        let memberHasDerived (m : MemberInfo) =
-            Attribute.IsDefined(m, typeof<DerivedFrom>)
-        let memberParentListHasName prop (m : MemberInfo) =
-            let attr = m.GetCustomAttribute(typeof<DerivedFrom>) :?> DerivedFrom
-            Seq.exists (fun x -> x = prop) attr.Parents
+        let hasParent parent (m : MemberInfo) =
+            match Attribute.IsDefined(m, typeof<DerivedFrom>) with
+            | true -> 
+                let attr = m.GetCustomAttribute(typeof<DerivedFrom>) :?> DerivedFrom
+                Seq.exists (fun x -> x = parent) attr.Parents
+            | false -> false
+
         model.GetType().GetMembers()
-        |> Array.filter memberHasDerived
-        |> Array.filter (memberParentListHasName parentName)
+        |> Array.filter (hasParent parentName)
+
+            
 
     interface IInterceptor with
         member this.Intercept invocation = 
