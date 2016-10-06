@@ -29,8 +29,6 @@ type DerivedFrom(parents : string array) =
     inherit System.Attribute()
     member x.Parents = parents
 
-
-
 [<AbstractClass>]
 type Model() = 
 
@@ -82,35 +80,36 @@ type Model() =
 
 and internal AbstractProperties() =
     let data = Dictionary()
-    let dependencyCache = Dictionary<string, MemberInfo array>()
+    let dependencyCache = Dictionary<string, MemberInfo seq>()
 
     let membersWithParent (model : 'MType when 'MType :> Model) parentName =
+        let cache name childrenGenerator =
+            if dependencyCache.ContainsKey name then
+                dependencyCache.[name]
+            else
+                dependencyCache.Add(name, childrenGenerator name)
+                dependencyCache.[name]
+
         let hasParent parent (m : MemberInfo) =
-            match Attribute.IsDefined(m, typeof<DerivedFrom>) with
-            | true -> 
+            if Attribute.IsDefined(m, typeof<DerivedFrom>) then
                 let attr = m.GetCustomAttribute(typeof<DerivedFrom>) :?> DerivedFrom
                 Seq.exists (fun x -> x = parent) attr.Parents
-            | false -> false
+            else
+                false
 
         let getDirectChildren name =
-            match dependencyCache.ContainsKey name with
-            | true ->
-                dependencyCache.[name]
-            | false ->
-                let directChildren = 
-                    model.GetType().GetMembers()
-                    |> Array.filter (hasParent name)
-                dependencyCache.Add(name, directChildren)
-                directChildren
-        let test = new System.Collections.Generic.List<MemberInfo>()
-        let rec getAllChildren name = 
-            for child in getDirectChildren name do
-                test.Add(child)
-                getAllChildren (child.Name)
+            let generator x =
+                model.GetType().GetMembers()
+                |> Seq.filter (hasParent x)
+            cache name generator
+        
+        let rec getAllChildren name =
+            seq {
+                for child in getDirectChildren name do
+                    yield child
+                    yield! getAllChildren (child.Name)
+            }
         getAllChildren parentName
-        Array.ofSeq test
-
-            
 
     interface IInterceptor with
         member this.Intercept invocation = 
