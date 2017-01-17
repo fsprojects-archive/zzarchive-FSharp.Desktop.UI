@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>FSharp.Desktop.UI</id>
+        <version>0.7.1</version>
+        <authors>Dmitry Morozov</authors>
+        <owners>Dmitry Morozov</owners>
+        <licenseUrl>http://github.com/fsprojects/FSharp.Desktop.UI/blob/master/LICENSE.txt</licenseUrl>
+        <projectUrl>http://fsprojects.github.com/FSharp.Desktop.UI</projectUrl>
+        <iconUrl>http://raw.githubusercontent.com/fsprojects/FSharp.Desktop.UI/master/docs/files/img/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>F# MVC for WPF is a small, yet powerful framework, designed for building WPF applications in F#.   With strong support for MVC, functional, asynchronous and event-driven programming, it will enable you to build your solution quickly, without the need to sacrifice type system or testability.</description>
+        <summary>F# MVC for WPF.</summary>
+        <releaseNotes>Upgrade Castle.Core to the latest ver 3.3.3.</releaseNotes>
+        <copyright>Copyright 2013</copyright>
+        <tags>F# fsharp wpf mvc</tags>
+        <dependencies>
+            <dependency id="Castle.Core" version="3.3.3" />
+            <dependency id="Rx-Main" version="2.2.5" />
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.5" />
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
+        </frameworkAssemblies>
+    </metadata>
+</package>
